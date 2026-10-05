@@ -1,0 +1,57 @@
+/*
+ * Colour, type, and semantic tokens from docs/05-design-system.md.
+ * Components use these variables. Hex lives only in this file.
+ */
+:root {
+  color-scheme: dark;
+  --bg-0: #07070a;
+  --bg-1: #0c0c11;
+  --bg-2: #121219;
+  --bg-3: #1a1a23;
+  --line-1: rgba(255, 255, 255, 0.06);
+  --line-2: rgba(255, 255, 255, 0.1);
+  --line-3: rgba(255, 255, 255, 0.16);
+  --fg-1: #f4f4f6;
+  --fg-2: #a6a6b3;
+  --fg-3: #6b6b78;
+  --fg-4: #45454f;
+  --orange-300: #ffb27a;
+  --orange-500: #ff6a1a;
+  --orange-600: #e5520a;
+  --up: #2bd9a0;
+  --down: #ff4d6a;
+  --warn: #ffc24b;
+  --info: #6ea8ff;
+  --muted: #6b6b78;
+  --up-wash: color-mix(in srgb, var(--up) 10%, transparent);
+  --down-wash: color-mix(in srgb, var(--down) 10%, transparent);
+  --warn-wash: color-mix(in srgb, var(--warn) 10%, transparent);
+  --info-wash: color-mix(in srgb, var(--info) 10%, transparent);
+  --muted-wash: color-mix(in srgb, var(--muted) 10%, transparent);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+@theme inline {
+  --color-bg-0: var(--bg-0);
+  --color-bg-1: var(--bg-1);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --color-fg-1: var(--fg-1);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-fg-4: var(--fg-4);
+  --color-line-1: var(--line-1);
+  --color-line-2: var(--line-2);
+  --color-line-3: var(--line-3);
+  --color-orange-300: var(--orange-300);
+  --color-orange-500: var(--orange-500);
+  --color-orange-600: var(--orange-600);
+  --color-up: var(--up);
+  --color-down: var(--down);
+  --color-warn: var(--warn);
+  --color-info: var(--info);
+  --color-muted: var(--muted);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
