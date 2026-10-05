@@ -9,6 +9,7 @@ test.beforeEach(async ({ page }) => {
 
 for (const id of anchors) {
   test(`screenshots the ${id} anchor`, async ({ page }) => {
+    if (id === 'tokens') await expect(page.getByText('--fg-1 on --bg-1')).toBeVisible()
     await expect(page.locator(`#${id}`)).toHaveScreenshot(`${id}.png`)
   })
 }
@@ -19,6 +20,7 @@ test('toolbar sets motion, clock, and width', async ({ page }) => {
   await expect(stage).toHaveAttribute('data-width', '1120')
   await expect(stage).toHaveAttribute('data-motion', 'on')
   await expect(stage).toHaveAttribute('data-clock', 'live')
+  await expect(page.getByTestId('kit-shimmer')).not.toHaveCSS('animation-name', 'none')
 
   await page.getByRole('button', { name: '800' }).click()
   await expect(stage).toHaveAttribute('data-width', '800')
@@ -29,10 +31,32 @@ test('toolbar sets motion, clock, and width', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Reduced motion' }).click()
   await expect(stage).toHaveAttribute('data-motion', 'off')
+  await expect(page.getByTestId('kit-shimmer')).toHaveCSS('animation-name', 'none')
+  await expect(page.getByTestId('kit-marker')).toHaveAttribute('data-marker', 'end')
+  await expect(page.getByTestId('kit-check')).toHaveAttribute('data-drawn', 'true')
 
   await page.getByRole('button', { name: 'Freeze clock' }).click()
   await expect(stage).toHaveAttribute('data-clock', 'frozen')
   await expect(stage).toHaveAttribute('data-frozen-at', '2026-04-02T18:00:00.000Z')
+  await expect(page.getByTestId('kit-countdown')).toHaveText('58:12')
+})
+
+test('prefers-reduced-motion stops shimmer, marker travel, and the check draw', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/dev/ui-kit')
+  await expect(page.getByTestId('kit-shimmer')).toHaveCSS('animation-name', 'none')
+  await expect(page.getByTestId('kit-marker')).toHaveAttribute('data-marker', 'end')
+  await expect(page.getByTestId('kit-check')).toHaveAttribute('data-drawn', 'true')
+  const atEnd = await page.getByTestId('kit-marker').evaluate((track) => {
+    const bar = track.firstElementChild
+    if (!bar) return false
+    const trackBox = track.getBoundingClientRect()
+    const barBox = bar.getBoundingClientRect()
+    return barBox.left >= trackBox.left + trackBox.width / 2 - 2
+  })
+  expect(atEnd).toBe(true)
 })
 
 test('nav reaches each section', async ({ page }) => {

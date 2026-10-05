@@ -1,8 +1,10 @@
 'use client'
 
 import { MotionConfig } from 'motion/react'
-import { useState } from 'react'
+import { useState, type ComponentType } from 'react'
+import { KitControlsProvider } from '@/ui/kit/controls'
 import type { KitSectionId } from '@/ui/kit/sections'
+import { TokensShowcase } from '@/ui/tokens/showcase'
 
 export type KitWidth = 800 | 1120
 
@@ -14,6 +16,10 @@ type KitShellProps = {
   initialMotion: 'on' | 'off'
   initialClock: 'live' | 'frozen'
   initialWidth: KitWidth
+}
+
+const showcases: Partial<Record<KitSectionId, ComponentType>> = {
+  tokens: TokensShowcase,
 }
 
 const controlClass =
@@ -35,7 +41,7 @@ export function KitShell({
     <MotionConfig reducedMotion={reduced ? 'always' : 'user'}>
       <div className="min-h-screen bg-[var(--bg-0)] text-[var(--fg-1)]" data-motion={motion}>
         <header className="flex items-center justify-between gap-6 border-b border-[var(--line-1)] bg-[var(--bg-1)] px-6 py-4">
-          <h1 className="text-[20px] leading-7 [font-weight:560]">UI kit</h1>
+          <h1 className="type-title">UI kit</h1>
           <div className="flex items-center gap-2" role="toolbar" aria-label="Kit toolbar">
             <button
               type="button"
@@ -90,25 +96,39 @@ export function KitShell({
             </ul>
           </nav>
           <div className="min-w-0 flex-1 px-6 py-6">
-            <div
-              data-kit-stage
-              data-motion={motion}
-              data-clock={clock}
-              data-width={width}
-              data-frozen-at={clock === 'frozen' ? frozenAt : undefined}
-              className="mx-auto"
-              style={{ width }}
+            <KitControlsProvider
+              reducedMotion={reduced}
+              clockFrozen={clock === 'frozen'}
+              frozenAt={frozenAt}
             >
-              {sections.map((section) => (
-                <section
-                  key={section.id}
-                  id={section.id}
-                  className="scroll-mt-6 border-b border-[var(--line-1)] py-8"
-                >
-                  <h2 className="text-[14px] leading-5 [font-weight:560]">{section.title}</h2>
-                </section>
-              ))}
-            </div>
+              <div
+                data-kit-stage
+                data-motion={motion}
+                data-clock={clock}
+                data-width={width}
+                data-frozen-at={clock === 'frozen' ? frozenAt : undefined}
+                className="mx-auto"
+                style={{ width }}
+              >
+                {sections.map((section) => {
+                  const Showcase = showcases[section.id]
+                  return (
+                    <section
+                      key={section.id}
+                      id={section.id}
+                      className="scroll-mt-6 border-b border-[var(--line-1)] py-8"
+                    >
+                      <h2 className="type-section">{section.title}</h2>
+                      {Showcase ? (
+                        <div className="mt-6">
+                          <Showcase />
+                        </div>
+                      ) : null}
+                    </section>
+                  )
+                })}
+              </div>
+            </KitControlsProvider>
           </div>
         </div>
       </div>
