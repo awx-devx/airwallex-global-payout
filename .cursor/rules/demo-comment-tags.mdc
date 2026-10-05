@@ -1,0 +1,27 @@
+---
+description: Tag demo-only shortcuts, sandbox behaviour, and Airwallex quirks
+globs: src/**,scripts/**
+alwaysApply: false
+---
+
+# Demo comment tags
+
+Tag the shortcut where it lives. Keep `docs/08-demo-plan.md` §4 in sync.
+
+| Tag | Use for |
+| --- | --- |
+| `DEMO-ONLY:` | Unsafe or wrong in production. Follow with `PROD:`. |
+| `PROD:` | What production should do instead. |
+| `SANDBOX:` | Sandbox-only Airwallex behaviour, such as transfer simulation. |
+| `AIRWALLEX:` | A non-obvious API constraint, with a docs link. |
+
+```ts
+// DEMO-ONLY: pricing runs inline in the request.
+// PROD: queue add, delete, quote, and submit with the same request_id builders.
+await priceRun(runId);
+
+// SANDBOX: moves a transfer to the next status for the talk track.
+await awx.simulation.transitionTransfer(transferId, 'PAID');
+```
+
+Audit: `rg -n "DEMO-ONLY:|SANDBOX:" src scripts`.

@@ -1,0 +1,29 @@
+---
+description: How to call the Airwallex API for batch payouts
+globs: src/server/**,scripts/**
+alwaysApply: false
+---
+
+# Airwallex client
+
+Endpoint map: `docs/04-airwallex-integration.md`. Do not invent endpoints, fields, or enum values. Verify against the markdown API reference or https://www.airwallex.com/docs/llms.txt.
+
+- The only `fetch` to Airwallex is `src/server/adapters/airwallex/client.ts`. Services depend on the gateway interface, which has a `mock` implementation.
+- Send `x-api-version` on every call except login. Cache the bearer token and refresh 60s before `expires_at`. On 401, log in once and retry once.
+- Retry `429` / `5xx` / timeouts with backoff. Never retry a create or `add_items` with a new `request_id`.
+- Amounts leave as decimal strings at payout precision. Amounts arrive as JSON numbers; parse them losslessly in the client. Map to contract strings before they leave the adapter.
+- Omit `funding_source` and `transfer_date` on batch create (wallet, dispatch as soon as Airwallex can).
+- Local probe omits `local_clearing_system`. SWIFT probe sets `swift_charge_option` to `PAYER`. No SWIFT probe for INR.
+- Delete losing probes before quote. Submit only from the pay service.
+
+```ts
+// AIRWALLEX: setting transfer_date, even to today, routes the batch through scheduled-transfer logic.
+// https://www.airwallex.com/docs/payouts/batch-transfers/create-a-batch-transfer.md
+```
+
+Log method, path, status, `trace_id`, latency, `runId`. Redact keys, tokens, account numbers, IBANs, and routing values.
+
+```ts
+// SANDBOX: POST /api/v1/simulation/transfers/{id}/transition
+// Throw unless AIRWALLEX_ENV === 'sandbox'.
+```

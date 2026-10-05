@@ -1,0 +1,31 @@
+---
+description: Commit only after asking, using Conventional Commits, one logical unit at a time
+alwaysApply: true
+---
+
+# Commits
+
+Spec: https://www.conventionalcommits.org/en/v1.0.0/
+
+- Ask the user before `git commit`, amend, or rebase. Show the message and the files. Wait.
+- Skip asking only after they explicitly allow it for this conversation.
+- One logical unit per commit. It should typecheck on its own.
+- Update docs in the same commit as the behaviour they describe.
+- Never commit secrets, `.env*` (except `.env.example`), `node_modules`, or `.next`.
+- Do not push unless asked.
+
+```
+<type>(<scope>): <imperative summary, lowercase, no period>
+
+Refs: U3.2
+```
+
+Types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `build`, `ci`, `perf`, `style`, `revert`.
+
+Scopes: `contracts`, `mocks`, `tokens`, `ui-kit`, `home`, `run`, `runs`, `airwallex`, `csv`, `demo`, `webhooks`, `db`, `docs`, `rules`, `config`, `deps`.
+
+```
+feat(ui-kit): add contractor row states for the review gate
+
+Refs: U3.3
+```

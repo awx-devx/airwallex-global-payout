@@ -1,0 +1,25 @@
+---
+description: UI kit boundaries, tokens, money formatting, and the review gate
+globs: src/ui/**,src/app/dev/**
+alwaysApply: false
+---
+
+# UI kit
+
+Specs: `docs/05-design-system.md`, `docs/06-ui-kit-spec.md`.
+
+- `src/ui/**` is props-only. No `fetch`, no TanStack Query, no imports from `src/server/**`, `src/features/**`, or `src/mocks/**`. Showcase `*.fixtures.ts` files may import `src/mocks`.
+- Props that are domain data use `src/contracts` types. Do not hand-write a `RunRow`.
+- Layers: `tokens` → `format` → `primitives` → `payout` → `patterns`. A lower layer never imports a higher one.
+- Colours come from tokens. No hex in components. Focus is the 1px orange outline. No glow and no aurora.
+- Money arrives as a decimal string. Format with `formatMoney` only.
+- Status colour and the stepper both come from `src/contracts` (`runProgress` for the stepper). Components do not switch on Airwallex strings.
+- Motion comes from `motion/react` only, and only for the cases in `docs/05` §5. A new animation needs a row there. Reduced motion jumps to the end state.
+- Every new variant is added to its `showcase.tsx` on `/dev/ui-kit` in the same commit, using the fixture ids from `docs/03`.
+- Anything that ticks (the quote countdown) honours the kit's freeze-clock switch.
+- Page work waits for the review gate in `docs/06` §5 and the sign-off in `docs/09-decisions.md`.
+
+```tsx
+// Good: label from the contract helper, colour from the row status map.
+<RailChip railLabel={row.pricing.chosen.railLabel} chosen />
+```

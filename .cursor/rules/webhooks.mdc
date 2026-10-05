@@ -1,0 +1,20 @@
+---
+description: Airwallex webhook verification, dedupe, and the shared status mapper
+globs: src/app/api/webhooks/**,src/server/adapters/airwallex/webhooks.ts
+alwaysApply: false
+---
+
+# Webhooks
+
+Full spec: `docs/04-airwallex-integration.md` §5.
+
+- `export const runtime = 'nodejs'`.
+- Verify HMAC-SHA256 of `x-timestamp + rawBody` with `AIRWALLEX_WEBHOOK_SECRET` before parsing. Use `crypto.timingSafeEqual`. Reject timestamps older than 5 minutes. Invalid → 400.
+- Insert `webhook_events` with `_id` = event id. Duplicate key → 200, do not apply again.
+- Apply status with the same mapper as `GET` batch / transfer. A transfer `FAILED` is not replaced by a later `CANCELLED`.
+- Unknown batch or transfer ids → 200 and ignore.
+- Polling on `GET /api/runs/:id` must stay correct when no webhook is configured.
+
+```ts
+const signed = crypto.createHmac('sha256', secret).update(timestamp + rawBody).digest('hex');
+```

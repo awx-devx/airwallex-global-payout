@@ -1,0 +1,34 @@
+---
+description: Core context, stack, layering, and invariants for the Global Payout demo
+alwaysApply: true
+---
+
+# Project core
+
+Demo on an Airwallex sandbox account. Upload a contractor CSV, price the cheapest rail per person, and submit one wallet-funded batch. No login: the API key's account is the payer.
+
+## Source of truth
+
+- Read `docs/README.md`, then the doc for the task. DTOs, CSV, states, and REST are frozen in `docs/03-contracts.md`.
+- If code and docs disagree, stop and flag it. Behaviour changes update the doc in the same commit.
+- Unverified Airwallex behaviour is a Q-xx in `docs/09-decisions.md`. When `pnpm airwallex:smoke` resolves one, update `docs/01` and `docs/04` too.
+- Track ids (`U3.2`, `B4.1`) come from `docs/tracks/`. Mention them in commits.
+
+## Stack
+
+Next.js App Router, TypeScript strict, MongoDB via Mongoose, Tailwind v4, Motion (`motion/react`), TanStack Query, zod, decimal.js, pnpm. No Redis, no worker, no chart library. New dependencies need a D-xx in `docs/09-decisions.md` first.
+
+## Invariants
+
+- Airwallex calls stay in `src/server/**` and go through `src/server/adapters/airwallex/client.ts`.
+- No JS `number` for money: `decimal.js` in code, `Decimal128` in Mongo, decimal strings in contracts.
+- Buttons come from `allowedActions`. Polling follows `poll`. Rail text comes from `railLabel()`.
+- Pricing only adds items to a `DRAFTING` batch. `submit` runs only from the pay action.
+- `request_id` builders: `b:{runId}`, `i:{runId}:{rowIndex}:L`, `i:{runId}:{rowIndex}:S`. Retries reuse them.
+- Do not invent Airwallex endpoints or enum values. Check `docs/04`, then the official docs.
+
+## Layering
+
+- `app/api` validates with contract zod, calls a service, returns the DTO or `{ error: { code, message } }`.
+- `src/ui/**` is props-only. Pages go through `src/features` hooks and a `DataSource` (`mock` or `api`).
+- `src/contracts` is the only module shared by UI and server.
