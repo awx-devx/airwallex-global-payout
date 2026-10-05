@@ -78,6 +78,46 @@ test('button focus and the discard dialog keyboard', async ({ page }) => {
   await expect(dialog).toHaveCount(0)
 })
 
+test('payout kit shows the pay gate and the frozen review step', async ({ page }) => {
+  const payout = page.locator('#payout')
+  await expect(
+    payout.getByTestId('paybar-run_ready').getByRole('button', { name: /^Pay / }),
+  ).toHaveCount(0)
+  await expect(payout.getByTestId('paybar-run_ready')).toContainText(
+    'Exclude the rows with errors first.',
+  )
+  await expect(
+    payout.getByTestId('paybar-run_ready_clean').getByRole('button', {
+      name: 'Pay 6 contractors · USD 18,960.00',
+    }),
+  ).toBeVisible()
+  await expect(payout.getByTestId('paybar-run_expired')).toContainText('Quote expired.')
+  await expect(
+    payout.getByTestId('paybar-run_expired').getByRole('button', { name: 'Refresh quote' }),
+  ).toBeVisible()
+  await expect(payout.getByTestId('paybar-run_short')).toContainText(
+    'USD wallet is short by USD 18,860.00.',
+  )
+  await expect(payout.getByTestId('paybar-run_approval')).toContainText(
+    'Waiting for approval in Airwallex. This demo cannot approve it.',
+  )
+  await expect(
+    payout.getByTestId('paybar-run_inflight').getByRole('button', { name: 'Advance statuses' }),
+  ).toBeVisible()
+  await expect(payout.getByText('5 of 6 paid.')).toBeVisible()
+  await expect(payout.getByText('postcode is required.').first()).toBeVisible()
+  await expect(payout.getByText('Only rail').first()).toBeVisible()
+  await expect(payout.getByRole('button', { name: 'Exclude' }).first()).toBeVisible()
+  await expect(payout.getByTestId('payout-story')).toHaveText(
+    'Cheapest rail is selected. Nothing has been paid.',
+  )
+  await expect(
+    payout.getByTestId('payout-story-stepper').locator('[aria-current="step"]'),
+  ).toHaveText(/Review/)
+  await expect(payout.getByTestId('payout-countdown')).toHaveText('60:00')
+  await expect(payout.getByTestId('payout-countdown-expired')).toHaveText('Expired')
+})
+
 test('nav reaches each section', async ({ page }) => {
   await page.goto('/dev/ui-kit')
   for (const section of kitSections) {

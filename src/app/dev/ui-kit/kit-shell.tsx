@@ -2,12 +2,13 @@
 
 import { MotionConfig } from 'motion/react'
 import { useState, type ComponentType } from 'react'
-import { KitControlsProvider } from '@/ui/kit/controls'
+import { KitControlsProvider, type KitWidth } from '@/ui/kit/controls'
 import type { KitSectionId } from '@/ui/kit/sections'
+import { PayoutShowcase } from '@/ui/payout/showcase'
 import { PrimitivesShowcase } from '@/ui/primitives/showcase'
 import { TokensShowcase } from '@/ui/tokens/showcase'
 
-export type KitWidth = 800 | 1120
+export type { KitWidth }
 
 type Section = { id: KitSectionId; title: string }
 
@@ -22,6 +23,7 @@ type KitShellProps = {
 const showcases: Partial<Record<KitSectionId, ComponentType>> = {
   tokens: TokensShowcase,
   primitives: PrimitivesShowcase,
+  payout: PayoutShowcase,
 }
 
 const controlClass =
@@ -102,6 +104,7 @@ export function KitShell({
               reducedMotion={reduced}
               clockFrozen={clock === 'frozen'}
               frozenAt={frozenAt}
+              width={width}
             >
               <div
                 data-kit-stage
