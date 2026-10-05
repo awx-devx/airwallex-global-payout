@@ -23,7 +23,7 @@ export function ContractorRows({
 }) {
   if (layout === 'card') {
     return (
-      <div>
+      <div className="grid gap-3">
         {rows.map((row) => (
           <ContractorRow key={row.id} row={row} layout="card" onExclude={onExclude} />
         ))}
@@ -32,22 +32,28 @@ export function ContractorRows({
   }
 
   return (
-    <table className="w-full table-fixed border-collapse text-left">
-      <thead>
-        <tr className="bg-[var(--bg-2)]">
-          {columns.map((column) => (
-            <th key={column} scope="col" className="type-label h-10 px-3 text-left font-[500]">
-              {column}
-            </th>
+    <div className="overflow-x-auto">
+      <table className="w-max min-w-full border-collapse text-left">
+        <thead>
+          <tr className="bg-[var(--bg-2)]">
+            {columns.map((column) => (
+              <th
+                key={column}
+                scope="col"
+                className={`type-label h-10 px-3 text-left font-[500] whitespace-nowrap ${column === 'Contractor' ? 'sticky left-0 z-10 bg-[var(--bg-2)]' : ''}`}
+              >
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <ContractorRow key={row.id} row={row} layout="row" onExclude={onExclude} />
           ))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row) => (
-          <ContractorRow key={row.id} row={row} layout="row" onExclude={onExclude} />
-        ))}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   )
 }
 
@@ -64,9 +70,9 @@ export function ContractorRow({
   if (layout === 'card') {
     return (
       <article
-        className={`grid gap-3 border-b border-[var(--line-1)] py-4 ${dimmed ? 'text-[var(--fg-3)]' : ''}`}
+        className={`radius-sheet grid gap-3 border border-[var(--line-1)] bg-[var(--bg-1)] px-4 py-4 ${dimmed ? 'text-[var(--fg-3)]' : ''}`}
       >
-        <Identity row={row} />
+        <Identity row={row} truncate={false} />
         <CardLine label="Receives">
           <Receives row={row} />
         </CardLine>
@@ -93,27 +99,27 @@ export function ContractorRow({
   return (
     <>
       <tr
-        className={`border-b border-[var(--line-1)] hover:bg-[var(--bg-3)] ${dimmed ? 'text-[var(--fg-3)]' : ''}`}
+        className={`group border-b border-[var(--line-1)] hover:bg-[var(--bg-3)] ${dimmed ? 'text-[var(--fg-3)]' : ''}`}
       >
-        <td className="px-3 py-3">
+        <td className="sticky left-0 z-10 bg-[var(--bg-0)] px-3 py-3 whitespace-nowrap group-hover:bg-[var(--bg-3)]">
           <Identity row={row} />
         </td>
-        <td className="px-3 py-3">
+        <td className="px-3 py-3 whitespace-nowrap">
           <Receives row={row} />
         </td>
-        <td className="px-3 py-3">
+        <td className="px-3 py-3 whitespace-nowrap">
           <Rail row={row} />
         </td>
-        <td className="px-3 py-3">
+        <td className="px-3 py-3 whitespace-nowrap">
           <Fee row={row} />
         </td>
-        <td className="px-3 py-3">
+        <td className="px-3 py-3 whitespace-nowrap">
           <YouPay row={row} />
         </td>
-        <td className="px-3 py-3">
+        <td className="px-3 py-3 whitespace-nowrap">
           <Saving row={row} />
         </td>
-        <td className="px-3 py-3">
+        <td className="px-3 py-3 whitespace-nowrap">
           <Status row={row} onExclude={onExclude} />
         </td>
       </tr>
@@ -128,13 +134,20 @@ export function ContractorRow({
   )
 }
 
-function Identity({ row }: { row: RunRow }) {
+function Identity({ row, truncate = true }: { row: RunRow; truncate?: boolean }) {
   return (
     <div className="grid min-w-0">
-      <Tooltip label={row.contractorName}>
+      {truncate ? (
+        <Tooltip label={row.contractorName}>
+          <span className="type-body">{row.contractorName}</span>
+        </Tooltip>
+      ) : (
         <span className="type-body">{row.contractorName}</span>
-      </Tooltip>
-      <span className="truncate text-[12px] leading-4 text-[var(--fg-3)]" title={row.email}>
+      )}
+      <span
+        className={`text-[12px] leading-4 text-[var(--fg-3)] ${truncate ? 'truncate' : 'break-all'}`}
+        title={row.email}
+      >
         {row.email}
       </span>
     </div>
@@ -200,8 +213,8 @@ function Status({ row, onExclude }: { row: RunRow; onExclude?: (rowId: string) =
 function CardLine({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex items-start justify-between gap-4">
-      <span className="type-label">{label}</span>
-      <div className="text-right">{children}</div>
+      <span className="type-label shrink-0">{label}</span>
+      <div className="min-w-0 text-right">{children}</div>
     </div>
   )
 }

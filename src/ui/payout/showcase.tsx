@@ -36,7 +36,6 @@ import { StatusBadge } from './status-badge'
 
 export function PayoutShowcase() {
   const { width, now, reducedMotion } = useKitControls()
-  const layout = width === 800 ? 'card' : 'row'
   const orientation = width === 800 ? 'vertical' : 'horizontal'
 
   return (
@@ -131,13 +130,13 @@ export function PayoutShowcase() {
       </section>
 
       <section className="grid gap-3">
-        <h3 className="type-label">{layout === 'row' ? 'Desktop' : 'Stacked'}</h3>
-        <ContractorRows rows={readyRows} layout={layout} />
+        <h3 className="type-label">Desktop</h3>
+        <ContractorRows rows={readyRows} layout="row" />
       </section>
 
       <section className="grid gap-3">
         <h3 className="type-label">Row states</h3>
-        <ContractorRows rows={stateRows} layout={layout} />
+        <ContractorRows rows={stateRows} layout="row" />
       </section>
 
       <section className="grid gap-6">

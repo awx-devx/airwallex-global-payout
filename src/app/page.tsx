@@ -1,3 +1,5 @@
+import { HomeScreen } from '@/features/home/home-screen'
+
 export default function Page() {
-  return <main className="min-h-screen" />
+  return <HomeScreen />
 }

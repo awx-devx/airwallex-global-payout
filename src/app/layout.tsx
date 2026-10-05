@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import type { ReactNode } from 'react'
+import { QueryProvider } from '@/features/data/provider'
 import { Atmosphere } from './atmosphere'
 import { MotionRoot } from './motion-root'
 import './globals.css'
@@ -19,6 +20,7 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: 'Global payout',
+  icons: { icon: '/assets/favicon.png' },
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -27,7 +29,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <Atmosphere />
         <div className="app-frame">
-          <MotionRoot>{children}</MotionRoot>
+          <MotionRoot>
+            <QueryProvider>{children}</QueryProvider>
+          </MotionRoot>
         </div>
       </body>
     </html>

@@ -120,10 +120,10 @@ test('payout kit shows the pay gate and the frozen review step', async ({ page }
 
 test('patterns kit assembles the home and review screens', async ({ page }) => {
   const patterns = page.locator('#patterns')
-  await expect(patterns.getByText('Contractor payouts').first()).toBeVisible()
+  await expect(patterns.getByRole('link', { name: 'Global Payouts' }).first()).toBeVisible()
   await expect(patterns.getByText('Sandbox').first()).toBeVisible()
   await expect(patterns.getByText('Balance unavailable')).toBeVisible()
-  await expect(patterns.getByRole('link', { name: 'Payouts' })).toBeVisible()
+  await expect(patterns.getByRole('link', { name: 'Payouts', exact: true })).toBeVisible()
   await expect(patterns.getByRole('button', { name: 'Use the sample file' }).first()).toBeVisible()
   await expect(patterns.getByText('Upload a CSV with the contractor header.')).toBeVisible()
   await expect(patterns.getByText('A file can include at most 25 contractors.')).toBeVisible()

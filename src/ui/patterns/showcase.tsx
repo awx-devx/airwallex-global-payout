@@ -18,7 +18,6 @@ import type { RunDetail } from '@/contracts'
 
 export function PatternsShowcase() {
   const { width, now, reducedMotion } = useKitControls()
-  const layout = width === 800 ? 'card' : 'row'
   const orientation = width === 800 ? 'vertical' : 'horizontal'
   const [sampleFile, setSampleFile] = useState<string | null>(null)
 
@@ -65,7 +64,6 @@ export function PatternsShowcase() {
           <ReviewAssembly
             key={sample.id}
             sample={sample}
-            layout={layout}
             orientation={orientation}
             still={reducedMotion}
             now={now}
@@ -78,13 +76,11 @@ export function PatternsShowcase() {
 
 function ReviewAssembly({
   sample,
-  layout,
   orientation,
   still,
   now,
 }: {
   sample: { id: string; title: string; run: RunDetail; progress: RunProgress }
-  layout: 'row' | 'card'
   orientation: 'horizontal' | 'vertical'
   still: boolean
   now: Date
@@ -115,7 +111,7 @@ function ReviewAssembly({
       {run.quote ? (
         <QuoteCountdown expiresAt={run.quote.expiresAt} expired={run.quoteExpired} now={now} />
       ) : null}
-      <ReviewTable rows={run.rows} layout={layout} />
+      <ReviewTable rows={run.rows} layout="row" />
       <PayBar
         includedCount={run.includedCount}
         totalPayerPays={run.totalPayerPays}

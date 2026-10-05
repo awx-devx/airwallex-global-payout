@@ -2,7 +2,7 @@
 
 Two screens. Both are assemblies of [06](./06-ui-kit-spec.md). They contain no layout invention beyond this document. Data comes from the hooks in [03 §9](./03-contracts.md#9-datasource).
 
-Desktop first. Check at 1120 and 800. Below 800 the review table is stacked cards. There is no third breakpoint.
+Desktop first. Check at 1120, 800, and 375. Tables stay tables. Below 800 the stepper is vertical. There is no third breakpoint.
 
 ## 1. Home `/`
 
@@ -15,7 +15,7 @@ RunList
 - Header balance is `useBalance`.
 - Dropping a file or activating the sample link calls `useCreateRun`, then routes to `/runs/{id}`.
 - The sample link fetches `/samples/contractors.csv` and uploads that file. It does not skip the parser.
-- `RunList` rows link to `/runs/{id}`. Columns: file name, created (absolute date, `2 Apr 2026`), status badge, contractors (`includedCount`), you pay (or `—` while null).
+- `RunList` rows link to `/runs/{id}`. The whole row is the link. An arrow at the end of the row fades in on hover and focus. Columns: file name, created (absolute date, `2 Apr 2026`), status badge, contractors (`includedCount`), you pay (or `—` while null).
 - Empty copy: `No payouts yet`.
 - File-level errors stay on `UploadPanel`. No run is created.
 - Loading: dropzone shows its loading state and ignores a second drop.
@@ -75,14 +75,14 @@ Visible only when `advance` is in `allowedActions`. One click runs the scripted 
 
 ## 4. Edge states (both screens)
 
-| State | What the user sees |
-| --- | --- |
-| Balance loading | Pill skeleton |
+| State                  | What the user sees                                                      |
+| ---------------------- | ----------------------------------------------------------------------- |
+| Balance loading        | Pill skeleton                                                           |
 | Balance request failed | Pill text `Balance unavailable`. Pay stays governed by `allowedActions` |
-| `poll` true | No spinner in the header. The stepper sentence is the signal |
-| Long name | Truncate with tooltip |
-| All rows excluded | `includedCount` 0, pay absent, helper `Nothing to pay.` |
-| Reduced motion | No shimmer, no status flash |
+| `poll` true            | No spinner in the header. The stepper sentence is the signal            |
+| Long name              | Truncate with tooltip                                                   |
+| All rows excluded      | `includedCount` 0, pay absent, helper `Nothing to pay.`                 |
+| Reduced motion         | No shimmer, no status flash                                             |
 
 ## 5. What pages must not do
 
