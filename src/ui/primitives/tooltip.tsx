@@ -27,7 +27,7 @@ export function Tooltip({
       {shown ? (
         <span
           role="tooltip"
-          className="absolute top-full left-0 z-10 mt-1 bg-[var(--bg-3)] px-2 py-1 text-[12px] leading-4 whitespace-nowrap text-[var(--fg-1)]"
+          className="radius-input absolute top-full left-0 z-10 mt-1 bg-[var(--fg-1)] px-2 py-1 text-[12px] leading-4 whitespace-nowrap text-[var(--fg-inverse)]"
         >
           {label}
         </span>

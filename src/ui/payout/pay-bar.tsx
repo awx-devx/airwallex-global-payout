@@ -40,7 +40,7 @@ export function PayBar({
   const actions = actionOrder.filter((action) => allowedActions.includes(action))
 
   return (
-    <div className="grid gap-3 border border-[var(--line-1)] bg-[var(--bg-1)] px-6 py-4">
+    <div className="radius-sheet grid gap-3 border border-[var(--line-1)] bg-[var(--bg-1)] px-6 py-4">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <Money currency={sourceCurrency} value={totalPayerPays} size="bar" />
         <div className="flex flex-wrap items-center gap-3">

@@ -6,7 +6,7 @@ export function Banner({ tone, children }: { tone: BannerTone; children: ReactNo
   return (
     <div
       role="status"
-      className="px-4 py-3 text-[14px] leading-5 text-[var(--fg-1)]"
+      className="radius-input px-4 py-3 text-[14px] leading-5 text-[var(--fg-1)]"
       style={{
         backgroundColor: `var(--${tone}-wash)`,
         boxShadow: `inset 2px 0 0 var(--${tone})`,

@@ -79,7 +79,7 @@ export function Dialog({
       role={placement === 'modal' ? 'dialog' : 'group'}
       aria-modal={placement === 'modal' ? true : undefined}
       aria-labelledby={titleId}
-      className="w-full max-w-md border border-[var(--line-2)] bg-[var(--bg-1)] p-6"
+      className="radius-sheet w-full max-w-md border border-[var(--line-2)] bg-[var(--bg-1)] p-6"
     >
       <h3 id={titleId} className="type-section">
         {title}
@@ -103,7 +103,7 @@ export function Dialog({
       {open ? (
         <motion.div
           key="dialog"
-          className="fixed inset-0 z-40 flex items-center justify-center bg-[color-mix(in_srgb,var(--bg-0)_72%,transparent)] px-6"
+          className="fixed inset-0 z-40 flex items-center justify-center bg-[var(--scrim)] px-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

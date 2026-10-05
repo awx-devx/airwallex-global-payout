@@ -35,7 +35,7 @@ Blocks U2. Do this before building components.
 | ID | Task | Done when |
 | --- | --- | --- |
 | U0.1 | Next.js App Router, TypeScript strict, pnpm, ESLint, Prettier, aliases `@/ui` `@/contracts` `@/mocks` `@/features` `@/server` | `pnpm dev` runs |
-| U0.2 | Tailwind v4, `tokens.css` wired, Inter and JetBrains Mono via `next/font`, and the `motion` package (Motion, [05 §5](../05-design-system.md#5-motion)) | Tokens visible in devtools. `motion/react` imports |
+| U0.2 | Tailwind v4, `tokens.css` wired, Space Grotesk and JetBrains Mono via `next/font`, and the `motion` package (Motion, [05 §5](../05-design-system.md#5-motion)) | Tokens visible in devtools. `motion/react` imports |
 | U0.3 | `/dev/ui-kit` shell: nav, section registry, toolbar (reduced motion, freeze clock, widths 800 and 1120). 404 when `DEMO_MODE` is not set | Empty sections render |
 | U0.4 | ESLint `no-restricted-imports` for `src/ui` | A deliberate bad import fails lint |
 | U0.5 | Playwright screenshot spec per kit anchor | `pnpm test:visual` runs |

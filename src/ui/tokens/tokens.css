@@ -3,32 +3,36 @@
  * Components use these variables. Hex lives only in this file.
  */
 :root {
-  color-scheme: dark;
-  --bg-0: #07070a;
-  --bg-1: #0c0c11;
-  --bg-2: #121219;
-  --bg-3: #1a1a23;
-  --line-1: rgba(255, 255, 255, 0.06);
-  --line-2: rgba(255, 255, 255, 0.1);
-  --line-3: rgba(255, 255, 255, 0.16);
-  --fg-1: #f4f4f6;
-  --fg-2: #a6a6b3;
-  --fg-3: #6b6b78;
-  --fg-4: #45454f;
-  --orange-300: #ffb27a;
-  --orange-500: #ff6a1a;
-  --orange-600: #e5520a;
-  --up: #2bd9a0;
-  --down: #ff4d6a;
-  --warn: #ffc24b;
-  --info: #6ea8ff;
-  --muted: #6b6b78;
-  --up-wash: color-mix(in srgb, var(--up) 10%, transparent);
-  --down-wash: color-mix(in srgb, var(--down) 10%, transparent);
-  --warn-wash: color-mix(in srgb, var(--warn) 10%, transparent);
-  --info-wash: color-mix(in srgb, var(--info) 10%, transparent);
-  --muted-wash: color-mix(in srgb, var(--muted) 10%, transparent);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  color-scheme: light;
+  --bg-0: #f4f5f7;
+  --bg-1: #ffffff;
+  --bg-2: #f7f7f8;
+  --bg-3: #eef0f3;
+  --line-1: rgba(17, 17, 17, 0.08);
+  --line-2: rgba(17, 17, 17, 0.14);
+  --line-3: rgba(17, 17, 17, 0.22);
+  --fg-1: #111111;
+  --fg-2: #5c5c66;
+  --fg-3: #6b6b76;
+  --fg-4: #9a9aa3;
+  --fg-inverse: #ffffff;
+  --lime: #c6f135;
+  --purple: #a855f7;
+  --scrim: rgba(17, 17, 17, 0.48);
+  --radius-pill: 999px;
+  --radius-sheet: 20px;
+  --radius-input: 12px;
+  --up: #3c6b12;
+  --down: #c81e3a;
+  --warn: #8a5a00;
+  --info: #7c3aed;
+  --muted: #6b6b76;
+  --up-wash: color-mix(in srgb, var(--lime) 55%, white);
+  --down-wash: color-mix(in srgb, var(--down) 12%, white);
+  --warn-wash: color-mix(in srgb, var(--warn) 14%, white);
+  --info-wash: color-mix(in srgb, var(--purple) 16%, white);
+  --muted-wash: color-mix(in srgb, var(--muted) 12%, white);
+  --font-sans: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
@@ -41,12 +45,12 @@
   --color-fg-2: var(--fg-2);
   --color-fg-3: var(--fg-3);
   --color-fg-4: var(--fg-4);
+  --color-fg-inverse: var(--fg-inverse);
   --color-line-1: var(--line-1);
   --color-line-2: var(--line-2);
   --color-line-3: var(--line-3);
-  --color-orange-300: var(--orange-300);
-  --color-orange-500: var(--orange-500);
-  --color-orange-600: var(--orange-600);
+  --color-lime: var(--lime);
+  --color-purple: var(--purple);
   --color-up: var(--up);
   --color-down: var(--down);
   --color-warn: var(--warn);
@@ -54,6 +58,18 @@
   --color-muted: var(--muted);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+}
+
+.radius-pill {
+  border-radius: var(--radius-pill);
+}
+
+.radius-sheet {
+  border-radius: var(--radius-sheet);
+}
+
+.radius-input {
+  border-radius: var(--radius-input);
 }
 
 .type-title {
@@ -111,6 +127,7 @@
 }
 
 .shimmer {
+  border-radius: var(--radius-input);
   background-color: var(--bg-2);
   background-image: linear-gradient(90deg, transparent 0%, var(--bg-3) 50%, transparent 100%);
   background-size: 200% 100%;

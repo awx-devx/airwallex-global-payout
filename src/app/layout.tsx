@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
-import { Inter, JetBrains_Mono } from 'next/font/google'
+import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import type { ReactNode } from 'react'
+import { Atmosphere } from './atmosphere'
 import { MotionRoot } from './motion-root'
 import './globals.css'
 
-const inter = Inter({
+const grotesk = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-grotesk',
 })
 
 const jetbrains = JetBrains_Mono({
@@ -22,9 +23,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`${grotesk.variable} ${jetbrains.variable}`}>
       <body>
-        <MotionRoot>{children}</MotionRoot>
+        <Atmosphere />
+        <div className="app-frame">
+          <MotionRoot>{children}</MotionRoot>
+        </div>
       </body>
     </html>
   )

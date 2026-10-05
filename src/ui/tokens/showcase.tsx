@@ -33,9 +33,9 @@ const groups = [
   {
     title: 'Accent',
     swatches: [
-      { name: '--orange-300', kind: 'fill' },
-      { name: '--orange-500', kind: 'fill' },
-      { name: '--orange-600', kind: 'fill' },
+      { name: '--lime', kind: 'fill' },
+      { name: '--purple', kind: 'fill' },
+      { name: '--fg-inverse', kind: 'fill' },
     ],
   },
   {
@@ -196,7 +196,7 @@ function MotionSample() {
         data-marker={still ? 'end' : 'start'}
       >
         <motion.div
-          className="absolute bottom-0 h-0.5 w-1/2 bg-[var(--orange-500)]"
+          className="absolute bottom-0 h-0.5 w-1/2 bg-[var(--purple)]"
           initial={{ x: still ? '100%' : '0%' }}
           animate={{ x: '100%' }}
           transition={{ duration: still ? 0 : 0.22, ease: 'easeOut' }}

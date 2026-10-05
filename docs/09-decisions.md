@@ -4,7 +4,7 @@
 
 | ID | Decision |
 | --- | --- |
-| D-01 | Visual language matches the FX demo's dark sheet and flat orange, without the chart, aurora, or trading chrome. Tokens in [05](./05-design-system.md). |
+| D-01 | Visual language is the light neo-bank sheet in [05](./05-design-system.md): Space Grotesk, ink pay button, lime for money saved, purple for in flight and links, plus a static edge atmosphere. No chart, aurora, or trading chrome. |
 | D-02 | No login, no `x-login-as`, no `x-on-behalf-of`. The API key's account is the payer. |
 | D-03 | Stack is Next.js, MongoDB, Airwallex. No Redis, no BullMQ, no worker. |
 | D-04 | Demo file cap is 25 data rows. Airwallex's own cap is 1,000 items. |

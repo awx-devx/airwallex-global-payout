@@ -29,7 +29,7 @@ export function UploadPanel({
       />
       <button
         type="button"
-        className={`${focusRing} w-fit cursor-pointer text-[14px] leading-5 text-[var(--orange-300)] underline disabled:cursor-default disabled:opacity-40`}
+        className={`${focusRing} w-fit cursor-pointer text-[14px] leading-5 text-[var(--info)] underline disabled:cursor-default disabled:opacity-40`}
         disabled={loading}
         onClick={onSample}
       >

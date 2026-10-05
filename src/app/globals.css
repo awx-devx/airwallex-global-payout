@@ -7,3 +7,153 @@ body {
   color: var(--fg-1);
   font-family: var(--font-sans);
 }
+
+.app-frame {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.atmosphere-pill {
+  position: absolute;
+  display: block;
+  border-radius: var(--radius-pill);
+}
+
+.atmosphere-white {
+  background: var(--bg-1);
+  box-shadow:
+    0 18px 44px color-mix(in srgb, var(--fg-1) 7%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--fg-1) 5%, transparent);
+}
+
+.atmosphere-purple {
+  background: linear-gradient(
+    165deg,
+    var(--purple),
+    color-mix(in srgb, var(--purple) 62%, white)
+  );
+}
+
+.atmosphere-ink {
+  background: var(--fg-1);
+}
+
+.atmosphere-lime {
+  background: var(--lime);
+}
+
+.atmosphere-left-a {
+  top: 7rem;
+  left: -11.5rem;
+  width: 26rem;
+  height: 4.5rem;
+  rotate: -8deg;
+}
+
+.atmosphere-left-b {
+  top: 12rem;
+  left: -9.5rem;
+  width: 24rem;
+  height: 4rem;
+  rotate: -6deg;
+}
+
+.atmosphere-left-c {
+  bottom: 6%;
+  left: 8.75rem;
+  width: 4.75rem;
+  height: 13rem;
+  rotate: -16deg;
+}
+
+.atmosphere-right-a {
+  top: 6.5rem;
+  right: -16rem;
+  width: 28rem;
+  height: 4.75rem;
+  rotate: 12deg;
+}
+
+.atmosphere-right-b {
+  top: 11rem;
+  right: -12rem;
+  width: 24rem;
+  height: 4.25rem;
+  rotate: 8deg;
+}
+
+.atmosphere-right-c {
+  top: 22%;
+  right: -6rem;
+  width: 14rem;
+  height: 3.75rem;
+  rotate: 16deg;
+}
+
+.atmosphere-right-d {
+  top: 38%;
+  right: -4.5rem;
+  width: 8.5rem;
+  height: 3.5rem;
+  rotate: 8deg;
+}
+
+.atmosphere-dot {
+  position: absolute;
+  right: -0.75rem;
+  bottom: 18%;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg-1);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--fg-1) 8%, transparent);
+}
+
+.atmosphere-arc {
+  position: absolute;
+  overflow: visible;
+  fill: none;
+}
+
+.atmosphere-arc-lime {
+  top: 22%;
+  left: 4.25rem;
+  width: 14rem;
+  height: 22rem;
+}
+
+.atmosphere-arc-lime path {
+  stroke: var(--lime);
+  stroke-width: 2;
+}
+
+.atmosphere-arc-lime circle {
+  fill: var(--lime);
+}
+
+.atmosphere-arc-dash {
+  right: -4rem;
+  bottom: 4%;
+  width: 12rem;
+  height: 16rem;
+}
+
+.atmosphere-arc-dash path {
+  stroke: var(--purple);
+  stroke-width: 1.5;
+  stroke-dasharray: 1.5 7;
+  stroke-linecap: round;
+}
+
+.atmosphere-arc-dash circle {
+  fill: var(--purple);
+}

@@ -29,7 +29,7 @@ const showcases: Partial<Record<KitSectionId, ComponentType>> = {
 }
 
 const controlClass =
-  'cursor-pointer border border-[var(--line-2)] bg-[var(--bg-2)] px-3 py-2 text-[12px] leading-4 font-[500] tracking-[0.02em] text-[var(--fg-1)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[var(--orange-500)] aria-pressed:border-[var(--orange-500)] aria-pressed:text-[var(--orange-300)]'
+  'radius-pill cursor-pointer border border-[var(--line-2)] bg-[var(--bg-1)] px-3 py-2 text-[12px] leading-4 font-[500] tracking-[0.02em] text-[var(--fg-1)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[var(--purple)] aria-pressed:border-[var(--purple)] aria-pressed:text-[var(--info)]'
 
 export function KitShell({
   sections,
@@ -45,7 +45,7 @@ export function KitShell({
 
   return (
     <MotionConfig reducedMotion={reduced ? 'always' : 'user'}>
-      <div className="min-h-screen bg-[var(--bg-0)] text-[var(--fg-1)]" data-motion={motion}>
+      <div className="min-h-screen text-[var(--fg-1)]" data-motion={motion}>
         <header className="flex items-center justify-between gap-6 border-b border-[var(--line-1)] bg-[var(--bg-1)] px-6 py-4">
           <h1 className="type-title">UI kit</h1>
           <div className="flex items-center gap-2" role="toolbar" aria-label="Kit toolbar">
@@ -93,7 +93,7 @@ export function KitShell({
                 <li key={section.id}>
                   <a
                     href={`#${section.id}`}
-                    className="block text-[14px] leading-5 text-[var(--fg-2)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[var(--orange-500)]"
+                    className="block text-[14px] leading-5 text-[var(--fg-2)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[var(--purple)]"
                   >
                     {section.title}
                   </a>
@@ -114,7 +114,7 @@ export function KitShell({
                 data-clock={clock}
                 data-width={width}
                 data-frozen-at={clock === 'frozen' ? frozenAt : undefined}
-                className="mx-auto"
+                className="mx-auto bg-[var(--bg-0)]"
                 style={{ width }}
               >
                 {sections.map((section) => {

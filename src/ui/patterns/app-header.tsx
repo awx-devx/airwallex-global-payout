@@ -42,7 +42,7 @@ function BalanceSlot({
   if (balanceState === 'loading') return <span className="shimmer inline-block h-9 w-52" />
   if (balanceState === 'error' || !balance) {
     return (
-      <span className="inline-flex items-center border border-[var(--line-2)] bg-[var(--bg-2)] px-3 py-2 text-[14px] leading-5 text-[var(--fg-2)]">
+      <span className="radius-pill inline-flex items-center border border-[var(--line-2)] bg-[var(--bg-1)] px-3 py-2 text-[14px] leading-5 text-[var(--fg-2)]">
         Balance unavailable
       </span>
     )

@@ -50,7 +50,7 @@ export function ProcessStepper({
                       ? 'absolute right-2 bottom-0 left-2 h-0.5'
                       : 'absolute top-0 bottom-0 left-0 w-0.5'
                   }
-                  style={{ backgroundColor: failed ? 'var(--down)' : 'var(--orange-500)' }}
+                  style={{ backgroundColor: failed ? 'var(--down)' : 'var(--purple)' }}
                   transition={{ duration: still ? 0 : 0.22, ease: 'easeOut' }}
                 />
               ) : null}

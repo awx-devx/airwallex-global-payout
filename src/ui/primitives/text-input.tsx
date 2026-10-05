@@ -30,7 +30,7 @@ export function TextInput({
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
         data-force={force}
-        className={`${focusRing} border bg-[var(--bg-2)] px-3 py-2 text-[14px] leading-5 text-[var(--fg-1)] outline-none disabled:cursor-default disabled:text-[var(--fg-3)] data-[force=focus]:outline data-[force=focus]:outline-1 data-[force=focus]:outline-offset-2 data-[force=focus]:outline-[var(--orange-500)] ${error ? 'border-[var(--down)]' : 'border-[var(--line-2)]'}`}
+        className={`${focusRing} radius-input border bg-[var(--bg-2)] px-3 py-2 text-[14px] leading-5 text-[var(--fg-1)] outline-none disabled:cursor-default disabled:text-[var(--fg-3)] data-[force=focus]:outline data-[force=focus]:outline-1 data-[force=focus]:outline-offset-2 data-[force=focus]:outline-[var(--purple)] ${error ? 'border-[var(--down)]' : 'border-[var(--line-2)]'}`}
         {...props}
       />
       {error ? (

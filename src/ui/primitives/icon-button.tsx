@@ -19,7 +19,7 @@ export function IconButton({
       type={type}
       aria-label={label}
       disabled={disabled}
-      className={`${focusRing} inline-flex size-8 cursor-pointer items-center justify-center bg-transparent text-[var(--fg-2)] hover:bg-[var(--bg-3)] hover:text-[var(--fg-1)] disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[var(--fg-2)] ${className}`}
+      className={`${focusRing} radius-pill inline-flex size-8 cursor-pointer items-center justify-center bg-transparent text-[var(--fg-2)] hover:bg-[var(--bg-3)] hover:text-[var(--fg-1)] disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[var(--fg-2)] ${className}`}
       {...props}
     >
       {children ?? <CopyIcon />}

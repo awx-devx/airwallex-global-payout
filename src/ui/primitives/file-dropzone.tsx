@@ -26,7 +26,7 @@ export function FileDropzone({
     visual === 'error'
       ? 'border-[var(--down)]'
       : visual === 'drag'
-        ? 'border-[var(--orange-500)] bg-[var(--bg-3)]'
+        ? 'border-[var(--purple)] bg-[var(--bg-3)]'
         : 'border-[var(--line-2)]'
 
   function allowDrop(event: DragEvent<HTMLLabelElement>) {
@@ -52,7 +52,7 @@ export function FileDropzone({
 
   if (!interactive) {
     return (
-      <div aria-hidden="true" className={`border bg-[var(--bg-1)] px-6 py-8 ${border}`}>
+      <div aria-hidden="true" className={`radius-sheet border bg-[var(--bg-1)] px-6 py-8 ${border}`}>
         {body}
       </div>
     )
@@ -60,7 +60,7 @@ export function FileDropzone({
 
   return (
     <label
-      className={`${focusRing} block cursor-pointer border bg-[var(--bg-1)] px-6 py-8 ${border} ${busy ? 'pointer-events-none' : ''}`}
+      className={`${focusRing} radius-sheet block cursor-pointer border bg-[var(--bg-1)] px-6 py-8 ${border} ${busy ? 'pointer-events-none' : ''}`}
       onDragOver={allowDrop}
       onDragLeave={() => setOver(false)}
       onDrop={(event) => {

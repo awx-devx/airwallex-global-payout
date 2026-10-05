@@ -4,15 +4,15 @@ export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost'
 export type ButtonForce = 'hover' | 'pressed'
 
 const focusRing =
-  'focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[var(--orange-500)]'
+  'focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[var(--purple)]'
 
 const variantClass: Record<ButtonVariant, string> = {
   primary: [
-    'bg-[var(--orange-500)] text-[var(--bg-0)]',
-    'hover:bg-[var(--orange-600)]',
-    'active:bg-[color-mix(in_srgb,var(--orange-600)_82%,black)]',
-    'data-[force=hover]:bg-[var(--orange-600)]',
-    'data-[force=pressed]:bg-[color-mix(in_srgb,var(--orange-600)_82%,black)]',
+    'bg-[var(--fg-1)] text-[var(--fg-inverse)]',
+    'hover:bg-[color-mix(in_srgb,var(--fg-1)_88%,white)]',
+    'active:bg-[color-mix(in_srgb,var(--fg-1)_82%,black)]',
+    'data-[force=hover]:bg-[color-mix(in_srgb,var(--fg-1)_88%,white)]',
+    'data-[force=pressed]:bg-[color-mix(in_srgb,var(--fg-1)_82%,black)]',
   ].join(' '),
   secondary: [
     'border border-[var(--line-2)] bg-[var(--bg-2)] text-[var(--fg-1)]',
@@ -22,7 +22,7 @@ const variantClass: Record<ButtonVariant, string> = {
     'data-[force=pressed]:border-[var(--line-3)] data-[force=pressed]:bg-[var(--bg-3)]',
   ].join(' '),
   danger: [
-    'bg-[var(--down)] text-[var(--bg-0)]',
+    'bg-[var(--down)] text-[var(--fg-inverse)]',
     'hover:bg-[color-mix(in_srgb,var(--down)_88%,white)]',
     'active:bg-[color-mix(in_srgb,var(--down)_82%,black)]',
     'data-[force=hover]:bg-[color-mix(in_srgb,var(--down)_88%,white)]',
@@ -61,7 +61,7 @@ export function Button({
       disabled={inactive}
       aria-busy={loading || undefined}
       data-force={inactive ? undefined : force}
-      className={`${focusRing} inline-flex w-fit cursor-pointer items-center justify-center gap-2 px-4 py-2 text-[14px] leading-5 font-[500] whitespace-nowrap disabled:cursor-default disabled:opacity-40 ${variantClass[variant]} ${className}`}
+      className={`${focusRing} radius-pill inline-flex w-fit cursor-pointer items-center justify-center gap-2 px-4 py-2 text-[14px] leading-5 font-[500] whitespace-nowrap disabled:cursor-default disabled:opacity-40 ${variantClass[variant]} ${className}`}
       {...props}
     >
       {children}

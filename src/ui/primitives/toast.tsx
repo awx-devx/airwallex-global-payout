@@ -16,7 +16,7 @@ export function Toast({ tone, message, placement = 'inline', onClose }: ToastPro
   const body = (
     <div
       role="status"
-      className="flex items-center justify-between gap-4 border border-[var(--line-2)] bg-[var(--bg-1)] px-4 py-3"
+      className="radius-sheet flex items-center justify-between gap-4 border border-[var(--line-2)] bg-[var(--bg-1)] px-4 py-3"
       style={{ boxShadow: `inset 2px 0 0 var(--${tone})` }}
     >
       <p className="type-body">{message}</p>

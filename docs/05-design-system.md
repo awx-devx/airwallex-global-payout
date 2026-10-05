@@ -1,14 +1,12 @@
 # 05 — Design System
 
-A quiet operations screen. One column, near-black surfaces, hairline rules, square controls, flat orange for the primary action. The same token family as the FX Target Payment demo, with the chart, the grain aurora, and the trading chrome left out. Numbers are tabular. Colour is status, not decoration.
-
-Tune the orange to Airwallex brand guidance before the demo if a brand sheet is provided. Change it in the token file only.
+A light payout desk. One column, a gray canvas, white sheets, pill controls, and an ink pay button. Numbers are tabular. Lime means money saved or paid. Purple means in flight. Colour is status, not decoration.
 
 ## 1. Principles
 
 1. The table is the product. Chrome stays out of the way.
 2. One primary button per screen: it names the outcome and the amount (`Pay 6 contractors · USD 18,960.00`).
-3. Green means money saved or paid. Red means a row or a run failed. Amber means the user must act (fix, requote, approval). Orange is the action, not a status.
+3. Green means money saved or paid. Red means a row or a run failed. Amber means the user must act (fix, requote, approval). Purple means in flight, links, and the focus ring. The pay button is ink, not a status.
 4. Muted text is for labels and excluded rows, not for errors.
 5. Motion shows a change of step. The marker travels once, the sentence under it crossfades, and a completed step draws its check once. Nothing loops.
 
@@ -20,50 +18,50 @@ CSS variables in `src/ui/tokens/tokens.css`, exposed to Tailwind v4 via `@theme`
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--bg-0` | `#07070A` | Page |
-| `--bg-1` | `#0C0C11` | Sheet |
-| `--bg-2` | `#121219` | Inputs, table header |
-| `--bg-3` | `#1A1A23` | Hover row |
-| `--line-1` | `rgba(255,255,255,0.06)` | Hairline |
-| `--line-2` | `rgba(255,255,255,0.10)` | Input border |
-| `--line-3` | `rgba(255,255,255,0.16)` | Hover border |
+| `--bg-0` | `#F4F5F7` | Page |
+| `--bg-1` | `#FFFFFF` | Sheet |
+| `--bg-2` | `#F7F7F8` | Inputs, table header |
+| `--bg-3` | `#EEF0F3` | Hover row |
+| `--line-1` | `rgba(17,17,17,0.08)` | Hairline |
+| `--line-2` | `rgba(17,17,17,0.14)` | Input border |
+| `--line-3` | `rgba(17,17,17,0.22)` | Hover border |
 
 ### Text
 
 | Token | Value |
 | --- | --- |
-| `--fg-1` | `#F4F4F6` |
-| `--fg-2` | `#A6A6B3` |
-| `--fg-3` | `#6B6B78` |
-| `--fg-4` | `#45454F` |
+| `--fg-1` | `#111111` |
+| `--fg-2` | `#5C5C66` |
+| `--fg-3` | `#6B6B76` |
+| `--fg-4` | `#9A9AA3` |
+| `--fg-inverse` | `#FFFFFF` |
 
-`--fg-1` and `--fg-2` on `--bg-1` must clear 4.5:1. `--fg-3` is labels only.
+`--fg-1` and `--fg-2` on `--bg-1` must clear 4.5:1. `--fg-3` is labels only. `--fg-inverse` is the label on the ink pay button and on danger.
 
 ### Accent
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--orange-300` | `#FFB27A` | Links |
-| `--orange-500` | `#FF6A1A` | Primary button, focus ring |
-| `--orange-600` | `#E5520A` | Pressed |
+| `--lime` | `#C6F135` | Saved and paid fills. Not body text |
+| `--purple` | `#A855F7` | Focus ring, current-step marker |
 
-Focus is a 1px `--orange-500` outline, offset 2px. No glow.
+Focus is a 1px `--purple` outline, offset 2px. No glow. The pay button uses `--fg-1` with `--fg-inverse` type.
 
 ### Semantic
 
 | Token | Value | Meaning |
 | --- | --- | --- |
-| `--up` | `#2BD9A0` | Paid, savings > 0 |
-| `--down` | `#FF4D6A` | Failed, invalid |
-| `--warn` | `#FFC24B` | Needs fix, quote expired, approval |
-| `--info` | `#6EA8FF` | Ready, in flight |
-| `--muted` | `#6B6B78` | Excluded, pricing, discarded |
+| `--up` | `#3C6B12` | Paid, savings > 0. Text on white and on the lime wash |
+| `--down` | `#C81E3A` | Failed, invalid |
+| `--warn` | `#8A5A00` | Needs fix, quote expired, approval |
+| `--info` | `#7C3AED` | Ready, in flight, links. Darker than `--purple` so it clears 4.5:1 |
+| `--muted` | `#6B6B76` | Excluded, pricing, discarded |
 
-Each has a 10% wash (`--up-wash`, and so on) for badge backgrounds.
+`--up-wash` is lime mixed 55% with white. The other washes are a light tint of the text colour. `--scrim` is `rgba(17,17,17,0.48)` behind the dialog.
 
 ## 3. Type
 
-- UI: Inter, via `next/font`.
+- UI: Space Grotesk, via `next/font`.
 - Identifiers (`shortReference`, transfer id): JetBrains Mono, 12px.
 - Money and counts: `font-variant-numeric: tabular-nums`, `whitespace-nowrap`.
 
@@ -78,8 +76,9 @@ Each has a 10% wash (`--up-wash`, and so on) for badge backgrounds.
 ## 4. Space and shape
 
 - 4px grid. Sheet padding 24px. Row height 52px.
-- Radius: 0 on inputs, buttons, and the sheet. The product is a ruled sheet, not a card stack.
+- Radius: `--radius-pill` (999px) on buttons, badges, and the balance pill. `--radius-sheet` (20px) on sheets, dialogs, toasts, and the dropzone. `--radius-input` (12px) on inputs. The contractor table stays a ruled grid. Rows are not separate bubbles.
 - Content width 1120px, centered. Below 800px the table becomes one card per contractor (same fields, stacked).
+- The canvas has a fixed, static atmosphere: white capsules, a lime arc, a purple pill, and an ink pill, cropped to the edges. The centre of the page stays clear so the table is readable. Nothing in it moves.
 - One density. No theme switch.
 
 ## 5. Motion
