@@ -59,6 +59,25 @@ test('prefers-reduced-motion stops shimmer, marker travel, and the check draw', 
   expect(atEnd).toBe(true)
 })
 
+test('button focus and the discard dialog keyboard', async ({ page }) => {
+  const primary = page.getByTestId('kit-primary')
+  await primary.focus()
+  await page.keyboard.press('Shift+Tab')
+  await page.keyboard.press('Tab')
+  await expect(primary).toBeFocused()
+  await expect(primary).toHaveCSS('outline-style', 'solid')
+
+  await page.getByRole('button', { name: 'Open discard dialog' }).click()
+  const dialog = page.getByRole('dialog', { name: 'Discard this draft?' })
+  await expect(dialog.getByRole('button', { name: 'Discard draft' })).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(dialog.getByRole('button', { name: 'Cancel' })).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(dialog.getByRole('button', { name: 'Discard draft' })).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(dialog).toHaveCount(0)
+})
+
 test('nav reaches each section', async ({ page }) => {
   await page.goto('/dev/ui-kit')
   for (const section of kitSections) {

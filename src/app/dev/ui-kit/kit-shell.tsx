@@ -4,6 +4,7 @@ import { MotionConfig } from 'motion/react'
 import { useState, type ComponentType } from 'react'
 import { KitControlsProvider } from '@/ui/kit/controls'
 import type { KitSectionId } from '@/ui/kit/sections'
+import { PrimitivesShowcase } from '@/ui/primitives/showcase'
 import { TokensShowcase } from '@/ui/tokens/showcase'
 
 export type KitWidth = 800 | 1120
@@ -20,6 +21,7 @@ type KitShellProps = {
 
 const showcases: Partial<Record<KitSectionId, ComponentType>> = {
   tokens: TokensShowcase,
+  primitives: PrimitivesShowcase,
 }
 
 const controlClass =
