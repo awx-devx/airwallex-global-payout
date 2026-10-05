@@ -118,10 +118,47 @@ test('payout kit shows the pay gate and the frozen review step', async ({ page }
   await expect(payout.getByTestId('payout-countdown-expired')).toHaveText('Expired')
 })
 
+test('patterns kit assembles the home and review screens', async ({ page }) => {
+  const patterns = page.locator('#patterns')
+  await expect(patterns.getByText('Contractor payouts').first()).toBeVisible()
+  await expect(patterns.getByText('Sandbox').first()).toBeVisible()
+  await expect(patterns.getByText('Balance unavailable')).toBeVisible()
+  await expect(patterns.getByRole('link', { name: 'Payouts' })).toBeVisible()
+  await expect(patterns.getByRole('button', { name: 'Use the sample file' }).first()).toBeVisible()
+  await expect(patterns.getByText('Upload a CSV with the contractor header.')).toBeVisible()
+  await expect(patterns.getByText('A file can include at most 25 contractors.')).toBeVisible()
+  await expect(patterns.getByText('No payouts yet')).toBeVisible()
+  await expect(patterns.getByText('2 Apr 2026').first()).toBeVisible()
+
+  const ready = patterns.getByTestId('pattern-run_ready')
+  await expect(ready.getByText('Cheapest')).toHaveCount(5)
+  await expect(ready.getByText('Only rail')).toBeVisible()
+  await expect(ready.getByText('postcode is required.')).toBeVisible()
+  await expect(ready.getByRole('button', { name: 'Exclude' })).toBeVisible()
+  await expect(ready.getByRole('button', { name: /^Pay / })).toHaveCount(0)
+
+  await expect(
+    patterns.getByTestId('pattern-run_ready_clean').getByRole('button', {
+      name: 'Pay 6 contractors · USD 18,960.00',
+    }),
+  ).toBeVisible()
+  await expect(patterns.getByTestId('pattern-run_inflight')).toContainText('Booking each payout.')
+  await expect(patterns.getByTestId('pattern-run_approval')).toContainText(
+    'Waiting for approval in Airwallex.',
+  )
+  await expect(patterns.getByTestId('pattern-run_done')).toContainText('5 of 6 paid.')
+  await expect(patterns.getByTestId('pattern-run_done')).toContainText(
+    'The beneficiary bank rejected the payout.',
+  )
+  await expect(
+    patterns.getByTestId('pattern-run_done').getByText('Paid with failures'),
+  ).toBeVisible()
+})
+
 test('nav reaches each section', async ({ page }) => {
   await page.goto('/dev/ui-kit')
   for (const section of kitSections) {
-    await page.getByRole('link', { name: section.title }).click()
+    await page.getByRole('link', { name: section.title, exact: true }).click()
     await expect(page.locator(`#${section.id}`)).toBeInViewport()
   }
 })

@@ -4,6 +4,7 @@ import { MotionConfig } from 'motion/react'
 import { useState, type ComponentType } from 'react'
 import { KitControlsProvider, type KitWidth } from '@/ui/kit/controls'
 import type { KitSectionId } from '@/ui/kit/sections'
+import { PatternsShowcase } from '@/ui/patterns/showcase'
 import { PayoutShowcase } from '@/ui/payout/showcase'
 import { PrimitivesShowcase } from '@/ui/primitives/showcase'
 import { TokensShowcase } from '@/ui/tokens/showcase'
@@ -24,6 +25,7 @@ const showcases: Partial<Record<KitSectionId, ComponentType>> = {
   tokens: TokensShowcase,
   primitives: PrimitivesShowcase,
   payout: PayoutShowcase,
+  patterns: PatternsShowcase,
 }
 
 const controlClass =

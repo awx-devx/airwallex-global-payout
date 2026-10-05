@@ -153,7 +153,7 @@ function Rail({ row }: { row: RunRow }) {
   if (!chosen) return <span className="type-body text-[var(--fg-3)]">—</span>
   return (
     <div className="grid gap-1">
-      <RailChip railLabel={chosen.railLabel} chosen />
+      <RailChip railLabel={chosen.railLabel} chosen={row.pricing.alternatives.length > 0} />
       {alternative ? (
         <span className="text-[12px] leading-4 text-[var(--fg-3)]">
           instead of {alternative.railLabel}
