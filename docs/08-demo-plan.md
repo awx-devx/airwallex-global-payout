@@ -14,15 +14,15 @@ The mock clock is frozen at `2026-04-02T18:00:00.000Z` unless a test or the kit 
 
 [`samples/contractors.csv`](./samples/contractors.csv). Seven contractors:
 
-| Row | Person | Corridor | Role in the demo |
-| --- | --- | --- | --- |
-| row_1 | Maya Chen | US/USD | Local wins against SWIFT |
-| row_2 | Owen Blake | GB/GBP | Faster Payments wins |
-| row_3 | Lena Hoffmann | DE/EUR | SEPA wins |
-| row_4 | Noah Walsh | AU/AUD | Bank transfer wins |
-| row_5 | Aisha Rahman | SG/SGD | FAST wins |
-| row_6 | Priya Nair | IN/INR | Only rail. Later the staged failure |
-| row_7 | Sam Rivera | US/USD | Empty postcode. `invalid`. Blocks pay until excluded |
+| Row   | Person        | Corridor | Role in the demo                                     |
+| ----- | ------------- | -------- | ---------------------------------------------------- |
+| row_1 | Maya Chen     | US/USD   | Local wins against SWIFT                             |
+| row_2 | Owen Blake    | GB/GBP   | Faster Payments wins                                 |
+| row_3 | Lena Hoffmann | DE/EUR   | SEPA wins                                            |
+| row_4 | Noah Walsh    | AU/AUD   | Bank transfer wins                                   |
+| row_5 | Aisha Rahman  | SG/SGD   | FAST wins                                            |
+| row_6 | Priya Nair    | IN/INR   | Only rail. Later the staged failure                  |
+| row_7 | Sam Rivera    | US/USD   | Empty postcode. `invalid`. Blocks pay until excluded |
 
 Bank details are shapes from Airwallex's own examples and well-known test IBANs. They are not real people. B2 may replace values the sandbox rejects without changing columns.
 
@@ -50,16 +50,17 @@ The sandbox path uses the same clicks. Advance calls the transfer simulation end
 
 Keep this table current when adding a `DEMO-ONLY:` or `SANDBOX:` comment.
 
-| Location | Tag | What |
-| --- | --- | --- |
-| Pricing and submit inside the route | `DEMO-ONLY` | Inline work. Production queues it |
-| Open routes, no session | `DEMO-ONLY` | The API-key account is the operator |
-| 25-row and six-corridor cap | `DEMO-ONLY` | Production takes any schema-supported corridor up to Airwallex's 1,000-item batch limit |
-| `POST /api/demo/runs/:id/advance` | `DEMO-ONLY` + `SANDBOX` | Simulation transition |
-| `src/mocks/data-source.ts` advance | `DEMO-ONLY` | Jumps transfer statuses for the talk track. Production reads webhooks and retrieve |
-| `src/mocks/fixtures.ts` | `DEMO-ONLY` | Teaching amounts, not a live quote |
-| `src/mocks/data-source.ts` createRun | `DEMO-ONLY` | Only the sample file is priced into the ready fixture. Production prices every accepted file |
-| Webhook optional | `DEMO-ONLY` | Polling is enough for the demo. Production relies on webhooks plus reconcile |
+| Location                                             | Tag                     | What                                                                                         |
+| ---------------------------------------------------- | ----------------------- | -------------------------------------------------------------------------------------------- |
+| Pricing and submit inside the route                  | `DEMO-ONLY`             | Inline work. Production queues it                                                            |
+| Open routes, no session                              | `DEMO-ONLY`             | The API-key account is the operator                                                          |
+| 25-row and six-corridor cap                          | `DEMO-ONLY`             | Production takes any schema-supported corridor up to Airwallex's 1,000-item batch limit      |
+| `POST /api/demo/runs/:id/advance`                    | `DEMO-ONLY` + `SANDBOX` | Simulation transition                                                                        |
+| `src/mocks/data-source.ts` advance                   | `DEMO-ONLY`             | Jumps transfer statuses for the talk track. Production reads webhooks and retrieve           |
+| `src/mocks/fixtures.ts`                              | `DEMO-ONLY`             | Teaching amounts, not a live quote                                                           |
+| `src/mocks/data-source.ts` createRun                 | `DEMO-ONLY`             | Only the sample file is priced into the ready fixture. Production prices every accepted file |
+| `src/server/adapters/airwallex/client.ts` transition | `SANDBOX`               | Sandbox transfer simulation. Production waits for webhooks and retrieve                      |
+| Webhook optional                                     | `DEMO-ONLY`             | Polling is enough for the demo. Production relies on webhooks plus reconcile                 |
 
 ## 5. Run of show timing
 
