@@ -59,6 +59,7 @@ type AirwallexCreateItem = {
       account_routing_type1?: string
       account_routing_value1?: string
       swift_code?: string
+      bank_account_category?: 'Checking'
     }
   }
 }
@@ -70,7 +71,11 @@ function toCreateItem(item: BatchItemDraft): AirwallexCreateItem {
     postcode: item.beneficiary.address.postcode,
     country_code: item.beneficiary.address.countryCode,
   }
-  if (item.beneficiary.address.state !== '') address.state = item.beneficiary.address.state
+  const state = subdivisionState(
+    item.beneficiary.address.countryCode,
+    item.beneficiary.address.state,
+  )
+  if (state) address.state = state
 
   const bank: AirwallexCreateItem['beneficiary']['bank_details'] = {
     account_name: item.beneficiary.accountName,
@@ -78,10 +83,14 @@ function toCreateItem(item: BatchItemDraft): AirwallexCreateItem {
     bank_country_code: item.beneficiary.bankCountryCode,
   }
   assignIfPresent(bank, 'account_number', item.beneficiary.accountNumber)
-  assignIfPresent(bank, 'iban', item.beneficiary.iban)
+  // GB local schema has no iban. Sending one fails validation. DE local is iban-only.
+  if (!(item.transferMethod === 'LOCAL' && item.beneficiary.accountNumber)) {
+    assignIfPresent(bank, 'iban', item.beneficiary.iban)
+  }
   assignIfPresent(bank, 'account_routing_type1', item.beneficiary.routingType)
   assignIfPresent(bank, 'account_routing_value1', item.beneficiary.routingValue)
   assignIfPresent(bank, 'swift_code', item.beneficiary.swiftBic)
+  if (item.beneficiary.bankCountryCode === 'US') bank.bank_account_category = 'Checking'
 
   const payload: AirwallexCreateItem = {
     request_id: item.requestId,
@@ -109,4 +118,13 @@ function toCreateItem(item: BatchItemDraft): AirwallexCreateItem {
 
 function assignIfPresent(target: Record<string, string>, key: string, value: string | undefined) {
   if (value != null && value !== '') target[key] = value
+}
+
+// US and AU schemas require ISO 3166-2 codes (US-WA, AU-VIC). IN accepted KA as sent.
+function subdivisionState(country: string, state: string): string | undefined {
+  if (state === '') return undefined
+  if ((country === 'US' || country === 'AU') && !state.startsWith(`${country}-`)) {
+    return `${country}-${state}`
+  }
+  return state
 }

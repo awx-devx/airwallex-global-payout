@@ -48,6 +48,12 @@ describe('Airwallex mappers', () => {
 
   it('prefers transfer_id and keeps a failed row failed when a later event is cancelled', () => {
     expect(mapItem(unverifiedBookedItem).transferId).toBe('tr_booked')
+    expect(
+      mapItem({ ...unverifiedBookedItem, metadata: undefined, transfer_id: null }).rowIndex,
+    ).toBe(2)
+    expect(
+      mapItem({ ...unverifiedBookedItem, metadata: undefined, transfer_id: null }).candidate,
+    ).toBe('L')
     expect(mapItem(unverifiedBookedItem).status).toBe('processing')
     expect(mapItem(unverifiedBookedItem, { transferStatus: 'PAID' }).status).toBe('paid')
     expect(mapRowStatus('BOOKED', 'CANCELLED', 'failed')).toBe('failed')
@@ -75,5 +81,26 @@ describe('Airwallex mappers', () => {
     const parsed = parseJsonLossless(unverifiedQuoteJson) as AirwallexQuoteResponse
     expect(parsed.quote_summary.quotes[0]?.amount_payer_pays).toBe('18960.10')
     expect(mapQuote(parsed.quote_summary).payerPays).toBe('18960.10')
+    expect(
+      mapQuote({
+        expires_at: '2026-10-07T00:04:04+0000',
+        validity: 'HR_1',
+        quotes: [
+          {
+            amount_beneficiary_receives: '4200.0',
+            amount_payer_pays: '4225',
+            fee_amount: '25',
+            fee_currency: 'USD',
+            source_currency: 'USD',
+            transfer_currency: 'USD',
+          },
+        ],
+      }),
+    ).toMatchObject({
+      payerPays: '4225.00',
+      feeAmount: '25.00',
+      expiresAt: '2026-10-07T00:04:04.000Z',
+      lines: [{ clientRate: null, currencyPair: null, amountBeneficiaryReceives: '4200.00' }],
+    })
   })
 })

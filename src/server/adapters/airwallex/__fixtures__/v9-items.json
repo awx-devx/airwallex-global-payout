@@ -1,0 +1,18 @@
+[
+  {
+    "errors": [
+      {
+        "code": "beneficiary_type_unsupported",
+        "source": "transfer"
+      },
+      {
+        "code": "beneficiary_type_unsupported",
+        "source": "transfer"
+      }
+    ],
+    "id": "6776993c-97e0-4102-a196-5bd87b4228b6",
+    "request_id": "i:2c2afa4d-8953-47fe-aa41-8342331e5f2a:6:S",
+    "status": "VALIDATION_FAILED",
+    "updated_at": "2026-10-06T23:16:22+0000"
+  }
+]

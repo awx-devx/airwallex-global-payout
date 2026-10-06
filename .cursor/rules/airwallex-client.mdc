@@ -13,8 +13,8 @@ Endpoint map: `docs/04-airwallex-integration.md`. Do not invent endpoints, field
 - Retry `429` / `5xx` / timeouts with backoff. Never retry a create or `add_items` with a new `request_id`.
 - Amounts leave as decimal strings at payout precision. Amounts arrive as JSON numbers; parse them losslessly in the client. Map to contract strings before they leave the adapter.
 - Omit `funding_source` and `transfer_date` on batch create (wallet, dispatch as soon as Airwallex can).
-- Local probe omits `local_clearing_system`. SWIFT probe sets `swift_charge_option` to `PAYER`. No SWIFT probe for INR.
-- Delete losing probes before quote. Submit only from the pay service.
+- Local probe omits `local_clearing_system`. SWIFT probe sets `swift_charge_option` to `PAYER`. No SWIFT probe for INR. US items send `bank_account_category: Checking`. US and AU `state` values are ISO 3166-2 (`US-WA`, `AU-VIC`).
+- Quote once so list items include `transfer_draft`, delete losing probes, then quote again. The second quote is the one the run stores. Submit only from the pay service.
 
 ```ts
 // AIRWALLEX: setting transfer_date, even to today, routes the batch through scheduled-transfer logic.

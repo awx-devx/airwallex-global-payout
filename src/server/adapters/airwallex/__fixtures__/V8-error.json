@@ -1,0 +1,51 @@
+{
+  "method": "GET",
+  "path": "/api/v1/batch_transfers/34cc48b7-adef-4188-ad69-ffe995657c08/items?page_size=1000",
+  "status": 200,
+  "body": {
+    "items": [
+      {
+        "id": "a8af4854-5dbf-4d89-98e9-4f7a1d1b895a",
+        "request_id": "i:6a212ee0-d40a-4c2f-aa67-273e7d666812:6:L",
+        "status": "VALIDATED",
+        "updated_at": "2026-10-06T23:09:54+0000"
+      },
+      {
+        "id": "281724fa-979c-4c4e-ad6e-0f9f66c6282f",
+        "request_id": "i:6a212ee0-d40a-4c2f-aa67-273e7d666812:5:L",
+        "status": "VALIDATED",
+        "updated_at": "2026-10-06T23:09:54+0000"
+      },
+      {
+        "id": "37fbc232-4880-4125-a020-de9ec5d12239",
+        "request_id": "i:6a212ee0-d40a-4c2f-aa67-273e7d666812:4:L",
+        "status": "VALIDATED",
+        "updated_at": "2026-10-06T23:09:54+0000"
+      },
+      {
+        "id": "00e3e6cb-ea4f-4ec9-91c2-f76c4c668ffa",
+        "request_id": "i:6a212ee0-d40a-4c2f-aa67-273e7d666812:3:L",
+        "status": "VALIDATED",
+        "updated_at": "2026-10-06T23:09:54+0000"
+      },
+      {
+        "errors": [
+          {
+            "code": "010",
+            "source": "beneficiary.bank_details.account_routing_value1"
+          }
+        ],
+        "id": "3eae3e72-7e6a-4d6c-a7de-13e934a54caf",
+        "request_id": "i:6a212ee0-d40a-4c2f-aa67-273e7d666812:2:L",
+        "status": "VALIDATION_FAILED",
+        "updated_at": "2026-10-06T23:09:54+0000"
+      },
+      {
+        "id": "42ecc70b-7949-46cf-baaa-0497635fb6c4",
+        "request_id": "i:6a212ee0-d40a-4c2f-aa67-273e7d666812:1:L",
+        "status": "VALIDATED",
+        "updated_at": "2026-10-06T23:09:54+0000"
+      }
+    ]
+  }
+}

@@ -67,15 +67,12 @@ export function mapItem(
   item: AirwallexItem,
   options?: { current?: RowStatus | null; transferStatus?: string | null },
 ): MappedItem {
-  const candidate =
-    item.metadata?.candidate === 'L' || item.metadata?.candidate === 'S'
-      ? item.metadata.candidate
-      : null
+  const identity = itemIdentity(item)
   return {
     airwallexItemId: item.id,
     requestId: item.request_id,
-    rowIndex: parseRowIndex(item.metadata?.row),
-    candidate,
+    rowIndex: parseRowIndex(identity.row),
+    candidate: identity.candidate,
     status: mapRowStatus(item.status, options?.transferStatus ?? null, options?.current),
     fieldErrors: (item.errors ?? []).map(mapItemError),
     transferId: transferId(item),
@@ -112,7 +109,7 @@ function rowStatusFromAirwallex(itemStatus: string, transferStatus: string | nul
 }
 
 function transferId(item: AirwallexItem): string | null {
-  // Q-03: prefer transfer_id. After booking, fall back to transfer_draft.id until B2 records the field.
+  // After BOOKED the list item carries transfer_id. transfer_draft is absent.
   if (typeof item.transfer_id === 'string' && item.transfer_id !== '') return item.transfer_id
   if (item.status === 'BOOKED' && typeof item.transfer_draft?.id === 'string')
     return item.transfer_draft.id
@@ -148,8 +145,8 @@ function mapQuoteLine(line: AirwallexQuoteLine): QuoteSummary['lines'][number] {
     amountPayerPays: money(line.amount_payer_pays, line.source_currency),
     amountBeneficiaryReceives: money(line.amount_beneficiary_receives, line.transfer_currency),
     feeAmount: money(line.fee_amount, line.fee_currency),
-    clientRate: line.client_rate == null ? null : rate(line.client_rate),
-    currencyPair: line.currency_pair,
+    clientRate: line.client_rate == null || line.client_rate === '' ? null : rate(line.client_rate),
+    currencyPair: line.currency_pair ?? null,
   }
 }
 
@@ -161,7 +158,20 @@ function mapItemError(error: { source?: string; message?: string; code?: string 
   }
 }
 
-function parseRowIndex(value: string | undefined): number | null {
+function itemIdentity(item: AirwallexItem): { row: string | null; candidate: 'L' | 'S' | null } {
+  const metaSource = item.metadata ?? item.transfer_draft?.metadata
+  const meta = metaSource?.candidate
+  if (meta === 'L' || meta === 'S') {
+    return { row: metaSource?.row ?? null, candidate: meta }
+  }
+  const match = /^i:.+:(\d+):([LS])$/.exec(item.request_id)
+  const row = match?.[1]
+  const candidate = match?.[2]
+  if (row == null || (candidate !== 'L' && candidate !== 'S')) return { row: null, candidate: null }
+  return { row, candidate }
+}
+
+function parseRowIndex(value: string | null | undefined): number | null {
   if (value == null || value === '') return null
   const index = Number(value)
   if (!Number.isInteger(index) || index < 1) return null

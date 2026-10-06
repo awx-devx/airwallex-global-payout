@@ -1,0 +1,9 @@
+{
+  "method": "POST",
+  "path": "/api/v1/simulation/transfers/a66d490b-3115-458e-834c-93192faadc72/transition",
+  "status": 500,
+  "body": {
+    "code": "operation_failed",
+    "message": "Request could not be processed"
+  }
+}

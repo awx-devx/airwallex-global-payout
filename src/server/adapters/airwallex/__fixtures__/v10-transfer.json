@@ -1,0 +1,326 @@
+[
+  {
+    "method": "GET",
+    "path": "/api/v1/transfers/60c641ba-f0f9-4574-952a-ae4239e58084",
+    "status": 200,
+    "body": {
+      "amount_beneficiary_receives": "10.0",
+      "amount_payer_pays": "10.0",
+      "batch_transfer_id": "18388207-4c61-4011-b4cd-1b3d2d5b12ee",
+      "beneficiary": {
+        "additional_info": {
+          "personal_email": "maya.chen@example.com"
+        },
+        "address": {
+          "city": "Seattle",
+          "country_code": "US",
+          "postcode": "98104",
+          "state": "Washington",
+          "street_address": "412 5th Avenue"
+        },
+        "bank_details": {
+          "account_currency": "USD",
+          "account_name": "Maya Chen",
+          "account_number": "[Redacted]",
+          "account_routing_type1": "aba",
+          "account_routing_value1": "[Redacted]",
+          "bank_account_category": "Checking",
+          "bank_country_code": "US",
+          "bank_name": "JPMorgan Chase Bank, NA",
+          "local_clearing_system": "ACH",
+          "swift_code": "CHASUS33"
+        },
+        "date_of_birth": "1991-04-12",
+        "entity_type": "PERSONAL",
+        "type": "BANK_ACCOUNT"
+      },
+      "created_at": "2026-10-06T23:16:16+0000",
+      "fee_amount": "0",
+      "fee_currency": "USD",
+      "fee_paid_by": "PAYER",
+      "funding": {
+        "status": "FUNDED"
+      },
+      "id": "60c641ba-f0f9-4574-952a-ae4239e58084",
+      "metadata": {
+        "candidate": "L",
+        "row": "1"
+      },
+      "payer": "[Redacted]",
+      "reason": "wages_salary",
+      "reference": "PAY-1",
+      "remarks": "",
+      "request_id": "i:f9b2fd3d-5b47-4baa-8fce-89dfc183b536:1:L",
+      "short_reference_id": "P261006-GK1YCNK",
+      "source_amount": "10.0",
+      "source_currency": "USD",
+      "status": "SCHEDULED",
+      "swift_charge_option": "SHARED",
+      "transfer_amount": "10.0",
+      "transfer_currency": "USD",
+      "transfer_date": "2026-10-06",
+      "transfer_method": "LOCAL",
+      "updated_at": "2026-10-06T23:16:16+0000"
+    }
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/simulation/transfers/60c641ba-f0f9-4574-952a-ae4239e58084/transition",
+    "status": 200,
+    "body": {
+      "request_id": "i:f9b2fd3d-5b47-4baa-8fce-89dfc183b536:1:L",
+      "id": "60c641ba-f0f9-4574-952a-ae4239e58084",
+      "transfer_currency": "USD",
+      "transfer_amount": "10.0",
+      "source_amount": "10.0",
+      "fee_currency": "USD",
+      "fee_amount": "0",
+      "fee_paid_by": "PAYER",
+      "amount_payer_pays": "10.0",
+      "amount_beneficiary_receives": "10.0",
+      "transfer_date": "2026-10-06",
+      "reason": "wages_salary",
+      "reference": "PAY-1",
+      "payer": "[Redacted]",
+      "beneficiary": {
+        "type": "BANK_ACCOUNT",
+        "entity_type": "PERSONAL",
+        "date_of_birth": "1991-04-12",
+        "address": {
+          "street_address": "412 5th Avenue",
+          "country_code": "US",
+          "postcode": "98104",
+          "state": "Washington",
+          "city": "Seattle"
+        },
+        "bank_details": {
+          "bank_name": "JPMorgan Chase Bank, NA",
+          "bank_country_code": "US",
+          "swift_code": "CHASUS33",
+          "account_name": "Maya Chen",
+          "account_number": "[Redacted]",
+          "account_currency": "USD",
+          "account_routing_type1": "aba",
+          "account_routing_value1": "[Redacted]",
+          "local_clearing_system": "ACH",
+          "bank_account_category": "Checking"
+        },
+        "additional_info": {
+          "personal_email": "maya.chen@example.com"
+        }
+      },
+      "short_reference_id": "P261006-GK1YCNK",
+      "status": "SENT",
+      "created_at": "2026-10-06T23:16:16+0000",
+      "updated_at": "2026-10-06T23:16:24+0000",
+      "transfer_method": "LOCAL",
+      "swift_charge_option": "SHARED",
+      "source_currency": "USD",
+      "dispatch_date": "2026-10-06",
+      "metadata": {
+        "candidate": "L",
+        "row": "1"
+      },
+      "batch_transfer_id": "18388207-4c61-4011-b4cd-1b3d2d5b12ee",
+      "remarks": "",
+      "funding": {
+        "status": "FUNDED"
+      }
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/transfers/60c641ba-f0f9-4574-952a-ae4239e58084",
+    "status": 200,
+    "body": {
+      "amount_beneficiary_receives": "10.0",
+      "amount_payer_pays": "10.0",
+      "batch_transfer_id": "18388207-4c61-4011-b4cd-1b3d2d5b12ee",
+      "beneficiary": {
+        "additional_info": {
+          "personal_email": "maya.chen@example.com"
+        },
+        "address": {
+          "city": "Seattle",
+          "country_code": "US",
+          "postcode": "98104",
+          "state": "Washington",
+          "street_address": "412 5th Avenue"
+        },
+        "bank_details": {
+          "account_currency": "USD",
+          "account_name": "Maya Chen",
+          "account_number": "[Redacted]",
+          "account_routing_type1": "aba",
+          "account_routing_value1": "[Redacted]",
+          "bank_account_category": "Checking",
+          "bank_country_code": "US",
+          "bank_name": "JPMorgan Chase Bank, NA",
+          "local_clearing_system": "ACH",
+          "swift_code": "CHASUS33"
+        },
+        "date_of_birth": "1991-04-12",
+        "entity_type": "PERSONAL",
+        "type": "BANK_ACCOUNT"
+      },
+      "created_at": "2026-10-06T23:16:16+0000",
+      "dispatch_date": "2026-10-06",
+      "fee_amount": "0",
+      "fee_currency": "USD",
+      "fee_paid_by": "PAYER",
+      "funding": {
+        "status": "FUNDED"
+      },
+      "id": "60c641ba-f0f9-4574-952a-ae4239e58084",
+      "metadata": {
+        "candidate": "L",
+        "row": "1"
+      },
+      "payer": "[Redacted]",
+      "reason": "wages_salary",
+      "reference": "PAY-1",
+      "remarks": "",
+      "request_id": "i:f9b2fd3d-5b47-4baa-8fce-89dfc183b536:1:L",
+      "short_reference_id": "P261006-GK1YCNK",
+      "source_amount": "10.0",
+      "source_currency": "USD",
+      "status": "SENT",
+      "swift_charge_option": "SHARED",
+      "transfer_amount": "10.0",
+      "transfer_currency": "USD",
+      "transfer_date": "2026-10-06",
+      "transfer_method": "LOCAL",
+      "updated_at": "2026-10-06T23:16:24+0000"
+    }
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/simulation/transfers/60c641ba-f0f9-4574-952a-ae4239e58084/transition",
+    "status": 200,
+    "body": {
+      "request_id": "i:f9b2fd3d-5b47-4baa-8fce-89dfc183b536:1:L",
+      "id": "60c641ba-f0f9-4574-952a-ae4239e58084",
+      "transfer_currency": "USD",
+      "transfer_amount": "10.0",
+      "source_amount": "10.0",
+      "fee_currency": "USD",
+      "fee_amount": "0",
+      "fee_paid_by": "PAYER",
+      "amount_payer_pays": "10.0",
+      "amount_beneficiary_receives": "10.0",
+      "transfer_date": "2026-10-06",
+      "reason": "wages_salary",
+      "reference": "PAY-1",
+      "payer": "[Redacted]",
+      "beneficiary": {
+        "type": "BANK_ACCOUNT",
+        "entity_type": "PERSONAL",
+        "date_of_birth": "1991-04-12",
+        "address": {
+          "street_address": "412 5th Avenue",
+          "country_code": "US",
+          "postcode": "98104",
+          "state": "Washington",
+          "city": "Seattle"
+        },
+        "bank_details": {
+          "bank_name": "JPMorgan Chase Bank, NA",
+          "bank_country_code": "US",
+          "swift_code": "CHASUS33",
+          "account_name": "Maya Chen",
+          "account_number": "[Redacted]",
+          "account_currency": "USD",
+          "account_routing_type1": "aba",
+          "account_routing_value1": "[Redacted]",
+          "local_clearing_system": "ACH",
+          "bank_account_category": "Checking"
+        },
+        "additional_info": {
+          "personal_email": "maya.chen@example.com"
+        }
+      },
+      "short_reference_id": "P261006-GK1YCNK",
+      "status": "PAID",
+      "created_at": "2026-10-06T23:16:16+0000",
+      "updated_at": "2026-10-06T23:16:24+0000",
+      "transfer_method": "LOCAL",
+      "swift_charge_option": "SHARED",
+      "source_currency": "USD",
+      "dispatch_date": "2026-10-06",
+      "metadata": {
+        "candidate": "L",
+        "row": "1"
+      },
+      "batch_transfer_id": "18388207-4c61-4011-b4cd-1b3d2d5b12ee",
+      "remarks": "",
+      "funding": {
+        "status": "FUNDED"
+      }
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/transfers/60c641ba-f0f9-4574-952a-ae4239e58084",
+    "status": 200,
+    "body": {
+      "amount_beneficiary_receives": "10.0",
+      "amount_payer_pays": "10.0",
+      "batch_transfer_id": "18388207-4c61-4011-b4cd-1b3d2d5b12ee",
+      "beneficiary": {
+        "additional_info": {
+          "personal_email": "maya.chen@example.com"
+        },
+        "address": {
+          "city": "Seattle",
+          "country_code": "US",
+          "postcode": "98104",
+          "state": "Washington",
+          "street_address": "412 5th Avenue"
+        },
+        "bank_details": {
+          "account_currency": "USD",
+          "account_name": "Maya Chen",
+          "account_number": "[Redacted]",
+          "account_routing_type1": "aba",
+          "account_routing_value1": "[Redacted]",
+          "bank_account_category": "Checking",
+          "bank_country_code": "US",
+          "bank_name": "JPMorgan Chase Bank, NA",
+          "local_clearing_system": "ACH",
+          "swift_code": "CHASUS33"
+        },
+        "date_of_birth": "1991-04-12",
+        "entity_type": "PERSONAL",
+        "type": "BANK_ACCOUNT"
+      },
+      "created_at": "2026-10-06T23:16:16+0000",
+      "dispatch_date": "2026-10-06",
+      "fee_amount": "0",
+      "fee_currency": "USD",
+      "fee_paid_by": "PAYER",
+      "funding": {
+        "status": "FUNDED"
+      },
+      "id": "60c641ba-f0f9-4574-952a-ae4239e58084",
+      "metadata": {
+        "candidate": "L",
+        "row": "1"
+      },
+      "payer": "[Redacted]",
+      "reason": "wages_salary",
+      "reference": "PAY-1",
+      "remarks": "",
+      "request_id": "i:f9b2fd3d-5b47-4baa-8fce-89dfc183b536:1:L",
+      "short_reference_id": "P261006-GK1YCNK",
+      "source_amount": "10.0",
+      "source_currency": "USD",
+      "status": "PAID",
+      "swift_charge_option": "SHARED",
+      "transfer_amount": "10.0",
+      "transfer_currency": "USD",
+      "transfer_date": "2026-10-06",
+      "transfer_method": "LOCAL",
+      "updated_at": "2026-10-06T23:16:24+0000"
+    }
+  }
+]

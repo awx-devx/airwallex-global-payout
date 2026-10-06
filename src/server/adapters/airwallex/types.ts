@@ -23,8 +23,8 @@ export type AirwallexQuoteLine = {
   amount_beneficiary_receives: string
   fee_amount: string
   fee_currency: string
-  client_rate: string | null
-  currency_pair: string | null
+  client_rate?: string | null
+  currency_pair?: string | null
 }
 
 export type AirwallexItemError = {
@@ -55,6 +55,7 @@ export type AirwallexItem = {
         local_clearing_system?: string | null
       }
     }
+    metadata?: { row?: string; candidate?: string }
   } | null
 }
 

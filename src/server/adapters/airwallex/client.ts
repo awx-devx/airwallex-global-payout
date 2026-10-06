@@ -52,6 +52,17 @@ export type AirwallexClient = {
     nextStatus: SimulationStatus,
     context?: CallContext,
   ): Promise<void>
+  // AIRWALLEX: smoke-only. Pricing does not call this.
+  // https://www.airwallex.com/docs/payouts/beneficiaries/using-api-and-form-schemas.md
+  beneficiarySchema(query: BeneficiarySchemaQuery, context?: CallContext): Promise<unknown>
+}
+
+export type BeneficiarySchemaQuery = {
+  account_currency: string
+  bank_country_code: string
+  country_code: string
+  entity_type: 'PERSONAL'
+  transfer_method: 'LOCAL' | 'SWIFT'
 }
 
 export type AirwallexClientOptions = {
@@ -330,6 +341,15 @@ export function createAirwallexClient(options: AirwallexClientOptions): Airwalle
         `/api/v1/simulation/transfers/${encodeURIComponent(transferId)}/transition`,
         'POST /api/v1/simulation/transfers/:id/transition',
         { next_status: nextStatus },
+        context,
+      )
+    },
+    async beneficiarySchema(query, context) {
+      return authed(
+        'POST',
+        '/api/v1/beneficiary_api_schemas/generate',
+        'POST /api/v1/beneficiary_api_schemas/generate',
+        query,
         context,
       )
     },

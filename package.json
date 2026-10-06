@@ -9,7 +9,8 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:visual": "playwright test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "airwallex:smoke": "vitest run --config vitest.smoke.config.ts"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.104.1",

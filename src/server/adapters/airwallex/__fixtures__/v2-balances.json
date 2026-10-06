@@ -1,0 +1,232 @@
+[
+  {
+    "currency": "AED",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "ARS",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "AUD",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "BDT",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "BHD",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "BOB",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "BRL",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "CAD",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "CHF",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "CLP",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "CNY",
+    "available_amount": "10000000",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "COP",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "CZK",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "DKK",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "EGP",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "EUR",
+    "available_amount": "10000020",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "GBP",
+    "available_amount": "10000000",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "HKD",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "HRK",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "HUF",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "IDR",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "ILS",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "INR",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "JPY",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "KRW",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "LKR",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "MAD",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "MXN",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "MYR",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "NOK",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "NPR",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "NZD",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "PEN",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "PHP",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "PKR",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "PLN",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "RON",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "SAR",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "SEK",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "SGD",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "THB",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "TRY",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "USD",
+    "available_amount": "9840619.98",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "UYU",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "VND",
+    "available_amount": "0",
+    "pending_amount": "0"
+  },
+  {
+    "currency": "ZAR",
+    "available_amount": "0",
+    "pending_amount": "0"
+  }
+]

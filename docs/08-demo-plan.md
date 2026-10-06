@@ -24,7 +24,7 @@ The mock clock is frozen at `2026-04-02T18:00:00.000Z` unless a test or the kit 
 | row_6 | Priya Nair    | IN/INR   | Only rail. Later the staged failure                  |
 | row_7 | Sam Rivera    | US/USD   | Empty postcode. `invalid`. Blocks pay until excluded |
 
-Bank details are shapes from Airwallex's own examples and well-known test IBANs. They are not real people. B2 may replace values the sandbox rejects without changing columns.
+Bank details are shapes from Airwallex's own examples and well-known test IBANs. They are not real people. The GB local sort code and account number are Airwallex's example `040568` / `10006132`; the sandbox rejected `601613`.
 
 Home, before any upload, lists `run_inflight` and `run_done` so the screen is not empty on arrival.
 
@@ -60,6 +60,7 @@ Keep this table current when adding a `DEMO-ONLY:` or `SANDBOX:` comment.
 | `src/mocks/fixtures.ts`                              | `DEMO-ONLY`             | Teaching amounts, not a live quote                                                           |
 | `src/mocks/data-source.ts` createRun                 | `DEMO-ONLY`             | Only the sample file is priced into the ready fixture. Production prices every accepted file |
 | `src/server/adapters/airwallex/client.ts` transition | `SANDBOX`               | Sandbox transfer simulation. Production waits for webhooks and retrieve                      |
+| `scripts/airwallex-smoke.test.ts`                    | `SANDBOX`               | Draft batches plus one 10 USD sandbox submit. Production does not run this script            |
 | Webhook optional                                     | `DEMO-ONLY`             | Polling is enough for the demo. Production relies on webhooks plus reconcile                 |
 
 ## 5. Run of show timing

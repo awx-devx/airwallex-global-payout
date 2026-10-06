@@ -1,0 +1,11 @@
+{
+  "method": "POST",
+  "path": "/api/v1/batch_transfers/create",
+  "status": 400,
+  "body": {
+    "code": "batch_request_id_duplicate",
+    "details": {},
+    "message": "The request ID has been used to a batch before which was created successfully. Please use a different request ID if you wish to create a separate batch transfer.",
+    "source": "batch_request_id_duplicate"
+  }
+}

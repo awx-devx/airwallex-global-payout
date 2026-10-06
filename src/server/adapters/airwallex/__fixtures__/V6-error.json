@@ -1,0 +1,21 @@
+{
+  "method": "GET",
+  "path": "/api/v1/batch_transfers/1c13a225-2f70-4599-8998-426a41fb7ddb/items?page_size=1000",
+  "status": 200,
+  "body": {
+    "items": [
+      {
+        "errors": [
+          {
+            "code": "001",
+            "source": "beneficiary.bank_details.bank_account_category"
+          }
+        ],
+        "id": "7a628b32-a391-456f-9ec1-1179e26092ff",
+        "request_id": "i:99d8f9f6-2fb1-4de6-867a-11d5b02a8790:1:L",
+        "status": "VALIDATION_FAILED",
+        "updated_at": "2026-10-06T23:04:05+0000"
+      }
+    ]
+  }
+}

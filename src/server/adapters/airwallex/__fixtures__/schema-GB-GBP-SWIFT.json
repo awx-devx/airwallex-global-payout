@@ -1,0 +1,151 @@
+{
+  "condition": {
+    "account_currency": "GBP",
+    "bank_country_code": "GB",
+    "entity_type": "PERSONAL",
+    "transfer_method": "SWIFT"
+  },
+  "fields": [
+    {
+      "key": "entity_type",
+      "path": "beneficiary.entity_type",
+      "required": true,
+      "rule": {
+        "type": "string",
+        "pattern": "COMPANY|PERSONAL"
+      }
+    },
+    {
+      "key": "bank_country_code",
+      "path": "beneficiary.bank_details.bank_country_code",
+      "required": true,
+      "rule": {
+        "type": "string",
+        "pattern": "AD|AE|AG|AI|AL|AM|AO|AR|AT|AU|AW|AZ|BA|BD|BE|BG|BH|BL|BO|BR|BW|BZ|CA|CH|CL|CN|CO|CR|CW|CY|CZ|DE|DK|DM|DO|DZ|EC|EE|EG|ES|FI|FJ|FR|FO|GB|GD|GE|GF|GG|GI|GL|GQ|GR|GT|GY|HK|HN|HR|HU|IC|ID|IE|IL|IM|IN|IS|IT|JE|JM|JO|JP|KE|KG|KH|KR|KZ|KW|LC|LI|LK|LT|LU|LV|MA|MC|MD|ME|MF|MK|MO|MQ|MR|MT|MU|MV|MX|MY|NA|NC|NG|NL|NO|NP|NZ|OM|PA|PE|PF|PH|PK|PL|PM|PR|PS|PT|PY|QA|RE|RO|RS|SA|SC|SE|SG|SI|SK|SM|SN|SV|TF|TH|TJ|TL|TN|TR|TZ|TW|UA|UG|US|UY|UZ|VG|VN|VU|WF|XK|YT|ZA|ZM|AS|BS|BB|BJ|BM|BT|BN|BF|CV|KY|CK|CI|ET|FK|GA|GM|GH|GN|GW|VA|KI|LA|LB|LS|LR|MW|MH|FM|MN|MS|NI|NE|MP|PW|PG|RW|SH|KN|VC|WS|ST|SL|SB|SR|TO|TT|TC|TV|CG|DJ|MG|SZ|TD|CF|CM|TG|ZW"
+      }
+    },
+    {
+      "key": "account_currency",
+      "path": "beneficiary.bank_details.account_currency",
+      "required": true,
+      "rule": {
+        "type": "string",
+        "pattern": "AED|ALL|AMD|AOA|ARS|AUD|AZN|BAM|BBD|BDT|BHD|BOB|BRL|BSD|BWP|BZD|CAD|CHF|CLP|CNY|COP|CRC|CZK|DKK|DOP|DZD|EGP|EUR|FJD|GBP|GEL|GHS|GMD|GTQ|GYD|HKD|HNL|HUF|IDR|ILS|INR|ISK|JMD|JOD|JPY|KES|KGS|KRW|KWD|KZT|LKR|LSL|MAD|MGA|MUR|MWK|MXN|MYR|NAD|NGN|NIO|NOK|NPR|NZD|OMR|PEN|PHP|PKR|PLN|PYG|QAR|RON|RSD|RWF|SAR|SCR|SEK|SGD|THB|TND|TRY|TTD|TZS|USD|UYU|VND|XAF|XOF|ZAR|ZMW"
+      }
+    },
+    {
+      "key": "transfer_method",
+      "path": "transfer_method",
+      "required": true,
+      "rule": {
+        "type": "string",
+        "pattern": "LOCAL|SWIFT"
+      }
+    },
+    {
+      "key": "first_name",
+      "path": "beneficiary.first_name",
+      "required": true,
+      "rule": {
+        "type": "string",
+        "pattern": "^[\\s\\S]{1,50}$"
+      }
+    },
+    {
+      "key": "last_name",
+      "path": "beneficiary.last_name",
+      "required": true,
+      "rule": {
+        "type": "string",
+        "pattern": "^[\\s\\S]{1,50}$"
+      }
+    },
+    {
+      "key": "date_of_birth",
+      "path": "beneficiary.date_of_birth",
+      "required": false,
+      "rule": {
+        "type": "string",
+        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+      }
+    },
+    {
+      "key": "iban",
+      "path": "beneficiary.bank_details.iban",
+      "required": true,
+      "rule": {
+        "pattern": "^GB[0-9]{2}[a-zA-Z0-9]{18}$",
+        "type": "string"
+      }
+    },
+    {
+      "key": "account_name",
+      "path": "beneficiary.bank_details.account_name",
+      "required": true,
+      "rule": {
+        "type": "string",
+        "pattern": "^(?!\\d+$)[\\s\\S]{2,200}$"
+      }
+    },
+    {
+      "key": "country_code",
+      "path": "beneficiary.address.country_code",
+      "required": true,
+      "rule": {
+        "type": "string",
+        "pattern": "AD|AE|AF|AG|AI|AL|AM|AN|AO|AQ|AR|AS|AT|AU|AW|AX|AZ|BA|BB|BD|BE|BF|BG|BH|BI|BJ|BL|BM|BN|BO|BQ|BR|BS|BT|BV|BW|BZ|CA|CC|CD|CF|CG|CH|CI|CK|CL|CM|CN|CO|CR|CV|CW|CX|CY|CZ|DE|DJ|DK|DM|DO|DZ|EC|EE|EG|EH|ER|ES|ET|FI|FJ|FK|FM|FO|FR|GA|GB|GD|GE|GF|GG|GH|GI|GL|GM|GN|GP|GQ|GR|GS|GT|GU|GW|GY|HK|HM|HN|HR|HT|HU|IC|ID|IE|IL|IM|IN|IO|IQ|IS|IT|JE|JM|JO|JP|KE|KG|KH|KI|KM|KN|KR|KW|KY|KZ|LA|LB|LC|LI|LK|LR|LS|LT|LU|LV|MA|MC|MD|ME|MF|MG|MH|MK|ML|MN|MO|MP|MQ|MR|MS|MT|MU|MV|MW|MX|MY|MZ|NA|NC|NE|NF|NG|NI|NL|NO|NP|NR|NU|NZ|OM|PA|PE|PF|PG|PH|PK|PL|PM|PN|PR|PS|PT|PW|PY|QA|RE|RO|RS|RW|SA|SB|SC|SD|SE|SG|SH|SI|SJ|SK|SL|SM|SN|SO|SR|SS|ST|SV|SX|SZ|TC|TD|TF|TG|TH|TJ|TK|TL|TM|TN|TO|TR|TT|TV|TW|TZ|UA|UG|UM|US|UY|UZ|VA|VC|VG|VI|VN|VU|WF|WS|XK|YE|YT|ZA|ZM|ZW"
+      }
+    },
+    {
+      "key": "postcode",
+      "path": "beneficiary.address.postcode",
+      "required": true,
+      "rule": {
+        "pattern": "^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) ?[0-9][A-Za-z]{2})$",
+        "type": "string"
+      }
+    },
+    {
+      "key": "street_address",
+      "path": "beneficiary.address.street_address",
+      "required": true,
+      "rule": {
+        "type": "string",
+        "pattern": "(^(?!\\d+$))^[\\s\\S]{5,200}$"
+      }
+    },
+    {
+      "key": "city",
+      "path": "beneficiary.address.city",
+      "required": true,
+      "rule": {
+        "type": "string",
+        "pattern": "^[\\s\\S]{1,50}$"
+      }
+    },
+    {
+      "key": "nickname",
+      "path": "nickname",
+      "required": false
+    },
+    {
+      "key": "personal_email",
+      "path": "beneficiary.additional_info.personal_email",
+      "required": false,
+      "rule": {
+        "type": "string",
+        "pattern": "^(\\S+@\\S+)$"
+      }
+    },
+    {
+      "key": "type",
+      "path": "beneficiary.type",
+      "required": true,
+      "rule": {
+        "type": "string",
+        "pattern": "BANK_ACCOUNT|DIGITAL_WALLET|CRYPTO_WALLET"
+      }
+    }
+  ],
+  "key": "newRecipient"
+}

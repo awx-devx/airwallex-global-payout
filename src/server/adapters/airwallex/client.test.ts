@@ -191,6 +191,32 @@ describe('Airwallex client', () => {
       code: 'sandbox_only',
     })
   })
+
+  it('asks for the beneficiary schema without a local clearing system', async () => {
+    let seen = ''
+    const api = client(async (url, init) => {
+      if (url.endsWith('/authentication/login')) {
+        return jsonResponse(200, { token: 'tok', expires_at: FUTURE })
+      }
+      seen = String(init.body)
+      return jsonResponse(200, { fields: [] })
+    })
+    await api.beneficiarySchema({
+      account_currency: 'EUR',
+      bank_country_code: 'DE',
+      country_code: 'DE',
+      entity_type: 'PERSONAL',
+      transfer_method: 'LOCAL',
+    })
+    expect(JSON.parse(seen)).toEqual({
+      account_currency: 'EUR',
+      bank_country_code: 'DE',
+      country_code: 'DE',
+      entity_type: 'PERSONAL',
+      transfer_method: 'LOCAL',
+    })
+    expect(seen).not.toContain('local_clearing_system')
+  })
 })
 
 describe('batch item payload', () => {
@@ -207,6 +233,22 @@ describe('batch item payload', () => {
     expect(swiftItem?.transfer_amount).toBe('4200.00')
     expect(localItem?.beneficiary.bank_details).not.toHaveProperty('iban')
     expect(swiftItem?.beneficiary.bank_details.swift_code).toBe('CHASUS33')
+    expect(localItem?.beneficiary.address.state).toBe('US-TX')
+    expect(localItem?.beneficiary.bank_details.bank_account_category).toBe('Checking')
+    expect(swiftItem?.beneficiary.bank_details.bank_account_category).toBe('Checking')
+  })
+
+  it('drops a local iban when the account number is present', () => {
+    const local = draft('LOCAL')
+    local.beneficiary.iban = 'GB29NWBK60161331926819'
+    local.beneficiary.accountNumber = '31926819'
+    local.beneficiary.bankCountryCode = 'GB'
+    local.beneficiary.address.countryCode = 'GB'
+    local.beneficiary.address.state = ''
+    const [item] = addItemsPayload([local]).items
+    expect(item?.beneficiary.bank_details).not.toHaveProperty('iban')
+    expect(item?.beneficiary.bank_details.account_number).toBe('31926819')
+    expect(item?.beneficiary.address).not.toHaveProperty('state')
   })
 })
 

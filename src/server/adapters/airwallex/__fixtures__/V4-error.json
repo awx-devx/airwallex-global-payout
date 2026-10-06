@@ -1,0 +1,27 @@
+{
+  "method": "GET",
+  "path": "/api/v1/batch_transfers/ddeac889-1911-4e1e-a87e-7589b26572c0/items?page_size=1000",
+  "status": 200,
+  "body": {
+    "items": [
+      {
+        "id": "e3b4b4b9-dcef-4122-b1e2-6ae10ee9834d",
+        "request_id": "i:ff7a4ab8-4560-4604-8ab3-bb40ad90a5a2:1:S",
+        "status": "VALIDATED",
+        "updated_at": "2026-10-06T23:04:04+0000"
+      },
+      {
+        "errors": [
+          {
+            "code": "001",
+            "source": "beneficiary.bank_details.bank_account_category"
+          }
+        ],
+        "id": "c5ca3ece-c7a6-42da-88cf-a12534eb41c9",
+        "request_id": "i:ff7a4ab8-4560-4604-8ab3-bb40ad90a5a2:1:L",
+        "status": "VALIDATION_FAILED",
+        "updated_at": "2026-10-06T23:04:04+0000"
+      }
+    ]
+  }
+}

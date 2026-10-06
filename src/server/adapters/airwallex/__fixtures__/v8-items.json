@@ -1,0 +1,319 @@
+[
+  {
+    "id": "2a7ed593-7cc1-49c4-b4ff-00344b96fc39",
+    "request_id": "i:77d8b6f5-5d9d-479a-8dc9-4c98f5939ed5:6:L",
+    "status": "VALIDATED",
+    "transfer_draft": {
+      "amount_beneficiary_receives": "185000.0",
+      "amount_payer_pays": "1933.66",
+      "beneficiary": {
+        "additional_info": {
+          "personal_email": "priya.nair@example.com"
+        },
+        "address": {
+          "city": "Bengaluru",
+          "country_code": "IN",
+          "postcode": "560001",
+          "state": "KA",
+          "street_address": "12 MG Road"
+        },
+        "bank_details": {
+          "account_currency": "INR",
+          "account_name": "Priya Nair",
+          "account_number": "[Redacted]",
+          "account_routing_type1": "bank_code",
+          "account_routing_value1": "[Redacted]",
+          "bank_country_code": "IN",
+          "bank_name": "HDFC BANK",
+          "swift_code": "HDFCINBB"
+        },
+        "date_of_birth": "1994-02-08",
+        "entity_type": "PERSONAL",
+        "type": "BANK_ACCOUNT"
+      },
+      "fee_amount": "0",
+      "fee_currency": "USD",
+      "fee_paid_by": "PAYER",
+      "metadata": {
+        "candidate": "L",
+        "row": "6"
+      },
+      "payer": "[Redacted]",
+      "reason": "wages_salary",
+      "reference": "PAY-6",
+      "request_id": "i:77d8b6f5-5d9d-479a-8dc9-4c98f5939ed5:6:L",
+      "short_reference_id": "P261006-S858J0S",
+      "source_amount": "1933.66",
+      "source_currency": "USD",
+      "transfer_amount": "185000.0",
+      "transfer_currency": "INR",
+      "transfer_date": "2026-10-06",
+      "transfer_method": "LOCAL"
+    },
+    "updated_at": "2026-10-06T23:16:21+0000"
+  },
+  {
+    "id": "20c94522-ba27-4423-8b68-9cbb7e552bfa",
+    "request_id": "i:77d8b6f5-5d9d-479a-8dc9-4c98f5939ed5:5:L",
+    "status": "VALIDATED",
+    "transfer_draft": {
+      "amount_beneficiary_receives": "4100.0",
+      "amount_payer_pays": "3234.67",
+      "beneficiary": {
+        "additional_info": {
+          "personal_email": "aisha.rahman@example.com"
+        },
+        "address": {
+          "city": "Singapore",
+          "country_code": "SG",
+          "postcode": "018981",
+          "street_address": "8 Marina Boulevard"
+        },
+        "bank_details": {
+          "account_currency": "SGD",
+          "account_name": "Aisha Rahman",
+          "account_number": "[Redacted]",
+          "bank_country_code": "SG",
+          "bank_name": "DBS Bank/POSB",
+          "local_clearing_system": "FAST",
+          "swift_code": "DBSSSGSG"
+        },
+        "date_of_birth": "1993-09-14",
+        "entity_type": "PERSONAL",
+        "type": "BANK_ACCOUNT"
+      },
+      "fee_amount": "0",
+      "fee_currency": "USD",
+      "fee_paid_by": "PAYER",
+      "metadata": {
+        "candidate": "L",
+        "row": "5"
+      },
+      "payer": "[Redacted]",
+      "reason": "wages_salary",
+      "reference": "PAY-5",
+      "request_id": "i:77d8b6f5-5d9d-479a-8dc9-4c98f5939ed5:5:L",
+      "short_reference_id": "P261006-DWK4K31",
+      "source_amount": "3234.67",
+      "source_currency": "USD",
+      "transfer_amount": "4100.0",
+      "transfer_currency": "SGD",
+      "transfer_date": "2026-10-06",
+      "transfer_method": "LOCAL"
+    },
+    "updated_at": "2026-10-06T23:16:21+0000"
+  },
+  {
+    "id": "da8f6237-202e-4c8a-80d8-9dc0be935269",
+    "request_id": "i:77d8b6f5-5d9d-479a-8dc9-4c98f5939ed5:4:L",
+    "status": "VALIDATED",
+    "transfer_draft": {
+      "amount_beneficiary_receives": "3600.0",
+      "amount_payer_pays": "2532.84",
+      "beneficiary": {
+        "additional_info": {
+          "personal_email": "noah.walsh@example.com"
+        },
+        "address": {
+          "city": "Melbourne",
+          "country_code": "AU",
+          "postcode": "3000",
+          "state": "AU-VIC",
+          "street_address": "18 William Street"
+        },
+        "bank_details": {
+          "account_currency": "AUD",
+          "account_name": "Noah Walsh",
+          "account_number": "[Redacted]",
+          "account_routing_type1": "bsb",
+          "account_routing_value1": "[Redacted]",
+          "bank_country_code": "AU",
+          "bank_name": "National Australia Bank Limited",
+          "local_clearing_system": "BANK_TRANSFER",
+          "swift_code": "NATAAU33"
+        },
+        "date_of_birth": "1987-01-30",
+        "entity_type": "PERSONAL",
+        "type": "BANK_ACCOUNT"
+      },
+      "fee_amount": "0",
+      "fee_currency": "USD",
+      "fee_paid_by": "PAYER",
+      "metadata": {
+        "candidate": "L",
+        "row": "4"
+      },
+      "payer": "[Redacted]",
+      "reason": "wages_salary",
+      "reference": "PAY-4",
+      "request_id": "i:77d8b6f5-5d9d-479a-8dc9-4c98f5939ed5:4:L",
+      "short_reference_id": "P261006-TN4LZSB",
+      "source_amount": "2532.84",
+      "source_currency": "USD",
+      "transfer_amount": "3600.0",
+      "transfer_currency": "AUD",
+      "transfer_date": "2026-10-06",
+      "transfer_method": "LOCAL"
+    },
+    "updated_at": "2026-10-06T23:16:21+0000"
+  },
+  {
+    "id": "7447cc6d-d94f-4bc1-b05e-07b3358069f5",
+    "request_id": "i:77d8b6f5-5d9d-479a-8dc9-4c98f5939ed5:3:L",
+    "status": "VALIDATED",
+    "transfer_draft": {
+      "amount_beneficiary_receives": "2800.0",
+      "amount_payer_pays": "3169.51",
+      "beneficiary": {
+        "additional_info": {
+          "personal_email": "lena.hoffmann@example.com"
+        },
+        "address": {
+          "city": "Berlin",
+          "country_code": "DE",
+          "postcode": "10117",
+          "state": "BE",
+          "street_address": "Unter den Linden 1"
+        },
+        "bank_details": {
+          "account_currency": "EUR",
+          "account_name": "Lena Hoffmann",
+          "bank_country_code": "DE",
+          "bank_name": "Commerzbank",
+          "iban": "[Redacted]",
+          "swift_code": "COBADEFFXXX"
+        },
+        "date_of_birth": "1990-06-21",
+        "entity_type": "PERSONAL",
+        "type": "BANK_ACCOUNT"
+      },
+      "fee_amount": "0",
+      "fee_currency": "USD",
+      "fee_paid_by": "PAYER",
+      "metadata": {
+        "candidate": "L",
+        "row": "3"
+      },
+      "payer": "[Redacted]",
+      "reason": "wages_salary",
+      "reference": "PAY-3",
+      "request_id": "i:77d8b6f5-5d9d-479a-8dc9-4c98f5939ed5:3:L",
+      "short_reference_id": "P261006-9Z41EXA",
+      "source_amount": "3169.51",
+      "source_currency": "USD",
+      "transfer_amount": "2800.0",
+      "transfer_currency": "EUR",
+      "transfer_date": "2026-10-06",
+      "transfer_method": "LOCAL"
+    },
+    "updated_at": "2026-10-06T23:16:21+0000"
+  },
+  {
+    "id": "024a53b0-41a4-4cda-9b03-59c98f94ca30",
+    "request_id": "i:77d8b6f5-5d9d-479a-8dc9-4c98f5939ed5:2:L",
+    "status": "VALIDATED",
+    "transfer_draft": {
+      "amount_beneficiary_receives": "3100.0",
+      "amount_payer_pays": "4137.44",
+      "beneficiary": {
+        "additional_info": {
+          "personal_email": "owen.blake@example.com"
+        },
+        "address": {
+          "city": "London",
+          "country_code": "GB",
+          "postcode": "E14 5AB",
+          "street_address": "1 Canada Square"
+        },
+        "bank_details": {
+          "account_currency": "GBP",
+          "account_name": "Owen Blake",
+          "account_number": "[Redacted]",
+          "account_routing_type1": "sort_code",
+          "account_routing_value1": "[Redacted]",
+          "bank_country_code": "GB",
+          "bank_name": "ClearBank Limited",
+          "local_clearing_system": "FASTER_PAYMENTS",
+          "swift_code": "NWBKGB2L"
+        },
+        "date_of_birth": "1988-11-02",
+        "entity_type": "PERSONAL",
+        "type": "BANK_ACCOUNT"
+      },
+      "fee_amount": "0",
+      "fee_currency": "USD",
+      "fee_paid_by": "PAYER",
+      "metadata": {
+        "candidate": "L",
+        "row": "2"
+      },
+      "payer": "[Redacted]",
+      "reason": "wages_salary",
+      "reference": "PAY-2",
+      "request_id": "i:77d8b6f5-5d9d-479a-8dc9-4c98f5939ed5:2:L",
+      "short_reference_id": "P261006-SJ0GSPH",
+      "source_amount": "4137.44",
+      "source_currency": "USD",
+      "transfer_amount": "3100.0",
+      "transfer_currency": "GBP",
+      "transfer_date": "2026-10-06",
+      "transfer_method": "LOCAL"
+    },
+    "updated_at": "2026-10-06T23:16:21+0000"
+  },
+  {
+    "id": "e5d16b28-d82c-4878-92d6-508d8c98c022",
+    "request_id": "i:77d8b6f5-5d9d-479a-8dc9-4c98f5939ed5:1:L",
+    "status": "VALIDATED",
+    "transfer_draft": {
+      "amount_beneficiary_receives": "4200.0",
+      "amount_payer_pays": "4200.0",
+      "beneficiary": {
+        "additional_info": {
+          "personal_email": "maya.chen@example.com"
+        },
+        "address": {
+          "city": "Seattle",
+          "country_code": "US",
+          "postcode": "98104",
+          "state": "US-WA",
+          "street_address": "412 5th Avenue"
+        },
+        "bank_details": {
+          "account_currency": "USD",
+          "account_name": "Maya Chen",
+          "account_number": "[Redacted]",
+          "account_routing_type1": "aba",
+          "account_routing_value1": "[Redacted]",
+          "bank_account_category": "Checking",
+          "bank_country_code": "US",
+          "bank_name": "JPMorgan Chase Bank, NA",
+          "local_clearing_system": "ACH",
+          "swift_code": "CHASUS33"
+        },
+        "date_of_birth": "1991-04-12",
+        "entity_type": "PERSONAL",
+        "type": "BANK_ACCOUNT"
+      },
+      "fee_amount": "0",
+      "fee_currency": "USD",
+      "fee_paid_by": "PAYER",
+      "metadata": {
+        "candidate": "L",
+        "row": "1"
+      },
+      "payer": "[Redacted]",
+      "reason": "wages_salary",
+      "reference": "PAY-1",
+      "request_id": "i:77d8b6f5-5d9d-479a-8dc9-4c98f5939ed5:1:L",
+      "short_reference_id": "P261006-RMS58IQ",
+      "source_amount": "4200.0",
+      "source_currency": "USD",
+      "transfer_amount": "4200.0",
+      "transfer_currency": "USD",
+      "transfer_date": "2026-10-06",
+      "transfer_method": "LOCAL"
+    },
+    "updated_at": "2026-10-06T23:16:21+0000"
+  }
+]

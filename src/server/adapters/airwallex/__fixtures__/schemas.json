@@ -1,0 +1,34 @@
+[
+  {
+    "label": "US-USD-LOCAL",
+    "detail": "clearing absent; beneficiary.date_of_birth=optional, beneficiary.address.street_address=required, beneficiary.address.city=required, beneficiary.address.state=required, beneficiary.address.postcode=required, beneficiary.address.country_code=required"
+  },
+  {
+    "label": "GB-GBP-LOCAL",
+    "detail": "clearing absent; beneficiary.date_of_birth=optional, beneficiary.address.street_address=required, beneficiary.address.city=required, beneficiary.address.state=absent, beneficiary.address.postcode=required, beneficiary.address.country_code=required"
+  },
+  {
+    "label": "DE-EUR-LOCAL",
+    "detail": "clearing absent; beneficiary.date_of_birth=optional, beneficiary.address.street_address=required, beneficiary.address.city=required, beneficiary.address.state=absent, beneficiary.address.postcode=required, beneficiary.address.country_code=required"
+  },
+  {
+    "label": "AU-AUD-LOCAL",
+    "detail": "clearing absent; beneficiary.date_of_birth=optional, beneficiary.address.street_address=required, beneficiary.address.city=required, beneficiary.address.state=required, beneficiary.address.postcode=required, beneficiary.address.country_code=required"
+  },
+  {
+    "label": "SG-SGD-LOCAL",
+    "detail": "clearing absent; beneficiary.date_of_birth=optional, beneficiary.address.street_address=required, beneficiary.address.city=required, beneficiary.address.state=absent, beneficiary.address.postcode=required, beneficiary.address.country_code=required"
+  },
+  {
+    "label": "IN-INR-LOCAL",
+    "detail": "clearing absent; beneficiary.date_of_birth=optional, beneficiary.address.street_address=required, beneficiary.address.city=required, beneficiary.address.state=required, beneficiary.address.postcode=required, beneficiary.address.country_code=required"
+  },
+  {
+    "label": "GB-GBP-SWIFT",
+    "detail": "clearing absent; beneficiary.date_of_birth=optional, beneficiary.address.street_address=required, beneficiary.address.city=required, beneficiary.address.state=absent, beneficiary.address.postcode=required, beneficiary.address.country_code=required"
+  },
+  {
+    "label": "IN-INR-SWIFT",
+    "detail": "clearing absent; beneficiary.date_of_birth=optional, beneficiary.address.street_address=required, beneficiary.address.city=required, beneficiary.address.state=required, beneficiary.address.postcode=required, beneficiary.address.country_code=required"
+  }
+]
