@@ -57,8 +57,15 @@ async function send<T>(
   init?: RequestInit,
 ): Promise<T> {
   const response = await fetchImpl(path, init)
+  let body: unknown = null
   const text = await response.text()
-  const body: unknown = text === '' ? null : (JSON.parse(text) as unknown)
+  if (text !== '') {
+    try {
+      body = JSON.parse(text) as unknown
+    } catch {
+      body = null
+    }
+  }
   if (!response.ok) {
     const envelope = ErrorEnvelopeSchema.safeParse(body)
     if (envelope.success) {
@@ -69,7 +76,10 @@ async function send<T>(
         envelope.data.error.fieldErrors,
       )
     }
-    throw new ContractError(response.status, 'NOT_FOUND', 'Not found.')
+    if (response.status === 404) {
+      throw new ContractError(404, 'NOT_FOUND', 'This payout does not exist.')
+    }
+    throw new ContractError(response.status, 'AIRWALLEX_ERROR', 'Something went wrong.')
   }
   return schema.parse(body)
 }

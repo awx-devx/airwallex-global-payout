@@ -9,6 +9,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:visual": "playwright test",
+    "test:api": "playwright test --config playwright.api.config.ts",
     "typecheck": "tsc --noEmit",
     "airwallex:smoke": "vitest run --config vitest.smoke.config.ts"
   },

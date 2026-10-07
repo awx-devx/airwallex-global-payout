@@ -30,6 +30,7 @@ import { SkeletonRows } from '@/ui/primitives/skeleton'
 import { Toast } from '@/ui/primitives/toast'
 import { focusRing } from '@/ui/primitives/button'
 import { runBanner } from './banner'
+import { payFailure } from './pay-error'
 
 export function RunScreen({ id }: { id: string }) {
   const router = useRouter()
@@ -55,15 +56,14 @@ export function RunScreen({ id }: { id: string }) {
       setPayOpen(false)
       router.replace(`/runs/${next.id}`)
     } catch (error) {
-      if (
-        error instanceof ContractError &&
-        (error.code === 'QUOTE_EXPIRED' || error.code === 'INSUFFICIENT_BALANCE')
-      ) {
+      const failure = payFailure(error)
+      if (failure === 'refetch') {
         setPayOpen(false)
         void runQuery.refetch()
         return
       }
-      if (error instanceof ContractError && error.code === 'AIRWALLEX_ERROR') {
+      if (failure === 'toast' && error instanceof ContractError) {
+        setPayOpen(false)
         setToast(error.message)
       }
     }

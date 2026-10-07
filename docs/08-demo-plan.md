@@ -41,6 +41,8 @@ Home, before any upload, lists `run_inflight` and `run_done` so the screen is no
 
 The sandbox path uses the same clicks. Advance calls the transfer simulation endpoint (V10) instead of editing fixtures. If simulation is unavailable, the presenter stays on the in-flight run and says the payout is with Airwallex.
 
+With `NEXT_PUBLIC_DATA_SOURCE=api` and `PAYMENTS_GATEWAY=mock`, home starts empty. Pricing finishes inside the upload (D-08), so the run opens on Review instead of flashing Price. The rest of the clicks match, including Advance. `pnpm test:api` walks that path. A sandbox rehearsal (`PAYMENTS_GATEWAY=airwallex`) uses the same clicks; a number that drifts is a contract fix, not a page branch.
+
 ```ts
 // DEMO-ONLY: Advance jumps transfer statuses for the talk track.
 // PROD: no advance control; status comes from webhooks and retrieve.
@@ -50,18 +52,18 @@ The sandbox path uses the same clicks. Advance calls the transfer simulation end
 
 Keep this table current when adding a `DEMO-ONLY:` or `SANDBOX:` comment.
 
-| Location                                             | Tag                     | What                                                                                         |
-| ---------------------------------------------------- | ----------------------- | -------------------------------------------------------------------------------------------- |
-| `src/server/services/runs.ts` price and pay          | `DEMO-ONLY`             | Inline work. Production queues it                                                            |
-| Open routes, no session                              | `DEMO-ONLY`             | The API-key account is the operator                                                          |
-| 25-row and six-corridor cap                          | `DEMO-ONLY`             | Production takes any schema-supported corridor up to Airwallex's 1,000-item batch limit      |
+| Location                                             | Tag                     | What                                                                                                                                         |
+| ---------------------------------------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/server/services/runs.ts` price and pay          | `DEMO-ONLY`             | Inline work. Production queues it                                                                                                            |
+| Open routes, no session                              | `DEMO-ONLY`             | The API-key account is the operator                                                                                                          |
+| 25-row and six-corridor cap                          | `DEMO-ONLY`             | Production takes any schema-supported corridor up to Airwallex's 1,000-item batch limit                                                      |
 | `POST /api/demo/runs/:id/advance`                    | `DEMO-ONLY` + `SANDBOX` | Talk-track jump in `src/server/services/runs.ts`. Sandbox Airwallex uses simulation; the mock gateway is stepped the same way as the UI mock |
-| `src/mocks/data-source.ts` advance                   | `DEMO-ONLY`             | Jumps transfer statuses for the talk track. Production reads webhooks and retrieve           |
-| `src/mocks/fixtures.ts`                              | `DEMO-ONLY`             | Teaching amounts, not a live quote                                                           |
-| `src/mocks/data-source.ts` createRun                 | `DEMO-ONLY`             | Only the sample file is priced into the ready fixture. Production prices every accepted file |
-| `src/server/adapters/airwallex/client.ts` transition | `SANDBOX`               | Sandbox transfer simulation. Production waits for webhooks and retrieve                      |
-| `scripts/airwallex-smoke.test.ts`                    | `SANDBOX`               | Draft batches plus one 10 USD sandbox submit. Production does not run this script            |
-| Webhook optional                                     | `DEMO-ONLY`             | Polling is enough for the demo. Production relies on webhooks plus reconcile                 |
+| `src/mocks/data-source.ts` advance                   | `DEMO-ONLY`             | Jumps transfer statuses for the talk track. Production reads webhooks and retrieve                                                           |
+| `src/mocks/fixtures.ts`                              | `DEMO-ONLY`             | Teaching amounts, not a live quote                                                                                                           |
+| `src/mocks/data-source.ts` createRun                 | `DEMO-ONLY`             | Only the sample file is priced into the ready fixture. Production prices every accepted file                                                 |
+| `src/server/adapters/airwallex/client.ts` transition | `SANDBOX`               | Sandbox transfer simulation. Production waits for webhooks and retrieve                                                                      |
+| `scripts/airwallex-smoke.test.ts`                    | `SANDBOX`               | Draft batches plus one 10 USD sandbox submit. Production does not run this script                                                            |
+| Webhook optional                                     | `DEMO-ONLY`             | Polling is enough for the demo. Production relies on webhooks plus reconcile                                                                 |
 
 ## 5. Run of show timing
 
