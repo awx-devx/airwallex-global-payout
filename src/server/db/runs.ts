@@ -70,6 +70,20 @@ export async function findRunById(id: string): Promise<StoredRun | null> {
   return fromDocument(doc)
 }
 
+export async function findRunByBatchId(batchId: string): Promise<StoredRun | null> {
+  await connectDb()
+  const doc = await RunModel.findOne({ airwallexBatchId: batchId }).lean()
+  if (!doc) return null
+  return fromDocument(doc)
+}
+
+export async function findRunByTransferId(transferId: string): Promise<StoredRun | null> {
+  await connectDb()
+  const doc = await RunModel.findOne({ 'rows.transferId': transferId }).lean()
+  if (!doc) return null
+  return fromDocument(doc)
+}
+
 function toDocument(run: StoredRun) {
   return {
     _id: run.id,

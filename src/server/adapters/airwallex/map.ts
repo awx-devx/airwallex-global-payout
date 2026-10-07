@@ -73,6 +73,7 @@ export function mapItem(
     requestId: item.request_id,
     rowIndex: parseRowIndex(identity.row),
     candidate: identity.candidate,
+    airwallexItemStatus: item.status,
     status: mapRowStatus(item.status, options?.transferStatus ?? null, options?.current),
     fieldErrors: (item.errors ?? []).map(mapItemError),
     transferId: transferId(item),

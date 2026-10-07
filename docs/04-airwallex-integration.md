@@ -192,9 +192,9 @@ Transfer `FAILED` stays `failed` even if a later event says `CANCELLED`.
 
 Optional. Route `POST /api/webhooks/airwallex`.
 
-- Read `await req.text()`. Verify HMAC-SHA256 of `x-timestamp + rawBody` with `AIRWALLEX_WEBHOOK_SECRET` using `crypto.timingSafeEqual`. Timestamp tolerance 5 minutes. Invalid → 400.
+- Read `await req.text()`. Header `x-timestamp` is the prefix. Header `x-signature` is the hex HMAC-SHA256 of `x-timestamp + rawBody` with `AIRWALLEX_WEBHOOK_SECRET`, compared with `crypto.timingSafeEqual`. Timestamp tolerance 5 minutes. Invalid → 400. [Webhook signatures](https://www.airwallex.com/docs/developer-tools/webhooks/listen-for-webhook-events).
 - Insert `{ _id: event.id }` in `webhook_events`. Duplicate key → 200, stop.
-- Handle `payout.batch_transfers.*` and `payout.transfer.*` whose batch or transfer id we stored. Apply the same mapper as retrieve. Return 200.
+- Handle `payout.batch_transfers.*` and `payout.transfer.*` whose batch or transfer id we stored. The resource id is `data.object.id` when that object is present, otherwise `data.id`. Apply the same retrieve mapper (`mapRowStatus` with the current row). Return 200.
 - Ignore events for unknown ids with 200.
 
 Polling remains correct if no webhook is configured.

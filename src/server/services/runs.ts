@@ -10,6 +10,7 @@ import {
   type RunSummary,
 } from '@/contracts'
 import { AirwallexError } from '@/server/adapters/airwallex/errors'
+import { mapRowStatus } from '@/server/adapters/airwallex/map'
 import type {
   BatchItemDraft,
   MappedItem,
@@ -20,7 +21,9 @@ import { batchRequestId, itemRequestId } from '@/server/airwallex/ids'
 import { pickCheapestRail, probeMethods } from '@/server/domain/rails'
 import { parseUpload } from '@/server/domain/upload'
 import {
+  findRunByBatchId,
   findRunById,
+  findRunByTransferId,
   listRuns as loadRuns,
   saveRun,
   type StoredRow,
@@ -45,6 +48,7 @@ export type RunService = {
   discard(id: string): Promise<RunDetail>
   excludeRow(id: string, rowId: string): Promise<RunDetail>
   getBalance(): Promise<RunDetail['balance']>
+  applyWebhook(event: { name: string; resourceId: string | null }): Promise<void>
 }
 
 export type RunServiceDeps = {
@@ -102,7 +106,9 @@ export function createRunService(deps: RunServiceDeps): RunService {
     },
 
     async getRun(id) {
-      return present(await requireRun(id), now())
+      const run = await requireRun(id)
+      await refreshRun(gateway, run, now())
+      return present(run, now())
     },
 
     async listRuns() {
@@ -140,7 +146,7 @@ export function createRunService(deps: RunServiceDeps): RunService {
       // PROD: put add, delete, quote, and submit on a queue with the same request_id builders.
       const submitted = await gateway.submitBatch(run.airwallexBatchId, { runId: run.id })
       const items = await gateway.listItems(run.airwallexBatchId, { runId: run.id })
-      applyItemStatuses(run, items)
+      await syncRows(gateway, run, items)
       run.status = 'SUBMITTED'
       run.airwallexStatus = submitted.airwallexStatus
       run.shortReference = submitted.shortReference
@@ -191,6 +197,17 @@ export function createRunService(deps: RunServiceDeps): RunService {
 
     async getBalance() {
       return gateway.currentBalance(deps.sourceCurrency)
+    },
+
+    async applyWebhook(event) {
+      const kind = webhookKind(event.name)
+      if (!kind || !event.resourceId) return
+      const run =
+        kind === 'batch'
+          ? await findRunByBatchId(event.resourceId)
+          : await findRunByTransferId(event.resourceId)
+      if (!run) return
+      await refreshRun(gateway, run, now())
     },
   }
 }
@@ -333,16 +350,44 @@ function chooseRails(run: StoredRun, items: readonly MappedItem[]): string[] {
   return drop
 }
 
-function applyItemStatuses(run: StoredRun, items: readonly MappedItem[]): void {
+async function syncRows(
+  gateway: PaymentsGateway,
+  run: StoredRun,
+  items: readonly MappedItem[],
+): Promise<void> {
   for (const row of run.rows) {
     if (row.status === 'invalid' || row.status === 'excluded') continue
     const item = items.find((candidate) => candidate.rowIndex === row.index)
     if (!item) continue
-    row.status = item.status
-    row.transferId = item.transferId
-    row.shortReference = item.shortReference
+    const transferStatus =
+      item.transferId && item.airwallexItemStatus === 'BOOKED'
+        ? (await gateway.getTransfer(item.transferId, { runId: run.id })).status
+        : null
+    row.status = mapRowStatus(item.airwallexItemStatus, transferStatus, row.status)
+    if (item.transferId) row.transferId = item.transferId
+    if (item.shortReference) row.shortReference = item.shortReference
     if (item.fieldErrors.length > 0) row.fieldErrors = item.fieldErrors
   }
+}
+
+async function refreshRun(gateway: PaymentsGateway, run: StoredRun, now: Date): Promise<void> {
+  if (!present(run, now).poll || !run.airwallexBatchId) return
+  const batch = await gateway.getBatch(run.airwallexBatchId, { runId: run.id })
+  run.airwallexStatus = batch.airwallexStatus
+  if (batch.shortReference) run.shortReference = batch.shortReference
+  if (batch.airwallexStatus === 'FAILED') {
+    run.status = 'FAILED'
+    run.error ??= { code: 'AIRWALLEX_ERROR', message: 'The batch could not be booked.' }
+  }
+  const items = await gateway.listItems(run.airwallexBatchId, { runId: run.id })
+  await syncRows(gateway, run, items)
+  await saveRun(run)
+}
+
+function webhookKind(name: string): 'batch' | 'transfer' | null {
+  if (name.startsWith('payout.batch_transfers.')) return 'batch'
+  if (name.startsWith('payout.transfer.')) return 'transfer'
+  return null
 }
 
 async function readBalance(gateway: PaymentsGateway, run: StoredRun): Promise<void> {

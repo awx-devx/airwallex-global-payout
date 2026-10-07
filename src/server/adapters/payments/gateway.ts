@@ -42,6 +42,8 @@ export type MappedItem = {
   requestId: string
   rowIndex: number | null
   candidate: 'L' | 'S' | null
+  /** Airwallex item status before the row map, so a later transfer read can remap it. */
+  airwallexItemStatus: string
   status: RowStatus
   fieldErrors: FieldError[]
   transferId: string | null

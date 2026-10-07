@@ -127,7 +127,10 @@ export function createMockGateway(options?: {
       batch.airwallexStatus = 'BOOKING'
       batch.shortReference = `B-${batch.runId.slice(0, 8)}`
       for (const item of batch.items) {
-        if (item.status === 'ready') item.status = 'booking'
+        if (item.status === 'ready') {
+          item.status = 'booking'
+          item.airwallexItemStatus = 'BOOKING'
+        }
       }
       return toBatch(batch)
     },
@@ -194,6 +197,7 @@ function priceItem(
       requestId: item.requestId,
       rowIndex: Number(item.metadata.row),
       candidate: item.metadata.candidate,
+      airwallexItemStatus: 'VALIDATION_FAILED',
       status: 'needs_fix',
       fieldErrors: rejected,
       transferId: null,
@@ -220,6 +224,7 @@ function priceItem(
     requestId: item.requestId,
     rowIndex: Number(item.metadata.row),
     candidate: item.metadata.candidate,
+    airwallexItemStatus: 'VALIDATED',
     status: 'ready',
     fieldErrors: [],
     transferId: null,
