@@ -111,4 +111,4 @@ Quote expiry is compared using the server clock when a run is read or paid. The 
 
 ## Hosting
 
-Out of scope. No Docker, Compose, or deploy scripts on the B track.
+Replit runs this Next.js server. MongoDB stays on Atlas. `.replit` selects Node 22, builds with pnpm, and publishes an Autoscale deployment that listens on `0.0.0.0` and `PORT` (default 3000). Setup steps are in the root [README](../README.md). No Docker or Compose.

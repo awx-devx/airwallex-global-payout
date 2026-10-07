@@ -1,0 +1,17 @@
+run = "sh -c 'export COREPACK_ENABLE_DOWNLOAD_PROMPT=0 && corepack enable && corepack prepare pnpm@10.13.1 --activate && pnpm dev'"
+entrypoint = "package.json"
+hidden = [".config", ".next", "node_modules"]
+modules = ["nodejs-22"]
+
+[nix]
+channel = "stable-24_11"
+
+[deployment]
+# pnpm is not on the deployment image. Install the lockfile’s pnpm, then build.
+build = ["sh", "-c", "export COREPACK_ENABLE_DOWNLOAD_PROMPT=0 && corepack enable && corepack prepare pnpm@10.13.1 --activate && pnpm install --frozen-lockfile && pnpm run build"]
+run = ["sh", "-c", "export COREPACK_ENABLE_DOWNLOAD_PROMPT=0 && corepack enable && corepack prepare pnpm@10.13.1 --activate && pnpm run start"]
+deploymentTarget = "cloudrun"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
