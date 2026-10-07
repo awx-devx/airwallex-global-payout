@@ -61,6 +61,8 @@ export type PaymentsGateway = {
     input: { requestId: string; name: string; runId: string },
     context?: CallContext,
   ): Promise<MappedBatch>
+  /** Existing batch for this request id, or null. Used after `batch_request_id_duplicate`. */
+  findBatchByRequestId(requestId: string, context?: CallContext): Promise<MappedBatch | null>
   addItems(batchId: string, items: readonly BatchItemDraft[], context?: CallContext): Promise<void>
   listItems(batchId: string, context?: CallContext): Promise<MappedItem[]>
   deleteItems(batchId: string, itemIds: readonly string[], context?: CallContext): Promise<void>

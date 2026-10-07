@@ -250,6 +250,31 @@ describe('batch item payload', () => {
     expect(item?.beneficiary.bank_details.account_number).toBe('31926819')
     expect(item?.beneficiary.address).not.toHaveProperty('state')
   })
+
+  it('loads a batch by request id after a duplicate create', async () => {
+    let listed = ''
+    const api = client(async (url) => {
+      if (url.endsWith('/authentication/login')) {
+        return jsonResponse(200, { token: 'tok', expires_at: FUTURE })
+      }
+      listed = url
+      return jsonResponse(200, {
+        items: [{ id: 'bat_existing', status: 'DRAFTING', short_reference_id: 'B-existing' }],
+      })
+    })
+
+    const matches = await api.listBatches('b:123e4567-e89b-42d3-a456-426614174000')
+    expect(listed).toContain('/api/v1/batch_transfers?')
+    expect(listed).toContain('request_id=b%3A123e4567-e89b-42d3-a456-426614174000')
+    expect(matches).toEqual([
+      {
+        id: 'bat_existing',
+        status: 'DRAFTING',
+        short_reference_id: 'B-existing',
+        quote_summary: undefined,
+      },
+    ])
+  })
 })
 
 function draft(method: 'LOCAL' | 'SWIFT'): BatchItemDraft {

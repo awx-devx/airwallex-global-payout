@@ -52,7 +52,7 @@ Keep this table current when adding a `DEMO-ONLY:` or `SANDBOX:` comment.
 
 | Location                                             | Tag                     | What                                                                                         |
 | ---------------------------------------------------- | ----------------------- | -------------------------------------------------------------------------------------------- |
-| Pricing and submit inside the route                  | `DEMO-ONLY`             | Inline work. Production queues it                                                            |
+| `src/server/services/runs.ts` price and pay          | `DEMO-ONLY`             | Inline work. Production queues it                                                            |
 | Open routes, no session                              | `DEMO-ONLY`             | The API-key account is the operator                                                          |
 | 25-row and six-corridor cap                          | `DEMO-ONLY`             | Production takes any schema-supported corridor up to Airwallex's 1,000-item batch limit      |
 | `POST /api/demo/runs/:id/advance`                    | `DEMO-ONLY` + `SANDBOX` | Simulation transition                                                                        |

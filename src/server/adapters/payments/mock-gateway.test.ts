@@ -50,6 +50,19 @@ describe('mock payments gateway', () => {
     expect(quote.payerPays).toBe('4200.00')
     expect(quote.lines).toHaveLength(1)
   })
+
+  it('rejects a second create and keeps the first batch', async () => {
+    const gateway = createMockGateway()
+    const input = { requestId: 'b:same', name: 'contractors.csv', runId: 'same' }
+    const created = await gateway.createBatch(input)
+    await gateway.addItems(created.id, [probe(PEOPLE[0], 'LOCAL')])
+
+    await expect(gateway.createBatch(input)).rejects.toMatchObject({
+      code: 'batch_request_id_duplicate',
+    })
+    expect(await gateway.findBatchByRequestId(input.requestId)).toEqual(created)
+    expect(await gateway.listItems(created.id)).toHaveLength(1)
+  })
 })
 
 function probe(

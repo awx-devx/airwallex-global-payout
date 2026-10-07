@@ -1,5 +1,5 @@
 import { parseMoney, railLabel, sumMoney } from '@/contracts'
-import type { QuoteSummary, RailQuote } from '@/contracts'
+import type { FieldError, QuoteSummary, RailQuote } from '@/contracts'
 import { AirwallexError } from '@/server/adapters/airwallex/errors'
 import type {
   BatchItemDraft,
@@ -31,6 +31,7 @@ const SWIFT: Record<string, CorridorPrice> = {
 
 type StoredBatch = {
   id: string
+  requestId: string
   name: string
   runId: string
   airwallexStatus: string
@@ -42,6 +43,7 @@ type StoredBatch = {
 export function createMockGateway(options?: {
   available?: string
   pending?: string
+  rejectItem?: (item: BatchItemDraft) => FieldError[] | null
 }): PaymentsGateway {
   const available = options?.available ?? '50000.00'
   const pending = options?.pending ?? '0.00'
@@ -66,8 +68,20 @@ export function createMockGateway(options?: {
       return { currency, available, pending }
     },
     async createBatch(input) {
+      const existing = [...batches.values()].find((batch) => batch.requestId === input.requestId)
+      if (existing) {
+        throw new AirwallexError({
+          status: 400,
+          code: 'batch_request_id_duplicate',
+          message: 'The request ID has been used to a batch before which was created successfully.',
+          source: null,
+          fieldErrors: [],
+          traceId: null,
+        })
+      }
       const batch: StoredBatch = {
         id: `bat_${input.requestId}`,
+        requestId: input.requestId,
         name: input.name,
         runId: input.runId,
         airwallexStatus: 'DRAFTING',
@@ -78,11 +92,15 @@ export function createMockGateway(options?: {
       batches.set(batch.id, batch)
       return toBatch(batch)
     },
+    async findBatchByRequestId(requestId) {
+      const batch = [...batches.values()].find((entry) => entry.requestId === requestId)
+      return batch ? toBatch(batch) : null
+    },
     async addItems(batchId, items) {
       const batch = requireBatch(batches, batchId)
       requireDraft(batch)
       for (const item of items) {
-        batch.items.push(priceItem(item, batch.nextItem))
+        batch.items.push(priceItem(item, batch.nextItem, options?.rejectItem))
         batch.nextItem += 1
       }
     },
@@ -108,6 +126,9 @@ export function createMockGateway(options?: {
       requireDraft(batch)
       batch.airwallexStatus = 'BOOKING'
       batch.shortReference = `B-${batch.runId.slice(0, 8)}`
+      for (const item of batch.items) {
+        if (item.status === 'ready') item.status = 'booking'
+      }
       return toBatch(batch)
     },
     async getBatch(batchId) {
@@ -161,7 +182,25 @@ function toBatch(batch: StoredBatch): MappedBatch {
   }
 }
 
-function priceItem(item: BatchItemDraft, sequence: number): MappedItem {
+function priceItem(
+  item: BatchItemDraft,
+  sequence: number,
+  rejectItem?: (item: BatchItemDraft) => FieldError[] | null,
+): MappedItem {
+  const rejected = rejectItem?.(item) ?? null
+  if (rejected && rejected.length > 0) {
+    return {
+      airwallexItemId: `itm_${sequence}_${item.metadata.candidate}`,
+      requestId: item.requestId,
+      rowIndex: Number(item.metadata.row),
+      candidate: item.metadata.candidate,
+      status: 'needs_fix',
+      fieldErrors: rejected,
+      transferId: null,
+      shortReference: null,
+      rail: null,
+    }
+  }
   const key = `${item.transferCurrency}:${item.transferAmount}`
   const known = item.transferMethod === 'SWIFT' ? SWIFT[key] : LOCAL[key]
   const price = known ?? { pays: item.transferAmount, fee: '0.00', system: null }

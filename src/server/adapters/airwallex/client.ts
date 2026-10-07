@@ -35,6 +35,7 @@ export type AirwallexClient = {
   login(): Promise<Session>
   balances(context?: CallContext): Promise<AirwallexBalance[]>
   createBatch(body: BatchCreatePayload, context?: CallContext): Promise<AirwallexBatch>
+  listBatches(requestId: string, context?: CallContext): Promise<AirwallexBatch[]>
   addItems(batchId: string, body: { items: unknown[] }, context?: CallContext): Promise<void>
   listItems(batchId: string, context?: CallContext): Promise<AirwallexItem[]>
   deleteItems(batchId: string, itemIds: readonly string[], context?: CallContext): Promise<void>
@@ -240,6 +241,19 @@ export function createAirwallexClient(options: AirwallexClientOptions): Airwalle
         context,
       )
       return readBatch(response)
+    },
+    async listBatches(requestId, context) {
+      const query = new URLSearchParams({ request_id: requestId })
+      const body = await authed(
+        'GET',
+        `/api/v1/batch_transfers?${query}`,
+        'GET /api/v1/batch_transfers',
+        undefined,
+        context,
+      )
+      const entries = Array.isArray(body) ? body : readRecord(body, 'batches').items
+      if (!Array.isArray(entries)) throw new Error('Batch list is missing items')
+      return entries.map((entry) => readBatch(entry))
     },
     async addItems(batchId, body, context) {
       await authed(

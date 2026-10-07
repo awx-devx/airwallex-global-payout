@@ -11,6 +11,11 @@ export function createAirwallexGateway(client: AirwallexClient): PaymentsGateway
     async createBatch(input, context) {
       return mapBatch(await client.createBatch(batchCreatePayload(input), context))
     },
+    async findBatchByRequestId(requestId, context) {
+      const matches = await client.listBatches(requestId, context)
+      const batch = matches[0]
+      return batch ? mapBatch(batch) : null
+    },
     async addItems(batchId, items, context) {
       await client.addItems(batchId, addItemsPayload(items), context)
     },

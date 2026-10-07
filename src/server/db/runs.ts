@@ -54,7 +54,13 @@ export type StoredRun = {
 
 export async function saveRun(run: StoredRun): Promise<void> {
   await connectDb()
-  await RunModel.create(toDocument(run))
+  await RunModel.replaceOne({ _id: run.id }, toDocument(run), { upsert: true })
+}
+
+export async function listRuns(): Promise<StoredRun[]> {
+  await connectDb()
+  const docs = await RunModel.find().sort({ createdAt: -1 }).lean()
+  return docs.map((doc) => fromDocument(doc))
 }
 
 export async function findRunById(id: string): Promise<StoredRun | null> {

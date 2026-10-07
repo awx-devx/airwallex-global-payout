@@ -24,7 +24,7 @@ swift:  i:{runId}:{rowIndex}:S
 
 `runId` is a UUID. All three fit the 64-character `request_id` limit. The winner keeps the id it was probed with. Deleted probes are not reused.
 
-A second create with the same `request_id` returns HTTP 400 `batch_request_id_duplicate` and does not include the existing batch id. It does not create a second batch.
+A second create with the same `request_id` returns HTTP 400 `batch_request_id_duplicate` and does not include the existing batch id. It does not create a second batch. Load the existing batch with `GET /api/v1/batch_transfers?request_id={request_id}` and continue with that `id`. [List batch transfers](https://www.airwallex.com/docs/api/payouts/batch_transfers/list).
 
 Metadata on every item: `{ "row": "<rowIndex>", "candidate": "L" | "S" }`. After a quote, that object is on `transfer_draft.metadata`, not on the list item itself. The `request_id` still encodes the row and the candidate.
 
