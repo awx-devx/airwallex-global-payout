@@ -488,4 +488,4 @@ type DataSource = {
 
 The mock starts with `run_inflight` and `run_done` on the home list. `createRun` of `contractors.csv` inserts a `PRICING` run (`poll: true`) and the following `getRun`, after the mock delay, returns that same id as `run_ready`. `excludeRow` on it returns `run_ready_clean`. `pay` returns `run_inflight` (new id `run_live`, same rows moved forward). `advance` follows the script in [08](./08-demo-plan.md). Illegal actions reject with `INVALID_STATE`.
 
-Hooks live in `src/features/data`: `useRuns`, `useRun`, `useBalance`, `useCreateRun`, `usePay`, `useRequote`, `useDiscard`, `useExcludeRow`, `useAdvance`. Query keys come from one `qk` factory. `useRun` sets `refetchInterval: 2000` when `poll` is true.
+Hooks live in `src/features/data`: `useRuns`, `useRun`, `useBalance`, `useCreateRun`, `usePay`, `useRequote`, `useDiscard`, `useExcludeRow`, `useAdvance`. Query keys come from one `qk` factory. `useRun` sets `refetchInterval: 2000` when `poll` is true. `usePay` refetches `useBalance`. `useRun` refetches it again when the number of `paid` rows increases.

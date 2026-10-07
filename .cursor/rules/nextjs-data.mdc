@@ -14,7 +14,7 @@ This Next.js may differ from training data. If an App Router API is unfamiliar, 
 - Components do not call `fetch` or the DataSource. No server actions. No fetching in server components.
 - DTOs and error codes come from `src/contracts`. Query keys come from one `qk` factory.
 - `useRun` refetches every 2s only when `run.poll` is true.
-- Pay, requote, exclude, and discard replace the cache with the returned `RunDetail`. Do not optimistically mark a run paid.
+- Pay, requote, exclude, and discard replace the cache with the returned `RunDetail`. Do not optimistically mark a run paid. Pay refetches the balance. A run poll refetches it when more rows are `paid`.
 - Server state stays in the query cache. Do not copy it into Zustand or context.
 - `page.tsx` renders a client screen. Never import `src/server/**` into client code.
 - `/dev/*` and `/api/demo/*` return 404 unless `DEMO_MODE` is true. `POST /api/demo/runs/:id/advance` also stays open when `AIRWALLEX_ENV=sandbox`.

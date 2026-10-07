@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSyncExternalStore } from 'react'
 import type { RunDetail } from '@/contracts'
@@ -25,14 +26,30 @@ export function useRuns() {
 }
 
 export function useRun(id: string) {
+  const queryClient = useQueryClient()
   const mounted = useMounted()
-  return useQuery({
+  const query = useQuery({
     queryKey: qk.run(id),
     queryFn: () => getDataSource().getRun(id),
     enabled: mounted,
     refetchOnMount: false,
     refetchInterval: (query) => (query.state.data?.poll ? 2000 : false),
   })
+  const paid = paidRowCount(query.data)
+  const paidRef = useRef<{ id: string; paid: number } | null>(null)
+  useEffect(() => {
+    if (!query.data || paid == null) return
+    const previous = paidRef.current
+    if (!previous || previous.id !== query.data.id) {
+      paidRef.current = { id: query.data.id, paid }
+      return
+    }
+    paidRef.current = { id: query.data.id, paid }
+    if (paid > previous.paid) {
+      void queryClient.invalidateQueries({ queryKey: qk.balance })
+    }
+  }, [paid, query.data, queryClient])
+  return query
 }
 
 export function useBalance() {
@@ -55,6 +72,11 @@ export function useCreateRun() {
   })
 }
 
+function paidRowCount(run: RunDetail | undefined): number | null {
+  if (!run) return null
+  return run.rows.filter((row) => row.status === 'paid').length
+}
+
 function remember(queryClient: ReturnType<typeof useQueryClient>, run: RunDetail) {
   queryClient.setQueryData(qk.run(run.id), run)
   void queryClient.invalidateQueries({ queryKey: qk.runs, exact: true })
@@ -66,6 +88,7 @@ export function usePay(id: string) {
     mutationFn: () => getDataSource().pay(id),
     onSuccess: (run) => {
       remember(queryClient, run)
+      void queryClient.invalidateQueries({ queryKey: qk.balance })
       if (run.id !== id) queryClient.removeQueries({ queryKey: qk.run(id) })
     },
   })

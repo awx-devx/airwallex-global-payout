@@ -95,10 +95,11 @@ Animation uses [Motion](https://motion.dev) (`motion` on npm, imported from `mot
 | Pricing skeleton     | CSS shimmer 1.2s                                                                                                         | —                              |
 | Row status change    | Background wash, then settle                                                                                             | 400ms                          |
 | Payout row           | Arrow fades and slides in at the row end on hover or focus. On a touch screen it stays visible                           | 160ms                          |
+| Balance drop         | After a payout is paid, or as soon as pay succeeds, the header refetches. If available fell, the pill washes `--down` and returns | 180ms each way, hold 280ms     |
 | Dropzone             | On hover the arrow bobs down toward the line; border and fill settle. While a file is over it the target scales slightly | 160ms, bob 850ms while hovered |
 | Atmosphere           | Cursor parallax, plus a slow drift on each shape                                                                         | drift 5–8s                     |
 
-Under reduced motion every one of these jumps to the end state. No travel, no draw, no shimmer, no wash, no drift, no parallax. The row arrow still appears, without the slide. The drop arrow still lowers, without the bob.
+Under reduced motion every one of these jumps to the end state. No travel, no draw, no shimmer, no wash, no drift, no parallax. The row arrow still appears, without the slide. The drop arrow still lowers, without the bob. The balance pill updates the figure without the red wash.
 
 Do not animate the width of a money figure. Do not put a looping pulse on the current step. The changing sentence is the live signal.
 

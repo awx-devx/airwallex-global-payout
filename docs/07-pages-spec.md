@@ -12,7 +12,7 @@ UploadPanel
 RunList
 ```
 
-- Header balance is `useBalance`.
+- Header balance is `useBalance`. Pay refetches it, and so does a run poll when another row becomes `paid`. If available is lower, the pill washes red and settles.
 - Dropping a file or choosing a row in `Sample file` calls `useCreateRun`, then routes to `/runs/{id}`.
 - Choosing a sample fetches that file and uploads it. It does not skip the parser.
 - `All paid` is five valid corridors and no Priya Nair, so sandbox advance marks every row paid. `Paid with failures` adds Priya, whom advance marks failed. `Failed` is Priya alone, so none are paid. `Needs a fix` is `contractors.csv`, with Sam Rivera missing a postcode.
