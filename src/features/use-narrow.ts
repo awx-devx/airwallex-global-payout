@@ -7,11 +7,11 @@ export function useNarrow(): boolean {
 }
 
 function subscribeNarrow(onChange: () => void): () => void {
-  const media = window.matchMedia('(max-width: 799px)')
+  const media = window.matchMedia('(max-width: 800px)')
   media.addEventListener('change', onChange)
   return () => media.removeEventListener('change', onChange)
 }
 
 function readNarrow(): boolean {
-  return window.matchMedia('(max-width: 799px)').matches
+  return window.matchMedia('(max-width: 800px)').matches
 }

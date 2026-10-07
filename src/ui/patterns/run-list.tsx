@@ -91,7 +91,9 @@ function RunRow({ run }: { run: RunListRun }) {
       onClick={() => router.push(href)}
     >
       <td className="sticky left-0 z-10 bg-[var(--bg-0)] px-3 whitespace-nowrap group-hover:bg-[var(--bg-3)] group-focus-within:bg-[var(--bg-3)]">
-        <span className="type-body text-[var(--fg-1)]">{run.fileName}</span>
+        <span className="type-body block max-w-40 truncate text-[var(--fg-1)]" title={run.fileName}>
+          {run.fileName}
+        </span>
       </td>
       <td className="type-body px-3 whitespace-nowrap">
         <Link

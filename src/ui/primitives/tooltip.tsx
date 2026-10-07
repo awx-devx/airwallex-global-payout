@@ -21,7 +21,7 @@ export function Tooltip({
       onFocus={() => setHover(true)}
       onBlur={() => setHover(false)}
     >
-      <span tabIndex={0} title={label} className="block max-w-40 truncate text-[14px] leading-5">
+      <span title={label} className="block max-w-40 truncate text-[14px] leading-5">
         {children}
       </span>
       {shown ? (

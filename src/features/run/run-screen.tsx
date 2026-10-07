@@ -108,8 +108,10 @@ export function RunScreen({ id }: { id: string }) {
       <AppHeader balance={balance.data ?? null} balanceState={balanceState} backHref="/" />
       {run ? (
         <>
-          <div className="flex flex-wrap items-center gap-3">
-            <h1 className="type-title">{run.fileName}</h1>
+          <div className="flex w-full min-w-0 flex-wrap items-center gap-3">
+            <h1 className="type-title min-w-0 truncate" title={run.fileName}>
+              {run.fileName}
+            </h1>
             <StatusBadge
               kind="run"
               status={run.status}

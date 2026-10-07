@@ -113,4 +113,4 @@ Everything in [06 §2](../06-ui-kit-spec.md#2-primitives).
 
 ## Phase 8 — Polish · ~0.5 day
 
-Pass for focus order, reduced motion, truncation, and the 800px cards. Confirm the stepper marker and the check draw are transform/opacity/`pathLength` only. Update the visual baseline in its own commit if pixels moved. The baseline is shot with motion frozen.
+Pass for focus order, reduced motion, truncation, and the 800px table. The stepper is vertical at 800. Tables scroll inside themselves. Confirm the stepper marker and the check draw are transform/opacity/`pathLength` only. Update the visual baseline in its own commit if pixels moved. The baseline is shot with motion frozen.

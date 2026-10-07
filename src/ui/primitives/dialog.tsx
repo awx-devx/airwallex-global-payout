@@ -42,8 +42,9 @@ export function Dialog({
     if (!open || placement !== 'modal') return
     const panel = panelRef.current
     if (!panel) return
+    const root: HTMLDivElement = panel
     const previous = document.activeElement
-    const nodes = () => [...panel.querySelectorAll<HTMLElement>(FOCUSABLE)]
+    const nodes = () => [...root.querySelectorAll<HTMLElement>(FOCUSABLE)]
     nodes().at(-1)?.focus()
 
     function onKey(event: KeyboardEvent) {
@@ -57,6 +58,12 @@ export function Dialog({
       const first = list[0]
       const last = list.at(-1)
       if (!first || !last) return
+      const inside = document.activeElement instanceof Node && root.contains(document.activeElement)
+      if (!inside) {
+        event.preventDefault()
+        ;(event.shiftKey ? last : first).focus()
+        return
+      }
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault()
         last.focus()

@@ -41,6 +41,26 @@ test('toolbar sets motion, clock, and width', async ({ page }) => {
   await expect(page.getByTestId('kit-countdown')).toHaveText('58:12')
 })
 
+test('width 800 keeps the table and stacks the stepper', async ({ page }) => {
+  await page.goto('/dev/ui-kit?motion=off&clock=frozen&width=800')
+  const stage = page.locator('[data-kit-stage]')
+  await expect(stage).toHaveCSS('width', '800px')
+  await expect(page.locator('#patterns table').first()).toBeVisible()
+  await expect(page.locator('#payout table').first()).toBeVisible()
+  await expect(page.locator('#payout article')).toHaveCount(0)
+  const stacked = await page
+    .locator('#payout ol')
+    .first()
+    .evaluate((list) => {
+      return getComputedStyle(list).gridTemplateColumns.split(' ').length === 1
+    })
+  expect(stacked).toBe(true)
+  const pageOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  )
+  expect(pageOverflow).toBe(0)
+})
+
 test('prefers-reduced-motion stops shimmer, marker travel, and the check draw', async ({
   page,
 }) => {

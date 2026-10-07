@@ -45,6 +45,7 @@ export function ProcessStepper({
               {currentStep ? (
                 <motion.span
                   layoutId={markerId}
+                  layout="position"
                   className={
                     orientation === 'horizontal'
                       ? 'absolute right-2 bottom-0 left-2 h-0.5'

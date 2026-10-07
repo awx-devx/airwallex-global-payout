@@ -2,7 +2,7 @@
 
 Two screens. Both are assemblies of [06](./06-ui-kit-spec.md). They contain no layout invention beyond this document. Data comes from the hooks in [03 §9](./03-contracts.md#9-datasource).
 
-Desktop first. Check at 1120, 800, and 375. Tables stay tables. Below 800 the stepper is vertical. There is no third breakpoint.
+Desktop first. Check at 1120, 800, and 375. Tables stay tables. At 800px and below the stepper is vertical. There is no third breakpoint.
 
 ## 1. Home `/`
 
@@ -80,7 +80,7 @@ Visible only when `advance` is in `allowedActions`. One click runs the scripted 
 | Balance loading        | Pill skeleton                                                           |
 | Balance request failed | Pill text `Balance unavailable`. Pay stays governed by `allowedActions` |
 | `poll` true            | No spinner in the header. The stepper sentence is the signal            |
-| Long name              | Truncate with tooltip                                                   |
+| Long name              | File name and run title truncate. The full name is the title tooltip    |
 | All rows excluded      | `includedCount` 0, pay absent, helper `Nothing to pay.`                 |
 | Reduced motion         | No shimmer, no status flash                                             |
 

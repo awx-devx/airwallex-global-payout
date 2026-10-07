@@ -77,7 +77,7 @@ Focus is a 1px `--purple` outline, offset 2px. No glow. The pay button uses `--f
 
 - 4px grid. Sheet padding 24px. Row height 52px.
 - Radius: `--radius-pill` (999px) on buttons, badges, and the balance pill. `--radius-sheet` (20px) on sheets, dialogs, toasts, and the dropzone. `--radius-input` (12px) on inputs. The contractor table stays a ruled grid. Rows are not separate bubbles.
-- Content width 1120px, centered. Tables keep their columns down to 375px. The table region scrolls sideways and the first column stays put. The page itself does not scroll sideways. Below 800px the stepper is vertical.
+- Content width 1120px, centered. Tables keep their columns down to 375px. The table region scrolls sideways and the first column stays put. The page itself does not scroll sideways. At 800px and below the stepper is vertical.
 - The canvas has an edge atmosphere: white capsules, a lime arc, a purple pill, and an ink pill. Shapes sit fully in the gutter outside the 1120 column, with no fade. They drift and lean with the cursor, staying anchored in the gutter. Below 1248px there is not enough gutter for a whole cap, so the atmosphere is hidden. The centre stays clear so the table is readable. Reduced motion holds the shapes still.
 - One density. No theme switch.
 
