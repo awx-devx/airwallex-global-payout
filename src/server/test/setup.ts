@@ -8,7 +8,8 @@ if (!uri.startsWith('mongodb://')) {
   throw new Error('Vitest did not receive a mongodb-memory-server URI')
 }
 
-process.env.MONGODB_URI = uri
+const pool = process.env.VITEST_POOL_ID ?? '0'
+process.env.MONGODB_URI = uri.replace(/\/globalpayout(?=$|\?)/, `/globalpayout_${pool}`)
 process.env.PAYMENTS_GATEWAY = 'mock'
 process.env.NEXT_PUBLIC_DATA_SOURCE = 'mock'
 logger.level = 'silent'

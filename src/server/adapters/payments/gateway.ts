@@ -78,4 +78,12 @@ export type PaymentsGateway = {
     nextStatus: SimulationStatus,
     context?: CallContext,
   ): Promise<void>
+  /** Moves one mock row onto a booked transfer so the demo script can advance it. */
+  stageDemoRow?(
+    batchId: string,
+    rowIndex: number,
+    transferId: string,
+    status: SimulationStatus,
+    context?: CallContext,
+  ): Promise<void>
 }

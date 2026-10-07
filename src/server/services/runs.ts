@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto'
 import {
   ContractError,
   deriveRun,
+  includedRows,
   parseMoney,
   toRunSummary,
   type FieldError,
@@ -26,6 +27,7 @@ import {
   findRunByTransferId,
   listRuns as loadRuns,
   saveRun,
+  deleteAllRuns,
   type StoredRow,
   type StoredRun,
 } from '@/server/db/runs'
@@ -49,6 +51,8 @@ export type RunService = {
   excludeRow(id: string, rowId: string): Promise<RunDetail>
   getBalance(): Promise<RunDetail['balance']>
   applyWebhook(event: { name: string; resourceId: string | null }): Promise<void>
+  advance(id: string): Promise<RunDetail>
+  reset(): Promise<void>
 }
 
 export type RunServiceDeps = {
@@ -209,6 +213,33 @@ export function createRunService(deps: RunServiceDeps): RunService {
       if (!run) return
       await refreshRun(gateway, run, now())
     },
+
+    async advance(id) {
+      const run = await requireRun(id)
+      assertAction(present(run, now()), 'advance', 'Advance is not available on this run.')
+      if (!run.airwallexBatchId) {
+        throw new ContractError(409, 'INVALID_STATE', 'Advance is not available on this run.')
+      }
+      const env = getServerEnv()
+      // DEMO-ONLY: Advance jumps transfer statuses for the talk track.
+      // PROD: no advance control; status comes from webhooks and retrieve.
+      if (env.PAYMENTS_GATEWAY === 'airwallex' && env.AIRWALLEX_ENV === 'sandbox') {
+        await refreshRun(gateway, run, now())
+        await transitionAdvance(gateway, run)
+      } else if (gateway.stageDemoRow) {
+        await stageAdvance(gateway, run)
+      } else {
+        throw new ContractError(409, 'INVALID_STATE', 'Advance is not available on this gateway.')
+      }
+      await refreshRun(gateway, run, now())
+      applyTalkTrackFailure(run)
+      await saveRun(run)
+      return present(run, now())
+    },
+
+    async reset() {
+      await deleteAllRuns()
+    },
   }
 }
 
@@ -221,6 +252,10 @@ export function getRunService(): RunService {
     demo: getServerEnv().DEMO_MODE === 'true',
   })
   return singleton
+}
+
+export function clearRunServiceCache(): void {
+  singleton = undefined
 }
 
 async function priceRun(gateway: PaymentsGateway, run: StoredRun): Promise<void> {
@@ -388,6 +423,45 @@ function webhookKind(name: string): 'batch' | 'transfer' | null {
   if (name.startsWith('payout.batch_transfers.')) return 'batch'
   if (name.startsWith('payout.transfer.')) return 'transfer'
   return null
+}
+
+const PRIYA_FAILURE = 'The beneficiary bank rejected the payout.'
+
+function advanceStatus(run: StoredRun, row: StoredRow): 'SENT' | 'PAID' | 'FAILED' {
+  const settling = includedRows(run.rows).some(
+    (item) => item.status === 'sent' || item.status === 'paid' || item.status === 'failed',
+  )
+  if (!settling) return 'SENT'
+  return row.contractorName === 'Priya Nair' ? 'FAILED' : 'PAID'
+}
+
+async function stageAdvance(gateway: PaymentsGateway, run: StoredRun): Promise<void> {
+  const stage = gateway.stageDemoRow
+  if (!stage || !run.airwallexBatchId) return
+  for (const row of includedRows(run.rows)) {
+    const transferId = row.transferId ?? `tr_${run.id}_${row.index}`
+    await stage(run.airwallexBatchId, row.index, transferId, advanceStatus(run, row), {
+      runId: run.id,
+    })
+    row.transferId = transferId
+  }
+}
+
+async function transitionAdvance(gateway: PaymentsGateway, run: StoredRun): Promise<void> {
+  for (const row of includedRows(run.rows)) {
+    if (!row.transferId) {
+      throw new ContractError(409, 'INVALID_STATE', 'This payout has no transfer to advance.')
+    }
+    await gateway.transitionTransfer(row.transferId, advanceStatus(run, row), { runId: run.id })
+  }
+}
+
+function applyTalkTrackFailure(run: StoredRun): void {
+  for (const row of run.rows) {
+    if (row.contractorName === 'Priya Nair' && row.status === 'failed') {
+      row.fieldErrors = [{ path: 'row', message: PRIYA_FAILURE }]
+    }
+  }
 }
 
 async function readBalance(gateway: PaymentsGateway, run: StoredRun): Promise<void> {

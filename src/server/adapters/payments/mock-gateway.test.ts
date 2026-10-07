@@ -14,7 +14,7 @@ const PEOPLE = [
 
 describe('mock payments gateway', () => {
   it('returns the section 8 balance and the ready quote for the sample corridors', async () => {
-    const gateway = createMockGateway()
+    const gateway = createMockGateway({ now: () => new Date('2026-04-02T18:00:00.000Z') })
     expect(await gateway.currentBalance('USD')).toEqual(balanceOk)
 
     const created = await gateway.createBatch({

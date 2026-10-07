@@ -12,8 +12,9 @@ const EXPIRED = '2026-04-02T19:00:00.000Z'
 
 describe('run pricing and pay', () => {
   it('prices the sample like run_ready, aside from ids', async () => {
-    const gateway = createMockGateway()
-    const { service } = harness(gateway)
+    const clock = { current: new Date(CLOCK) }
+    const gateway = createMockGateway({ now: () => clock.current })
+    const { service } = harness(gateway, clock)
     const detail = await service.createRun({
       fileName: 'contractors.csv',
       text: SAMPLE_CONTRACTORS_CSV,
@@ -109,7 +110,8 @@ describe('run pricing and pay', () => {
   })
 
   it('excludes the invalid row, requotes the same batch, and discards a draft', async () => {
-    const inner = createMockGateway()
+    const clock = { current: new Date(CLOCK) }
+    const inner = createMockGateway({ now: () => clock.current })
     const quoted: string[] = []
     let deleted = 0
     const gateway: PaymentsGateway = {
@@ -123,7 +125,7 @@ describe('run pricing and pay', () => {
         await inner.deleteBatch(batchId, context)
       },
     }
-    const { service, clock } = harness(gateway)
+    const { service } = harness(gateway, clock)
     const created = await service.createRun({
       fileName: 'contractors.csv',
       text: SAMPLE_CONTRACTORS_CSV,
@@ -174,8 +176,9 @@ describe('run pricing and pay', () => {
   })
 
   it('pays once, then rejects a second pay, an expired quote, and a short wallet', async () => {
-    const gateway = createMockGateway()
-    const { service, clock } = harness(gateway)
+    const clock = { current: new Date(CLOCK) }
+    const gateway = createMockGateway({ now: () => clock.current })
+    const { service } = harness(gateway, clock)
     const created = await service.createRun({
       fileName: 'contractors.csv',
       text: SAMPLE_CONTRACTORS_CSV,
@@ -266,11 +269,13 @@ describe('run pricing and pay', () => {
   })
 })
 
-function harness(gateway: PaymentsGateway = createMockGateway()): {
+function harness(
+  gateway: PaymentsGateway = createMockGateway(),
+  clock: { current: Date } = { current: new Date(CLOCK) },
+): {
   service: RunService
   clock: { current: Date }
 } {
-  const clock = { current: new Date(CLOCK) }
   let sequence = 0
   const service = createRunService({
     gateway,

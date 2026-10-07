@@ -8,8 +8,6 @@ import type {
   PaymentsGateway,
 } from '@/server/adapters/payments/gateway'
 
-const QUOTE_EXPIRES_AT = '2026-04-02T19:00:00.000Z'
-
 type CorridorPrice = { pays: string; fee: string; system: string | null }
 
 const LOCAL: Record<string, CorridorPrice> = {
@@ -44,9 +42,11 @@ export function createMockGateway(options?: {
   available?: string
   pending?: string
   rejectItem?: (item: BatchItemDraft) => FieldError[] | null
+  now?: () => Date
 }): PaymentsGateway {
   const available = options?.available ?? '50000.00'
   const pending = options?.pending ?? '0.00'
+  const now = options?.now ?? (() => new Date())
   const batches = new Map<string, StoredBatch>()
   const transfers = new Map<string, string>()
 
@@ -119,7 +119,7 @@ export function createMockGateway(options?: {
     async quoteBatch(batchId, validity) {
       const batch = requireBatch(batches, batchId)
       requireDraft(batch)
-      return quoteItems(batch.items, validity)
+      return quoteItems(batch.items, validity, hourFrom(now()))
     },
     async submitBatch(batchId) {
       const batch = requireBatch(batches, batchId)
@@ -158,6 +158,26 @@ export function createMockGateway(options?: {
     },
     async transitionTransfer(transferId, nextStatus) {
       transfers.set(transferId, nextStatus)
+    },
+    async stageDemoRow(batchId, rowIndex, transferId, status) {
+      const batch = requireBatch(batches, batchId)
+      const item = batch.items.find((entry) => entry.rowIndex === rowIndex)
+      if (!item) {
+        throw new AirwallexError({
+          status: 404,
+          code: 'not_found',
+          message: 'Batch item not found.',
+          source: null,
+          fieldErrors: [],
+          traceId: null,
+        })
+      }
+      item.transferId = transferId
+      item.airwallexItemStatus = 'BOOKED'
+      item.shortReference = item.shortReference ?? `S${rowIndex}`
+      item.fieldErrors = []
+      transfers.set(transferId, status)
+      batch.airwallexStatus = 'BOOKED'
     },
   }
 }
@@ -233,7 +253,15 @@ function priceItem(
   }
 }
 
-function quoteItems(items: readonly MappedItem[], validity: 'HR_1' | 'MIN_15'): QuoteSummary {
+function hourFrom(now: Date): string {
+  return new Date(now.getTime() + 60 * 60 * 1000).toISOString()
+}
+
+function quoteItems(
+  items: readonly MappedItem[],
+  validity: 'HR_1' | 'MIN_15',
+  expiresAt: string,
+): QuoteSummary {
   const priced = items.flatMap((item) => (item.rail ? [item.rail] : []))
   if (priced.length === 0) throw new Error('Nothing to quote')
   const sourceCurrency = priced[0]?.sourceCurrency
@@ -255,7 +283,7 @@ function quoteItems(items: readonly MappedItem[], validity: 'HR_1' | 'MIN_15'): 
     }
   })
   return {
-    expiresAt: QUOTE_EXPIRES_AT,
+    expiresAt,
     validity,
     payerPays: sumMoney(
       lines.map((line) => line.amountPayerPays),

@@ -56,3 +56,4 @@ Recorded by `pnpm airwallex:smoke` on 2026-10-06. Fixtures are in `src/server/ad
 | UI kit ([06 §5](./06-ui-kit-spec.md#5-review-gate))                                |     |      |                                    |
 | Mock demo walkthrough ([08 §3](./08-demo-plan.md#3-script-mock-and-later-sandbox)) |     |      |                                    |
 | Sandbox V1–V8                                                                      |     |      | See `docs/verification-results.md` |
+| Sandbox rehearsal ([08 §3](./08-demo-plan.md#3-script-mock-and-later-sandbox))     |     |      | Not run. A live submit waits until it is agreed |

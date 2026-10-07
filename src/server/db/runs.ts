@@ -63,6 +63,11 @@ export async function listRuns(): Promise<StoredRun[]> {
   return docs.map((doc) => fromDocument(doc))
 }
 
+export async function deleteAllRuns(): Promise<void> {
+  await connectDb()
+  await RunModel.deleteMany({})
+}
+
 export async function findRunById(id: string): Promise<StoredRun | null> {
   await connectDb()
   const doc = await RunModel.findById(id).lean()

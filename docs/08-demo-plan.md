@@ -55,7 +55,7 @@ Keep this table current when adding a `DEMO-ONLY:` or `SANDBOX:` comment.
 | `src/server/services/runs.ts` price and pay          | `DEMO-ONLY`             | Inline work. Production queues it                                                            |
 | Open routes, no session                              | `DEMO-ONLY`             | The API-key account is the operator                                                          |
 | 25-row and six-corridor cap                          | `DEMO-ONLY`             | Production takes any schema-supported corridor up to Airwallex's 1,000-item batch limit      |
-| `POST /api/demo/runs/:id/advance`                    | `DEMO-ONLY` + `SANDBOX` | Simulation transition                                                                        |
+| `POST /api/demo/runs/:id/advance`                    | `DEMO-ONLY` + `SANDBOX` | Talk-track jump in `src/server/services/runs.ts`. Sandbox Airwallex uses simulation; the mock gateway is stepped the same way as the UI mock |
 | `src/mocks/data-source.ts` advance                   | `DEMO-ONLY`             | Jumps transfer statuses for the talk track. Production reads webhooks and retrieve           |
 | `src/mocks/fixtures.ts`                              | `DEMO-ONLY`             | Teaching amounts, not a live quote                                                           |
 | `src/mocks/data-source.ts` createRun                 | `DEMO-ONLY`             | Only the sample file is priced into the ready fixture. Production prices every accepted file |

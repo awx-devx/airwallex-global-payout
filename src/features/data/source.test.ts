@@ -14,8 +14,10 @@ describe('getDataSource', () => {
     expect((await source.listRuns()).map((run) => run.id)).toEqual(['run_inflight', 'run_done'])
   })
 
-  it('refuses the api source until that source exists', () => {
+  it('uses the api source when the public flag is api', () => {
     process.env.NEXT_PUBLIC_DATA_SOURCE = 'api'
-    expect(() => getDataSource()).toThrow(/api data source/)
+    const source = getDataSource()
+    expect(source.advance).toEqual(expect.any(Function))
+    expect(source.reset).toEqual(expect.any(Function))
   })
 })

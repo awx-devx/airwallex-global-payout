@@ -1,15 +1,14 @@
 import { MOCK_CLOCK } from '@/mocks/fixtures'
 import { createMockDataSource } from '@/mocks/data-source'
 import type { DataSource } from '@/contracts'
+import { createApiDataSource } from './api-source'
 
 const MOCK_KEY = '__airwallexMockDataSource__'
 
 type MockHost = Window & { [MOCK_KEY]?: DataSource }
 
 export function getDataSource(): DataSource {
-  if (process.env.NEXT_PUBLIC_DATA_SOURCE === 'api') {
-    throw new Error('The api data source is not built yet.')
-  }
+  if (process.env.NEXT_PUBLIC_DATA_SOURCE === 'api') return createApiDataSource()
   if (typeof window === 'undefined') return createMockDataSource({ delayMs: 0 })
   const host = window as MockHost
   host[MOCK_KEY] ??= createMockDataSource()

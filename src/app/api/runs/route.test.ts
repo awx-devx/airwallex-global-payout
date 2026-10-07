@@ -18,7 +18,7 @@ describe('run routes', () => {
       allowedActions: string[]
     }
     expect(detail.status).toBe('READY')
-    expect(detail.allowedActions).toEqual(['requote', 'discard', 'exclude'])
+    expect(detail.allowedActions).toEqual(['discard', 'exclude'])
 
     const listed = await listRuns()
     expect(listed.status).toBe(200)
