@@ -25,7 +25,7 @@ Next.js App Router, MongoDB via Mongoose, Tailwind CSS. Airwallex is called from
 Replit imports this repo and publishes the Next.js server. MongoDB stays on Atlas. The server reads [`.env.example`](.env.example).
 
 1. Create a MongoDB Atlas cluster. Allow Replit’s egress (`0.0.0.0/0` is the usual sandbox choice) and copy `MONGODB_URI`. The process refuses to boot without it.
-2. Import the repo: [replit.com/github/HeimLabs/airwallex-global-payout](https://replit.com/github/HeimLabs/airwallex-global-payout).
+2. Import the repo: [replit.com/github/awx-devx/airwallex-global-payout](https://replit.com/github/awx-devx/airwallex-global-payout).
 3. Set secrets in **both** the workspace Secrets tool and the deployment’s Secrets. Workspace secrets are not copied into a deployment. `NEXT_PUBLIC_*` must be present at build time.
 4. For a real demo set `NEXT_PUBLIC_DATA_SOURCE=api` and `PAYMENTS_GATEWAY=airwallex`, plus `MONGODB_URI`, `SOURCE_CURRENCY=USD`, and the Airwallex values from [`.env.example`](.env.example) (`AIRWALLEX_ENV=sandbox`, `AIRWALLEX_CLIENT_ID`, `AIRWALLEX_API_KEY`). Set `DEMO_MODE=true` when you want the Advance control and `/dev/ui-kit`. Leave `NEXT_PUBLIC_DATA_SOURCE=mock` to click through the scripted file with no Airwallex keys.
 5. Publish. Autoscale (the `.replit` default) can scale to zero and miss a webhook on a cold start. Choose a **Reserved VM** if webhooks must land while the app is idle. Opening the run still refreshes status from Airwallex.
