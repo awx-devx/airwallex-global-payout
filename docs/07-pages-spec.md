@@ -15,6 +15,7 @@ RunList
 - Header balance is `useBalance`.
 - Dropping a file or activating the sample link calls `useCreateRun`, then routes to `/runs/{id}`.
 - The sample link fetches `/samples/contractors.csv` and uploads that file. It does not skip the parser.
+- `Download sample` saves `/samples/contractors.csv`. `Download template` saves `/samples/contractors-template.csv`, the header row. Neither link uploads.
 - `RunList` rows link to `/runs/{id}`. The whole row is the link. An arrow at the end of the row fades in on hover and focus. Columns: file name, created (absolute date, `2 Apr 2026`), status badge, contractors (`includedCount`), you pay (or `—` while null).
 - Empty copy: `No payouts yet`.
 - File-level errors stay on `UploadPanel`. No run is created.

@@ -125,7 +125,7 @@ function TypeRamp() {
       <p className="type-section">Section</p>
       <p className="type-body">Body copy for a contractor row.</p>
       <p className="type-label">Label</p>
-      <p className="type-money">{formatMoney('USD', '18960.00')}</p>
+      <p className="type-money">{formatMoney('USD', '189.60')}</p>
       <p className="type-id">B-run_ready</p>
     </div>
   )

@@ -2,7 +2,7 @@
 
 Frozen API between the UI and the backend. Both tracks implement this document. Mock fixtures and the REST handlers return the same shapes. After the UI kit gate ([06](./06-ui-kit-spec.md), sign-off in [09](./09-decisions.md)), a change here is a breaking change: update the kit fixtures in the same commit.
 
-Money fields are **decimal strings** (`"4200.00"`, `"0.00"`). Never JSON numbers. Timestamps are ISO-8601 UTC (`2026-04-02T18:00:02.000Z`). Ids are UUID strings. Row ids are `row_1` … `row_n` in file order, starting at 1.
+Money fields are **decimal strings** (`"42.00"`, `"0.00"`). Never JSON numbers. Timestamps are ISO-8601 UTC (`2026-04-02T18:00:02.000Z`). Ids are UUID strings. Row ids are `row_1` … `row_n` in file order, starting at 1.
 
 ## 1. Money
 
@@ -455,15 +455,15 @@ Illustrative money (source USD, fixtures only — live numbers come from Airwall
 
 | Row           | Receives       | Chosen          | You pay  | Alternative    | Savings |
 | ------------- | -------------- | --------------- | -------- | -------------- | ------- |
-| Maya Chen     | USD 4,200.00   | ACH             | 4,200.00 | SWIFT 4,215.00 | 15.00   |
-| Owen Blake    | GBP 3,100.00   | Faster Payments | 3,980.00 | SWIFT 4,002.50 | 22.50   |
-| Lena Hoffmann | EUR 2,800.00   | SEPA            | 3,060.00 | SWIFT 3,078.00 | 18.00   |
-| Noah Walsh    | AUD 3,600.00   | Bank transfer   | 2,410.00 | SWIFT 2,430.00 | 20.00   |
-| Aisha Rahman  | SGD 4,100.00   | FAST            | 3,090.00 | SWIFT 3,112.00 | 22.00   |
-| Priya Nair    | INR 185,000.00 | Local           | 2,220.00 | —              | null    |
-| Sam Rivera    | USD 900.00     | —               | —        | —              | —       | invalid, empty postcode |
+| Maya Chen     | USD 42.00      | ACH             | 42.00    | SWIFT 42.15    | 0.15    |
+| Owen Blake    | GBP 31.00      | Faster Payments | 39.80    | SWIFT 40.03    | 0.23    |
+| Lena Hoffmann | EUR 28.00      | SEPA            | 30.60    | SWIFT 30.78    | 0.18    |
+| Noah Walsh    | AUD 36.00      | Bank transfer   | 24.10    | SWIFT 24.30    | 0.20    |
+| Aisha Rahman  | SGD 41.00      | FAST            | 30.90    | SWIFT 31.12    | 0.22    |
+| Priya Nair    | INR 1,850.00   | Local           | 22.20    | —              | null    |
+| Sam Rivera    | USD 9.00       | —               | —        | —              | —       | invalid, empty postcode |
 
-Clean total payer pays: `18960.00`. Clean total savings: `97.50`. Fee on local rows in the fixture is `0.00`; SWIFT fee is the difference. These numbers are a teaching fixture, not a rate sheet.
+Clean total payer pays: `189.60`. Clean total savings: `0.98`. Fee on local rows in the fixture is `0.00`; SWIFT fee is the difference. These numbers are a teaching fixture, not a rate sheet.
 
 `run_done` fails Priya Nair (`failed`, message `The beneficiary bank rejected the payout.`). Everyone else is `paid`.
 

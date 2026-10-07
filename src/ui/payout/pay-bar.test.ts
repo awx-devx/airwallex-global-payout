@@ -14,7 +14,7 @@ describe('payDisabledSentence', () => {
       payDisabledSentence({
         allowedActions: ['pay', 'discard'],
         flags,
-        totalPayerPays: '18960.00',
+        totalPayerPays: '189.60',
         sourceCurrency: 'USD',
         balance: { currency: 'USD', available: '50000.00', pending: '0.00' },
       }),
@@ -26,7 +26,7 @@ describe('payDisabledSentence', () => {
       payDisabledSentence({
         allowedActions: ['discard'],
         flags: { ...flags, needsAttention: true },
-        totalPayerPays: '18960.00',
+        totalPayerPays: '189.60',
         sourceCurrency: 'USD',
         balance: null,
       }),
@@ -35,7 +35,7 @@ describe('payDisabledSentence', () => {
       payDisabledSentence({
         allowedActions: ['requote', 'discard'],
         flags: { ...flags, quoteExpired: true },
-        totalPayerPays: '18960.00',
+        totalPayerPays: '189.60',
         sourceCurrency: 'USD',
         balance: null,
       }),
@@ -44,16 +44,16 @@ describe('payDisabledSentence', () => {
       payDisabledSentence({
         allowedActions: ['discard'],
         flags: { ...flags, insufficientBalance: true },
-        totalPayerPays: '18960.00',
+        totalPayerPays: '189.60',
         sourceCurrency: 'USD',
         balance: { currency: 'USD', available: '100.00', pending: '0.00' },
       }),
-    ).toBe('USD wallet is short by USD 18,860.00.')
+    ).toBe('USD wallet is short by USD 89.60.')
     expect(
       payDisabledSentence({
         allowedActions: ['advance'],
         flags: { ...flags, approvalHold: true },
-        totalPayerPays: '18960.00',
+        totalPayerPays: '189.60',
         sourceCurrency: 'USD',
         balance: null,
       }),

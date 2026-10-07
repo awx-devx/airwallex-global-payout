@@ -63,7 +63,7 @@ export function PrimitivesShowcase() {
             </div>
           ))}
         </div>
-        <Button>Pay 6 contractors · {formatMoney('USD', '18960')}</Button>
+        <Button>Pay 6 contractors · {formatMoney('USD', '189.60')}</Button>
       </section>
 
       <section className="grid gap-3">
@@ -146,7 +146,7 @@ export function PrimitivesShowcase() {
       <section className="grid max-w-md gap-3">
         <h3 className="type-label">KeyValue</h3>
         <div>
-          <KeyValue label="You pay" value={formatMoney('USD', '18960')} />
+          <KeyValue label="You pay" value={formatMoney('USD', '189.60')} />
           <KeyValue label="Fee" value={formatMoney('USD', '0')} />
           <KeyValue label="Reference" value="B-run_ready" mono />
         </div>
@@ -158,8 +158,8 @@ export function PrimitivesShowcase() {
           <Dialog
             open
             placement="inline"
-            title="Pay 6 contractors · USD 18,960.00 from the USD wallet?"
-            confirmLabel="Pay 6 contractors · USD 18,960.00"
+            title="Pay 6 contractors · USD 189.60 from the USD wallet?"
+            confirmLabel="Pay 6 contractors · USD 189.60"
             onConfirm={() => undefined}
             onClose={() => undefined}
           />

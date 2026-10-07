@@ -15,7 +15,7 @@ const MAYA: Record<CsvColumn, string> = {
   date_of_birth: '1991-04-12',
   country: 'US',
   currency: 'USD',
-  amount: '4200.00',
+  amount: '42.00',
   street: '412 5th Avenue',
   city: 'Seattle',
   state: 'WA',

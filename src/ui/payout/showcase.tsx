@@ -49,7 +49,7 @@ export function PayoutShowcase() {
           <Money currency="JPY" value="240000" />
           <Money currency="BHD" value="1.234" />
           <Money currency="USD" value={null} />
-          <Money currency="USD" value="18960.00" size="bar" />
+          <Money currency="USD" value="189.60" size="bar" />
         </div>
       </section>
 

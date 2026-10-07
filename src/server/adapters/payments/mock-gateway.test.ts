@@ -4,12 +4,12 @@ import { createMockGateway } from '@/server/adapters/payments/mock-gateway'
 import type { BatchItemDraft } from '@/server/adapters/payments/gateway'
 
 const PEOPLE = [
-  { row: '1', currency: 'USD', amount: '4200.00', swift: true },
-  { row: '2', currency: 'GBP', amount: '3100.00', swift: true },
-  { row: '3', currency: 'EUR', amount: '2800.00', swift: true },
-  { row: '4', currency: 'AUD', amount: '3600.00', swift: true },
-  { row: '5', currency: 'SGD', amount: '4100.00', swift: true },
-  { row: '6', currency: 'INR', amount: '185000.00', swift: false },
+  { row: '1', currency: 'USD', amount: '42.00', swift: true },
+  { row: '2', currency: 'GBP', amount: '31.00', swift: true },
+  { row: '3', currency: 'EUR', amount: '28.00', swift: true },
+  { row: '4', currency: 'AUD', amount: '36.00', swift: true },
+  { row: '5', currency: 'SGD', amount: '41.00', swift: true },
+  { row: '6', currency: 'INR', amount: '1850.00', swift: false },
 ] as const
 
 describe('mock payments gateway', () => {
@@ -41,13 +41,13 @@ describe('mock payments gateway', () => {
     })
     await gateway.addItems(created.id, [probe(PEOPLE[0], 'LOCAL'), probe(PEOPLE[0], 'SWIFT')])
     const items = await gateway.listItems(created.id)
-    expect(items.map((item) => item.rail?.amountPayerPays)).toEqual(['4200.00', '4215.00'])
+    expect(items.map((item) => item.rail?.amountPayerPays)).toEqual(['42.00', '42.15'])
 
     const swift = items.find((item) => item.candidate === 'S')
     if (!swift) throw new Error('missing swift probe')
     await gateway.deleteItems(created.id, [swift.airwallexItemId])
     const quote = await gateway.quoteBatch(created.id, 'HR_1')
-    expect(quote.payerPays).toBe('4200.00')
+    expect(quote.payerPays).toBe('42.00')
     expect(quote.lines).toHaveLength(1)
   })
 

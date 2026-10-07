@@ -44,8 +44,8 @@ describe('mock data source', () => {
     const clean = await data.excludeRow(ready.id, 'row_7')
     expect(clean.allowedActions).toContain('pay')
     expect(clean.allowedActions).not.toContain('exclude')
-    expect(clean.totalPayerPays).toBe('18960.00')
-    expect(clean.totalSavings).toBe('97.50')
+    expect(clean.totalPayerPays).toBe('189.60')
+    expect(clean.totalSavings).toBe('0.98')
     expect(clean.includedCount).toBe(6)
     expect(clean.rows.find((row) => row.id === 'row_7')?.status).toBe('excluded')
 

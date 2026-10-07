@@ -108,7 +108,7 @@ test('payout kit shows the pay gate and the frozen review step', async ({ page }
   )
   await expect(
     payout.getByTestId('paybar-run_ready_clean').getByRole('button', {
-      name: 'Pay 6 contractors · USD 18,960.00',
+      name: 'Pay 6 contractors · USD 189.60',
     }),
   ).toBeVisible()
   await expect(payout.getByTestId('paybar-run_expired')).toContainText('Quote expired.')
@@ -116,7 +116,7 @@ test('payout kit shows the pay gate and the frozen review step', async ({ page }
     payout.getByTestId('paybar-run_expired').getByRole('button', { name: 'Refresh quote' }),
   ).toBeVisible()
   await expect(payout.getByTestId('paybar-run_short')).toContainText(
-    'USD wallet is short by USD 18,860.00.',
+    'USD wallet is short by USD 89.60.',
   )
   await expect(payout.getByTestId('paybar-run_approval')).toContainText(
     'Waiting for approval in Airwallex. This demo cannot approve it.',
@@ -145,6 +145,14 @@ test('patterns kit assembles the home and review screens', async ({ page }) => {
   await expect(patterns.getByText('Balance unavailable')).toBeVisible()
   await expect(patterns.getByRole('link', { name: 'Payouts', exact: true })).toBeVisible()
   await expect(patterns.getByRole('button', { name: 'Use the sample file' }).first()).toBeVisible()
+  await expect(patterns.getByRole('link', { name: 'Download sample' }).first()).toHaveAttribute(
+    'href',
+    '/samples/contractors.csv',
+  )
+  await expect(patterns.getByRole('link', { name: 'Download template' }).first()).toHaveAttribute(
+    'href',
+    '/samples/contractors-template.csv',
+  )
   await expect(patterns.getByText('Upload a CSV with the contractor header.')).toBeVisible()
   await expect(patterns.getByText('A file can include at most 25 contractors.')).toBeVisible()
   await expect(patterns.getByText('No payouts yet')).toBeVisible()
@@ -159,7 +167,7 @@ test('patterns kit assembles the home and review screens', async ({ page }) => {
 
   await expect(
     patterns.getByTestId('pattern-run_ready_clean').getByRole('button', {
-      name: 'Pay 6 contractors · USD 18,960.00',
+      name: 'Pay 6 contractors · USD 189.60',
     }),
   ).toBeVisible()
   await expect(patterns.getByTestId('pattern-run_inflight')).toContainText('Booking each payout.')

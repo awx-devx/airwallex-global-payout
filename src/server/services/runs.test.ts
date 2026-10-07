@@ -24,8 +24,8 @@ describe('run pricing and pay', () => {
     expect(detail.airwallexStatus).toBe('DRAFTING')
     expect(detail.rows).toEqual(runReady.rows)
     expect(detail.quote).toEqual(runReady.quote)
-    expect(detail.totalPayerPays).toBe('18960.00')
-    expect(detail.totalSavings).toBe('97.50')
+    expect(detail.totalPayerPays).toBe('189.60')
+    expect(detail.totalSavings).toBe('0.98')
     expect(detail.allowedActions).toEqual(['discard', 'exclude'])
     expect(detail.balance).toEqual(balanceOk)
     expect(detail.flags.needsAttention).toBe(true)
@@ -83,6 +83,35 @@ describe('run pricing and pay', () => {
     expect(await inner.listItems(found?.id ?? '')).toHaveLength(6)
   })
 
+  it('quotes before rails exist, the way Airwallex lists items', async () => {
+    const inner = createMockGateway()
+    const quoted = new Set<string>()
+    let quotes = 0
+    const gateway: PaymentsGateway = {
+      ...inner,
+      async listItems(batchId, context) {
+        const items = await inner.listItems(batchId, context)
+        if (quoted.has(batchId)) return items
+        return items.map((item) => ({ ...item, rail: null }))
+      },
+      async quoteBatch(batchId, validity, context) {
+        quotes += 1
+        quoted.add(batchId)
+        return inner.quoteBatch(batchId, validity, context)
+      },
+    }
+    const { service } = harness(gateway)
+    const detail = await service.createRun({
+      fileName: 'contractors.csv',
+      text: SAMPLE_CONTRACTORS_CSV,
+    })
+
+    expect(quotes).toBe(2)
+    expect(detail.rows.filter((row) => row.status === 'ready')).toHaveLength(6)
+    expect(detail.rows.find((row) => row.contractorName === 'Sam Rivera')?.status).toBe('invalid')
+    expect(detail.quote?.payerPays).toBe('189.60')
+  })
+
   it('keeps a row that fails both probes out of the quote', async () => {
     const gateway = createMockGateway({
       rejectItem: (item) =>
@@ -102,10 +131,10 @@ describe('run pricing and pay', () => {
       fieldErrors: [{ path: 'account_number', message: 'Account number is invalid.' }],
       pricing: { chosen: null, alternatives: [], savings: null },
     })
-    expect(detail.quote?.lines.some((line) => line.amountBeneficiaryReceives === '4200.00')).toBe(
+    expect(detail.quote?.lines.some((line) => line.amountBeneficiaryReceives === '42.00')).toBe(
       false,
     )
-    expect(detail.quote?.payerPays).toBe('14760.00')
+    expect(detail.quote?.payerPays).toBe('147.60')
     expect(detail.allowedActions).toEqual(['discard', 'exclude'])
   })
 

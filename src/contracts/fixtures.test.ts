@@ -43,7 +43,7 @@ describe('fixtures', () => {
     expect(fixtureBalances.balance_ok).toBe(balanceOk)
     expect(fixtureBalances.balance_short).toBe(balanceShort)
     const cleanTotal = runReadyClean.totalPayerPays
-    expect(cleanTotal).toBe('18960.00')
+    expect(cleanTotal).toBe('189.60')
     if (cleanTotal == null) throw new Error('expected a payer total')
     expect(parseMoney(balanceOk.available).gt(parseMoney(cleanTotal))).toBe(true)
     expect(parseMoney(balanceShort.available).lt(parseMoney(cleanTotal))).toBe(true)
@@ -79,8 +79,8 @@ describe('fixtures', () => {
     expect(runReady.rows.find((row) => row.contractorName === 'Priya Nair')?.pricing.savings).toBeNull()
     expect(runReady.rows.find((row) => row.contractorName === 'Maya Chen')).toMatchObject({
       pricing: {
-        chosen: { railLabel: 'ACH', amountPayerPays: '4200.00', feeAmount: '0.00' },
-        savings: '15.00',
+        chosen: { railLabel: 'ACH', amountPayerPays: '42.00', feeAmount: '0.00' },
+        savings: '0.15',
       },
     })
     expect(runReady.rows.map((row) => row.pricing.chosen?.railLabel)).toEqual([
@@ -93,9 +93,9 @@ describe('fixtures', () => {
       undefined,
     ])
 
-    expect(runReadyClean.totalPayerPays).toBe('18960.00')
-    expect(runReadyClean.totalSavings).toBe('97.50')
-    expect(runReadyClean.quote?.payerPays).toBe('18960.00')
+    expect(runReadyClean.totalPayerPays).toBe('189.60')
+    expect(runReadyClean.totalSavings).toBe('0.98')
+    expect(runReadyClean.quote?.payerPays).toBe('189.60')
     expect(runReadyClean.quote?.feeAmount).toBe('0.00')
     expect(runReadyClean.flags.needsAttention).toBe(false)
     expect(runProgress(runReadyClean).steps.find((step) => step.id === 'review')?.detail).toBe(

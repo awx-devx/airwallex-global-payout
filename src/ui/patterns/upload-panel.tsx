@@ -27,14 +27,30 @@ export function UploadPanel({
         interactive={interactive && !loading}
         onFile={onFile}
       />
-      <button
-        type="button"
-        className={`${focusRing} w-fit cursor-pointer text-[14px] leading-5 text-[var(--info)] underline disabled:cursor-default disabled:opacity-40`}
-        disabled={loading}
-        onClick={onSample}
-      >
-        Use the sample file
-      </button>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <button
+          type="button"
+          className={`${focusRing} w-fit cursor-pointer text-[14px] leading-5 text-[var(--info)] underline disabled:cursor-default disabled:opacity-40`}
+          disabled={loading}
+          onClick={onSample}
+        >
+          Use the sample file
+        </button>
+        <a
+          href="/samples/contractors.csv"
+          download="contractors.csv"
+          className={`${focusRing} w-fit text-[14px] leading-5 text-[var(--info)] underline`}
+        >
+          Download sample
+        </a>
+        <a
+          href="/samples/contractors-template.csv"
+          download="contractors-template.csv"
+          className={`${focusRing} w-fit text-[14px] leading-5 text-[var(--info)] underline`}
+        >
+          Download template
+        </a>
+      </div>
     </div>
   )
 }

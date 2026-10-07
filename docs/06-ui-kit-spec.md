@@ -63,7 +63,7 @@ Buttons and menu items use the pointer cursor. Disabled stays the default cursor
 | Pattern                                | Built from                                                     | States                                                                                                                                                                  |
 | -------------------------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `AppHeader`                            | logomark + `Global Payouts`, `BalancePill`, env chip `Sandbox` | balance loading, balance error. Below 800px the wordmark is hidden and the bar stays one row                                                                            |
-| `UploadPanel`                          | `FileDropzone`, sample link, file-level error                  | idle, loading, `UNSUPPORTED_FILE`, `TOO_MANY_ROWS`                                                                                                                      |
+| `UploadPanel`                          | `FileDropzone`, sample link, sample and template downloads, file-level error | idle, loading, `UNSUPPORTED_FILE`, `TOO_MANY_ROWS`. `Download sample` saves the filled CSV. `Download template` saves the header CSV |
 | `RunList`                              | table of `RunSummary`                                          | empty, two runs (`run_inflight`, `run_done`), loading. The whole row is the link; an arrow fades in on hover. Scrolls inside itself when the row is wider than the page |
 | `ReviewTable`                          | header + `ContractorRow`                                       | `run_pricing`, `run_ready`, `run_ready_clean`                                                                                                                           |
 | `ProcessStepper` on the review pattern | the helper output for that fixture                             | pricing, review, paying, done with a failure                                                                                                                            |
@@ -78,7 +78,7 @@ No page work (U5) starts until this list is checked and the sign-off line in [09
 - [ ] Every primitive matrix is on the page.
 - [ ] Every `RowStatus` and every run badge condition is on the page.
 - [ ] `run_ready` shows five cheapest chips, INR `Only rail`, and Sam Rivera's invalid postcode error. Pay is not shown. Exclude is.
-- [ ] `run_ready_clean` pay label reads `Pay 6 contractors · USD 18,960.00`.
+- [ ] `run_ready_clean` pay label reads `Pay 6 contractors · USD 189.60`.
 - [ ] `run_expired`, `run_short`, and `run_approval` show the sentences in [05 §7](./05-design-system.md#7-copy).
 - [ ] `run_done` shows Paid with failures and Priya Nair failed.
 - [ ] Width 800 and width 1120 both use the table. The table scrolls inside itself when it is wider than the stage. No page-level horizontal scroll.

@@ -32,7 +32,7 @@ Home, before any upload, lists `run_inflight` and `run_done` so the screen is no
 
 1. Open `/`. Point at the balance and the two existing runs.
 2. `Use the sample file`. The stepper is on Price (`Comparing local and SWIFT for each contractor.`), then moves to Review. Walk the rail column: cheapest chip, the "instead of SWIFT" line, Priya `Only rail`, Sam's error. Pay is absent.
-3. Exclude Sam. Pay becomes `Pay 6 contractors · USD 18,960.00`.
+3. Exclude Sam. Pay becomes `Pay 6 contractors · USD 189.60`.
 4. Confirm pay. The run is in flight.
 5. `Advance statuses` twice. The stepper stays on Pay and the sentence changes.
    - First advance: every included row → `sent`. Sentence: `6 of 6 sent.`

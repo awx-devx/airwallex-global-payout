@@ -278,7 +278,8 @@ async function priceRun(gateway: PaymentsGateway, run: StoredRun): Promise<void>
     if (missing.length > 0) await gateway.addItems(batch.id, missing, context)
 
     const listed = await gateway.listItems(batch.id, context)
-    if (listed.some((item) => item.rail)) {
+    // AIRWALLEX: a validated item has no transfer_draft until the first quote. See docs/04 §3.4.
+    if (listed.some((item) => item.rail || item.airwallexItemStatus === 'VALIDATED')) {
       await gateway.quoteBatch(batch.id, 'HR_1', context)
     }
     const priced = await gateway.listItems(batch.id, context)

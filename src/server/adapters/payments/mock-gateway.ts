@@ -11,20 +11,20 @@ import type {
 type CorridorPrice = { pays: string; fee: string; system: string | null }
 
 const LOCAL: Record<string, CorridorPrice> = {
-  'USD:4200.00': { pays: '4200.00', fee: '0.00', system: 'ACH' },
-  'GBP:3100.00': { pays: '3980.00', fee: '0.00', system: 'FASTER_PAYMENTS' },
-  'EUR:2800.00': { pays: '3060.00', fee: '0.00', system: null },
-  'AUD:3600.00': { pays: '2410.00', fee: '0.00', system: 'BANK_TRANSFER' },
-  'SGD:4100.00': { pays: '3090.00', fee: '0.00', system: 'FAST' },
-  'INR:185000.00': { pays: '2220.00', fee: '0.00', system: null },
+  'USD:42.00': { pays: '42.00', fee: '0.00', system: 'ACH' },
+  'GBP:31.00': { pays: '39.80', fee: '0.00', system: 'FASTER_PAYMENTS' },
+  'EUR:28.00': { pays: '30.60', fee: '0.00', system: null },
+  'AUD:36.00': { pays: '24.10', fee: '0.00', system: 'BANK_TRANSFER' },
+  'SGD:41.00': { pays: '30.90', fee: '0.00', system: 'FAST' },
+  'INR:1850.00': { pays: '22.20', fee: '0.00', system: null },
 }
 
 const SWIFT: Record<string, CorridorPrice> = {
-  'USD:4200.00': { pays: '4215.00', fee: '15.00', system: null },
-  'GBP:3100.00': { pays: '4002.50', fee: '22.50', system: null },
-  'EUR:2800.00': { pays: '3078.00', fee: '18.00', system: null },
-  'AUD:3600.00': { pays: '2430.00', fee: '20.00', system: null },
-  'SGD:4100.00': { pays: '3112.00', fee: '22.00', system: null },
+  'USD:42.00': { pays: '42.15', fee: '0.15', system: null },
+  'GBP:31.00': { pays: '40.03', fee: '0.23', system: null },
+  'EUR:28.00': { pays: '30.78', fee: '0.18', system: null },
+  'AUD:36.00': { pays: '24.30', fee: '0.20', system: null },
+  'SGD:41.00': { pays: '31.12', fee: '0.22', system: null },
 }
 
 type StoredBatch = {

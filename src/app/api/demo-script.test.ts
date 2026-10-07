@@ -46,7 +46,7 @@ describe('api demo script', () => {
 
     const clean = await data.excludeRow(ready.id, 'row_7')
     expect(clean.allowedActions).toContain('pay')
-    expect(clean.totalPayerPays).toBe('18960.00')
+    expect(clean.totalPayerPays).toBe('189.60')
     expect(clean.includedCount).toBe(6)
 
     const live = await data.pay(clean.id)

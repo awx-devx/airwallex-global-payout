@@ -5,7 +5,7 @@ A light payout desk. One column, a gray canvas, white sheets, pill controls, and
 ## 1. Principles
 
 1. The table is the product. Chrome stays out of the way.
-2. One primary button per screen: it names the outcome and the amount (`Pay 6 contractors · USD 18,960.00`).
+2. One primary button per screen: it names the outcome and the amount (`Pay 6 contractors · USD 189.60`).
 3. Green means money saved or paid. Red means a row or a run failed. Amber means the user must act (fix, requote, approval). Purple means in flight, links, and the focus ring. The pay button is ink, not a status.
 4. Muted text is for labels and excluded rows, not for errors.
 5. Motion shows a change of step. The marker travels once, the sentence under it crossfades, and a completed step draws its check once. The stepper does not loop. The edge atmosphere is the only slow drift.
@@ -116,7 +116,7 @@ Do not animate the width of a money figure. Do not put a looping pulse on the cu
 
 - Header mark: `public/assets/logomark.png` beside the wordmark `Global Payouts`. One link, home. Below 800px the bar is a single row and the wordmark is visually hidden. The favicon is the same mark centered in a square (`public/assets/favicon.png`) so the browser does not stretch it.
 - Upload: `Drop a contractor CSV`.
-- Sample link: `Use the sample file`.
+- Sample link: `Use the sample file`. Beside it, `Download sample` saves `contractors.csv`, and `Download template` saves `contractors-template.csv`, the header row only.
 - Pay: `Pay {n} contractors · {money}`.
 - Discard: `Discard draft`.
 - Exclude: `Exclude`.

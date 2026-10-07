@@ -18,12 +18,12 @@ test('plays the mock payout script', async ({ page }) => {
   await expect(page.getByRole('button', { name: /^Pay / })).toHaveCount(0)
 
   await page.getByRole('button', { name: 'Exclude' }).click()
-  const pay = page.getByRole('button', { name: 'Pay 6 contractors · USD 18,960.00' })
+  const pay = page.getByRole('button', { name: 'Pay 6 contractors · USD 189.60' })
   await expect(pay).toBeVisible()
   await pay.click()
   await page
     .getByRole('dialog')
-    .getByRole('button', { name: 'Pay 6 contractors · USD 18,960.00' })
+    .getByRole('button', { name: 'Pay 6 contractors · USD 189.60' })
     .click()
   await expect(page.getByText('Booking each payout.')).toBeVisible()
 
