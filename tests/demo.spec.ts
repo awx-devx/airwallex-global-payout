@@ -7,7 +7,8 @@ test('plays the mock payout script', async ({ page }) => {
   await expect(page.getByText('Paid with failures')).toBeVisible()
   await expect(page.getByText('2 Apr 2026').first()).toBeVisible()
 
-  await page.getByRole('button', { name: 'Use the sample file' }).click()
+  await page.getByRole('button', { name: 'Sample file' }).click()
+  await page.getByRole('button', { name: 'Needs a fix' }).click()
   await expect(page.getByText('Comparing local and SWIFT for each contractor.')).toBeVisible()
   await expect(page.getByText('Exclude the rows with errors before paying.')).toBeVisible({
     timeout: 8_000,

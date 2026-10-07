@@ -3,7 +3,13 @@ import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { CSV_HEADER, parseContractorCsv, type CsvColumn } from './csv'
 import { csvPathForAirwallexSource } from './field-paths'
-import { SAMPLE_CONTRACTORS_CSV } from './sample-csv'
+import {
+  SAMPLE_ALL_PAID_CSV,
+  SAMPLE_CONTRACTORS_CSV,
+  SAMPLE_FAILED_CSV,
+  SAMPLE_FILES,
+  SAMPLE_PAID_WITH_FAILURES_CSV,
+} from './sample-csv'
 
 const MAYA: Record<CsvColumn, string> = {
   contractor_name: 'Maya Chen',
@@ -32,6 +38,22 @@ describe('parseContractorCsv', () => {
   it('accepts the sample file and flags Sam Rivera on postcode', () => {
     const disk = readFileSync(path.resolve(import.meta.dirname, '../../docs/samples/contractors.csv'), 'utf8')
     expect(disk).toBe(SAMPLE_CONTRACTORS_CSV)
+    for (const sample of SAMPLE_FILES) {
+      const docsFile = readFileSync(
+        path.resolve(import.meta.dirname, `../../docs/samples/${sample.fileName}`),
+        'utf8',
+      )
+      const publicFile = readFileSync(
+        path.resolve(import.meta.dirname, `../../public/samples/${sample.fileName}`),
+        'utf8',
+      )
+      expect(docsFile).toBe(sample.text)
+      expect(publicFile).toBe(sample.text)
+    }
+    expect(SAMPLE_ALL_PAID_CSV).not.toContain('Priya Nair')
+    expect(SAMPLE_PAID_WITH_FAILURES_CSV).toContain('Priya Nair')
+    expect(SAMPLE_PAID_WITH_FAILURES_CSV).not.toContain('Sam Rivera')
+    expect(SAMPLE_FAILED_CSV.match(/Priya Nair/g)).toHaveLength(1)
 
     const parsed = parseContractorCsv({ text: disk, fileName: 'contractors.csv' })
     expect(parsed.ok).toBe(true)

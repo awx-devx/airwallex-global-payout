@@ -134,8 +134,14 @@ test('payout kit shows the pay gate and the frozen review step', async ({ page }
   await expect(
     payout.getByTestId('payout-story-stepper').locator('[aria-current="step"]'),
   ).toHaveText(/Review/)
-  await expect(payout.getByTestId('payout-countdown')).toHaveText('60:00')
-  await expect(payout.getByTestId('payout-countdown-expired')).toHaveText('Expired')
+  await expect(payout.getByTestId('payout-countdown')).toContainText('60:00')
+  await expect(payout.getByTestId('payout-countdown')).toContainText(
+    'Time left before this price expires.',
+  )
+  await expect(payout.getByTestId('payout-countdown-expired')).toContainText('Expired')
+  await expect(payout.getByTestId('payout-countdown-expired')).toContainText(
+    'This price has expired. Refresh the quote to pay.',
+  )
 })
 
 test('patterns kit assembles the home and review screens', async ({ page }) => {
@@ -144,10 +150,14 @@ test('patterns kit assembles the home and review screens', async ({ page }) => {
   await expect(patterns.getByText('Sandbox').first()).toBeVisible()
   await expect(patterns.getByText('Balance unavailable')).toBeVisible()
   await expect(patterns.getByRole('link', { name: 'Payouts', exact: true })).toBeVisible()
-  await expect(patterns.getByRole('button', { name: 'Use the sample file' }).first()).toBeVisible()
-  await expect(patterns.getByRole('link', { name: 'Download sample' }).first()).toHaveAttribute(
+  await patterns.getByRole('button', { name: 'Sample file' }).first().click()
+  await expect(patterns.getByRole('link', { name: 'Download All paid' })).toHaveAttribute(
     'href',
-    '/samples/contractors.csv',
+    '/samples/all-paid.csv',
+  )
+  await expect(patterns.getByRole('link', { name: 'Download Failed' })).toHaveAttribute(
+    'href',
+    '/samples/failed.csv',
   )
   await expect(patterns.getByRole('link', { name: 'Download template' }).first()).toHaveAttribute(
     'href',

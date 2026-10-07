@@ -43,4 +43,6 @@ pnpm dev                  # http://localhost:3000
 
 Set `NEXT_PUBLIC_DATA_SOURCE=api` and `PAYMENTS_GATEWAY=airwallex` when you want the real API, and fill in Mongo and Airwallex values.
 
+`pnpm db:clear` deletes every run and webhook event in the Mongo database from `.env`. It does not cancel transfers already submitted to Airwallex.
+
 The rest of the docs — contracts, Airwallex map, pages — start at [docs/README.md](docs/README.md).

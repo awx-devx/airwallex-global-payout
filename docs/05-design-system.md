@@ -110,13 +110,13 @@ Do not animate the width of a money figure. Do not put a looping pulse on the cu
 - `signed` prefixes `+` when the value is greater than zero. Zero stays unsigned.
 - Savings tone: greater than zero → `up`; zero → `muted` and the text `Same price`; null → the text `Only rail` in `--fg-3`.
 
-`formatCountdown(iso)` → `58:12` while over a minute, `45s` under a minute, `Expired` at zero. The kit freezes this with the toolbar clock so screenshots are stable.
+`formatCountdown(iso)` → `58:12` while over a minute, `45s` under a minute, `Expired` at zero. The kit freezes this with the toolbar clock so screenshots are stable. On a live `READY` run the page ticks that clock once a second against the quote's `expiresAt`. The mock clock stays frozen. After submit the countdown is hidden. `QuoteCountdown` shows the time beside a clock, with `Time left before this price expires.` When it has expired, the line is `This price has expired. Refresh the quote to pay.`
 
 ## 7. Copy
 
 - Header mark: `public/assets/logomark.png` beside the wordmark `Global Payouts`. One link, home. Below 800px the bar is a single row and the wordmark is visually hidden. The favicon is the same mark centered in a square (`public/assets/favicon.png`) so the browser does not stretch it.
 - Upload: `Drop a contractor CSV`.
-- Sample link: `Use the sample file`. Beside it, `Download sample` saves `contractors.csv`, and `Download template` saves `contractors-template.csv`, the header row only.
+- Sample control: a `Sample file` menu. Each row uses that file. A download mark on the row fades in on hover and focus, the same way the payout-list arrow does, and saves that file. `Download template` saves `contractors-template.csv`, the header row only.
 - Pay: `Pay {n} contractors · {money}`.
 - Discard: `Discard draft`.
 - Exclude: `Exclude`.

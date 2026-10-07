@@ -85,4 +85,11 @@ export {
 export type { CsvColumn, CsvFieldError, ParseCsvInput, ParseCsvResult, ParsedRow } from './csv'
 
 export { csvPathForAirwallexSource } from './field-paths'
-export { SAMPLE_CONTRACTORS_CSV } from './sample-csv'
+export {
+  SAMPLE_ALL_PAID_CSV,
+  SAMPLE_CONTRACTORS_CSV,
+  SAMPLE_FAILED_CSV,
+  SAMPLE_FILES,
+  SAMPLE_PAID_WITH_FAILURES_CSV,
+} from './sample-csv'
+export type { SampleFileId } from './sample-csv'

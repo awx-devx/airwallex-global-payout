@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ContractError, runProgress } from '@/contracts'
 import { formatMoney } from '@/ui/format/money'
 import {
@@ -32,7 +32,19 @@ import { focusRing } from '@/ui/primitives/button'
 import { runBanner } from './banner'
 import { payFailure } from './pay-error'
 
+function useQuoteNow(): Date {
+  const live = process.env.NEXT_PUBLIC_DATA_SOURCE === 'api'
+  const [now, setNow] = useState(() => sourceNow())
+  useEffect(() => {
+    if (!live) return
+    const id = window.setInterval(() => setNow(sourceNow()), 1000)
+    return () => window.clearInterval(id)
+  }, [live])
+  return now
+}
+
 export function RunScreen({ id }: { id: string }) {
+  const quoteNow = useQuoteNow()
   const router = useRouter()
   const narrow = useNarrow()
   const runQuery = useRun(id)
@@ -45,8 +57,24 @@ export function RunScreen({ id }: { id: string }) {
   const [payOpen, setPayOpen] = useState(false)
   const [discardOpen, setDiscardOpen] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
+  const advanceRef = useRef(advance.mutateAsync)
+  advanceRef.current = advance.mutateAsync
 
   const run = runQuery.data
+  const advanceStep = run?.rows.map((row) => row.status).join(',') ?? ''
+  const sandboxAdvance = Boolean(
+    run && run.flags.sandbox && !run.flags.demo && run.status === 'SUBMITTED' && !run.settled,
+  )
+
+  useEffect(() => {
+    if (!sandboxAdvance) return
+    const timer = window.setTimeout(() => {
+      void advanceRef.current().catch((error: unknown) => {
+        setToast(error instanceof ContractError ? error.message : 'Something went wrong.')
+      })
+    }, 10_000)
+    return () => window.clearTimeout(timer)
+  }, [sandboxAdvance, advanceStep, run?.id])
   const balanceState = balance.isError ? 'error' : balance.data ? 'ready' : 'loading'
   const orientation = narrow ? 'vertical' : 'horizontal'
 
@@ -134,11 +162,11 @@ export function RunScreen({ id }: { id: string }) {
               sourceCurrency={run.sourceCurrency}
             />
           )}
-          {run.quote ? (
+          {run.status === 'READY' && run.quote ? (
             <QuoteCountdown
               expiresAt={run.quote.expiresAt}
               expired={run.quoteExpired}
-              now={sourceNow()}
+              now={quoteNow}
             />
           ) : null}
           {run.status === 'PRICING' ? (

@@ -18,10 +18,21 @@ describe('run permissions', () => {
       status: 'READY' as const,
       quoteExpired: false,
       rows: [{ status: 'needs_fix' as const }, { status: 'ready' as const }],
-      flags: { insufficientBalance: false, demo: false },
+      flags: { insufficientBalance: false, demo: false, sandbox: false },
     }
     expect(allowedActions(run)).toEqual(['discard', 'exclude'])
     expect(poll(run)).toBe(true)
     expect(settled(run)).toBe(false)
+  })
+
+  it('hides advance on a sandbox payout that was not created as a demo', () => {
+    expect(
+      allowedActions({
+        status: 'SUBMITTED',
+        quoteExpired: false,
+        rows: [{ status: 'processing' }],
+        flags: { insufficientBalance: false, demo: false, sandbox: true },
+      }),
+    ).toEqual([])
   })
 })

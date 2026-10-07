@@ -216,12 +216,17 @@ export function createRunService(deps: RunServiceDeps): RunService {
 
     async advance(id) {
       const run = await requireRun(id)
-      assertAction(present(run, now()), 'advance', 'Advance is not available on this run.')
+      const detail = present(run, now())
+      const sandboxAuto =
+        detail.flags.sandbox && !detail.flags.demo && detail.status === 'SUBMITTED' && !detail.settled
+      if (!sandboxAuto) {
+        assertAction(detail, 'advance', 'Advance is not available on this run.')
+      }
       if (!run.airwallexBatchId) {
         throw new ContractError(409, 'INVALID_STATE', 'Advance is not available on this run.')
       }
       const env = getServerEnv()
-      // DEMO-ONLY: Advance jumps transfer statuses for the talk track.
+      // SANDBOX: Advance calls transfer simulation. The run page also does this after 10 seconds.
       // PROD: no advance control; status comes from webhooks and retrieve.
       if (env.PAYMENTS_GATEWAY === 'airwallex' && env.AIRWALLEX_ENV === 'sandbox') {
         await refreshRun(gateway, run, now())
@@ -440,8 +445,10 @@ async function stageAdvance(gateway: PaymentsGateway, run: StoredRun): Promise<v
   const stage = gateway.stageDemoRow
   if (!stage || !run.airwallexBatchId) return
   for (const row of includedRows(run.rows)) {
+    const next = advanceStatus(run, row)
+    if (advanceAlreadyApplied(row, next)) continue
     const transferId = row.transferId ?? `tr_${run.id}_${row.index}`
-    await stage(run.airwallexBatchId, row.index, transferId, advanceStatus(run, row), {
+    await stage(run.airwallexBatchId, row.index, transferId, next, {
       runId: run.id,
     })
     row.transferId = transferId
@@ -450,11 +457,20 @@ async function stageAdvance(gateway: PaymentsGateway, run: StoredRun): Promise<v
 
 async function transitionAdvance(gateway: PaymentsGateway, run: StoredRun): Promise<void> {
   for (const row of includedRows(run.rows)) {
+    const next = advanceStatus(run, row)
+    if (advanceAlreadyApplied(row, next)) continue
     if (!row.transferId) {
       throw new ContractError(409, 'INVALID_STATE', 'This payout has no transfer to advance.')
     }
-    await gateway.transitionTransfer(row.transferId, advanceStatus(run, row), { runId: run.id })
+    await gateway.transitionTransfer(row.transferId, next, { runId: run.id })
   }
+}
+
+// AIRWALLEX: repeating a transition the transfer already has returns operation_failed.
+function advanceAlreadyApplied(row: StoredRow, next: 'SENT' | 'PAID' | 'FAILED'): boolean {
+  if (next === 'PAID') return row.status === 'paid'
+  if (next === 'FAILED') return row.status === 'failed'
+  return row.status === 'sent' || row.status === 'paid' || row.status === 'failed'
 }
 
 function applyTalkTrackFailure(run: StoredRun): void {
@@ -526,6 +542,7 @@ function present(run: StoredRun, now: Date): RunDetail {
       },
     },
     now.toISOString(),
+    { sandbox: getServerEnv().AIRWALLEX_ENV === 'sandbox' },
   )
 }
 

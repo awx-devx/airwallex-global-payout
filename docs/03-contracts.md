@@ -320,6 +320,7 @@ type RunDetail = RunSummary & {
     needsAttention: boolean
     approvalHold: boolean // airwallexStatus === IN_APPROVAL
     demo: boolean
+    sandbox: boolean // AIRWALLEX_ENV === sandbox at read time. Not stored.
   }
   allowedActions: Array<'pay' | 'discard' | 'exclude' | 'requote' | 'advance'>
   balance: Balance | null // snapshot at last read
@@ -351,7 +352,7 @@ Computed in `src/contracts/permissions.ts`. Components do not re-derive this.
 | `requote` | `READY` and `quoteExpired`                                                                             |
 | `discard` | `PRICING` or `READY`                                                                                   |
 | `exclude` | `READY` or `PRICING`, and the row is `invalid` or `needs_fix`                                          |
-| `advance` | `flags.demo` and `SUBMITTED` and not `settled`                                                         |
+| `advance` | `flags.demo` and `SUBMITTED` and not `settled`. Sandbox still auto-advances when `flags.demo` is false. |
 
 `exclude` is a run-level capability meaning "exclude is allowed on eligible rows". The row control is shown only on `invalid` and `needs_fix` rows. The server rejects exclude on any other row with `INVALID_STATE`.
 

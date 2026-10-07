@@ -9,6 +9,7 @@ export type PermissionRun = {
   flags: {
     insufficientBalance: boolean
     demo: boolean
+    sandbox: boolean
   }
 }
 

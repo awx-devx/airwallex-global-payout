@@ -106,15 +106,14 @@ export function PayoutShowcase() {
 
       <section className="grid gap-3">
         <h3 className="type-label">Quote</h3>
-        <p className="type-body">
-          <span data-testid="payout-countdown">
+        <div className="grid max-w-md gap-3">
+          <div data-testid="payout-countdown">
             <QuoteCountdown expiresAt={readyQuote.expiresAt} expired={readyExpired} now={now} />
-          </span>
-          <span className="px-3 text-[var(--fg-3)]">·</span>
-          <span data-testid="payout-countdown-expired">
+          </div>
+          <div data-testid="payout-countdown-expired">
             <QuoteCountdown expiresAt={expiredQuote.expiresAt} expired={expiredFlag} now={now} />
-          </span>
-        </p>
+          </div>
+        </div>
       </section>
 
       <section className="grid max-w-md gap-3">

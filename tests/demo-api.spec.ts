@@ -5,7 +5,8 @@ test('plays the payout script against the api', async ({ page }) => {
   await expect(page.getByText('USD available 50,000.00')).toBeVisible()
   await expect(page.getByText('No payouts yet')).toBeVisible()
 
-  await page.getByRole('button', { name: 'Use the sample file' }).click()
+  await page.getByRole('button', { name: 'Sample file' }).click()
+  await page.getByRole('button', { name: 'Needs a fix' }).click()
   await expect(page.getByText('Exclude the rows with errors before paying.')).toBeVisible({
     timeout: 30_000,
   })

@@ -90,7 +90,7 @@ See `.env.example`. Zod validates this at server boot. The mock UI build does no
 | `AIRWALLEX_WEBHOOK_SECRET` | Optional |
 | `MONGODB_URI` | Runs |
 | `SOURCE_CURRENCY` | Wallet currency. Default `USD` |
-| `DEMO_MODE` | Enables `/dev/*` and `/api/demo/*` |
+| `DEMO_MODE` | Enables `/dev/*` and `/api/demo/*`. Sandbox advance stays open without it |
 | `NEXT_PUBLIC_DATA_SOURCE` | `mock` or `api`. Build-time public flag |
 | `PAYMENTS_GATEWAY` | `mock` or `airwallex`. Server-side. Tests use `mock` |
 

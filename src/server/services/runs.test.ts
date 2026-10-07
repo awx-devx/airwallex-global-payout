@@ -274,6 +274,36 @@ describe('run pricing and pay', () => {
     expect(after.allowedActions).toEqual(['discard'])
   })
 
+  it('skips transfers that already have the next status', async () => {
+    const inner = createMockGateway()
+    const staged: string[] = []
+    const gateway: PaymentsGateway = {
+      ...inner,
+      async stageDemoRow(batchId, rowIndex, transferId, status, context) {
+        staged.push(`${rowIndex}:${status}`)
+        await inner.stageDemoRow?.(batchId, rowIndex, transferId, status, context)
+      },
+    }
+    const { service } = harness(gateway)
+    const created = await service.createRun({
+      fileName: 'contractors.csv',
+      text: SAMPLE_CONTRACTORS_CSV,
+    })
+    await service.excludeRow(created.id, 'row_7')
+    await service.pay(created.id)
+    const stored = await findRunById(created.id)
+    if (!stored) throw new Error('expected the run')
+    for (const row of stored.rows) {
+      if (row.status === 'excluded') continue
+      row.status = row.contractorName === 'Priya Nair' ? 'sent' : 'paid'
+    }
+    await saveRun(stored)
+
+    const advanced = await service.advance(created.id)
+    expect(staged).toEqual(['6:FAILED'])
+    expect(advanced.rows.find((row) => row.contractorName === 'Priya Nair')?.status).toBe('failed')
+  })
+
   it('lists runs newest first and reads the wallet', async () => {
     const { service, clock } = harness()
     clock.current = new Date('2026-04-02T18:00:00.000Z')

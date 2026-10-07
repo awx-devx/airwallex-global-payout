@@ -141,14 +141,14 @@ After `BOOKED`, the list item's `transfer_id` is the transfer id. `transfer_draf
 
 `POST /api/v1/simulation/transfers/{id}/transition` with `{ "next_status": "PROCESSING" | "SENT" | "PAID" | "FAILED" }`.
 
-From `PROCESSING`, `SENT` then `PAID` reaches `PAID`. A direct `PAID` while the transfer was `PROCESSING` returned HTTP 500 `operation_failed`.
+From `PROCESSING`, `SENT` then `PAID` reaches `PAID`. A direct `PAID` while the transfer was `PROCESSING` returned HTTP 500 `operation_failed`. Asking again for a status the transfer already has returns the same error, so advance skips rows that are already there and continues with the rest.
 
 ```ts
 // SANDBOX: forces the next transfer status. The endpoint does not exist in production.
 // PROD: wait for webhooks and retrieve.
 ```
 
-Throw if `AIRWALLEX_ENV !== 'sandbox'`. Only the demo advance service calls this.
+Throw if `AIRWALLEX_ENV !== 'sandbox'`. Only the advance service calls this. In the sandbox the route stays open when `DEMO_MODE` is false, and the run page calls it 10 seconds after each in-flight step.
 
 ### 3.9 Beneficiary schema (smoke only)
 

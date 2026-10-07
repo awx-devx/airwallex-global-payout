@@ -39,7 +39,7 @@ Focused rules live in `.cursor/rules/*.mdc`.
 7. **Deterministic `request_id`s.** Builders in `src/server/airwallex/ids.ts`: `b:{runId}`, `i:{runId}:{rowIndex}:L`, `i:{runId}:{rowIndex}:S`. A retry reuses the same id. Loser probes are deleted, never submitted.
 8. **Don't invent Airwallex endpoints or enum values.** Check `docs/04`, then the markdown API reference or https://www.airwallex.com/docs/llms.txt. Unverified behaviour goes in `docs/09` as a Q-xx.
 9. **Demo cap is 25 data rows and six corridors** (D-04, D-05). Do not generalise the CSV or add a beneficiary form builder in this demo.
-10. **No login, no sessions, no route protection beyond `DEMO_MODE`.** `/dev/*` and `/api/demo/*` return 404 when `DEMO_MODE` is not true.
+10. **No login, no sessions, no route protection beyond `DEMO_MODE`.** `/dev/*` and `/api/demo/*` return 404 when `DEMO_MODE` is not true, except `POST /api/demo/runs/:id/advance`, which stays open when `AIRWALLEX_ENV=sandbox`.
 
 ## Comment tags (required)
 

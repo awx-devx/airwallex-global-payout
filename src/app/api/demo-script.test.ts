@@ -84,6 +84,7 @@ describe('api demo script', () => {
 
   it('hides the demo routes when demo mode is off', async () => {
     process.env.DEMO_MODE = 'false'
+    process.env.AIRWALLEX_ENV = 'production'
     const advance = await advanceRun(
       new Request('http://localhost/api/demo/runs/run/advance', { method: 'POST' }),
       {

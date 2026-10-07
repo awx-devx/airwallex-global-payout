@@ -13,9 +13,10 @@ RunList
 ```
 
 - Header balance is `useBalance`.
-- Dropping a file or activating the sample link calls `useCreateRun`, then routes to `/runs/{id}`.
-- The sample link fetches `/samples/contractors.csv` and uploads that file. It does not skip the parser.
-- `Download sample` saves `/samples/contractors.csv`. `Download template` saves `/samples/contractors-template.csv`, the header row. Neither link uploads.
+- Dropping a file or choosing a row in `Sample file` calls `useCreateRun`, then routes to `/runs/{id}`.
+- Choosing a sample fetches that file and uploads it. It does not skip the parser.
+- `All paid` is five valid corridors and no Priya Nair, so sandbox advance marks every row paid. `Paid with failures` adds Priya, whom advance marks failed. `Failed` is Priya alone, so none are paid. `Needs a fix` is `contractors.csv`, with Sam Rivera missing a postcode.
+- Each sample row has a download mark that fades in on hover and focus and saves that file. `Download template` saves `/samples/contractors-template.csv`, the header row. The download marks do not upload.
 - `RunList` rows link to `/runs/{id}`. The whole row is the link. An arrow at the end of the row fades in on hover and focus. Columns: file name, created (absolute date, `2 Apr 2026`), status badge, contractors (`includedCount`), you pay (or `—` while null).
 - Empty copy: `No payouts yet`.
 - File-level errors stay on `UploadPanel`. No run is created.
@@ -28,7 +29,7 @@ AppHeader (back link "Payouts" to /)
 title: fileName + StatusBadge
 ProcessStepper       # runProgress(run); the sentence under the current step
 CostSummary          # hidden while PRICING
-QuoteCountdown       # only when quote is non-null
+QuoteCountdown       # READY only, when quote is non-null. Hidden once the batch is submitted
 Banner               # flags, one at a time, priority below
 ReviewTable | skeleton
 PayBar
@@ -72,7 +73,9 @@ If the user lands here by URL: badge Discarded, table as last stored, no pay bar
 
 ## 3. Demo advance
 
-Visible only when `advance` is in `allowedActions`. One click runs the scripted step in [08](./08-demo-plan.md). The button reads `Advance statuses`. It is not shown when `NEXT_PUBLIC_DATA_SOURCE=api` unless the server returned the action (demo mode and not settled).
+Visible only when `advance` is in `allowedActions` (`flags.demo`). One click runs the scripted step in [08](./08-demo-plan.md). The button reads `Advance statuses`. It is hidden when `DEMO_MODE` is false.
+
+When `flags.sandbox` is true and `flags.demo` is false, there is no button. The run page calls advance on its own: 10 seconds after the payout is submitted, then 10 seconds after each step, until the run is settled. Production does not. The mock clock does not.
 
 ## 4. Edge states (both screens)
 

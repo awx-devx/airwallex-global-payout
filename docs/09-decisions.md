@@ -22,6 +22,7 @@
 | D-16 | The run screen stepper is `runProgress(run)` over the existing DTO. No new status field and no new endpoint. Animation is Motion (`motion` / motion.dev) as specified in [05 §5](./05-design-system.md#5-motion).                                                                              |
 | D-17 | Client cache is `@tanstack/react-query`, the library named for `src/features` in [02](./02-architecture.md).                                                                                                                                                                                   |
 | D-18 | Server foundations use `mongoose` (MongoDB 7), `mongodb-memory-server` in Vitest, and `pino` JSON logs with redaction. Tests do not read `.env`. No extra log transport.                                                                                                                       |
+| D-19 | `Advance statuses` is shown only when `flags.demo`. In the sandbox with demo mode off, the run page calls advance itself 10 seconds after submit and again 10 seconds after the first step. Production does not.                                                                                    |
 
 ## Open questions
 

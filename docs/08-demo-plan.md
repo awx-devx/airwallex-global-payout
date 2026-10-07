@@ -31,7 +31,7 @@ Home, before any upload, lists `run_inflight` and `run_done` so the screen is no
 ## 3. Script (mock and, later, sandbox)
 
 1. Open `/`. Point at the balance and the two existing runs.
-2. `Use the sample file`. The stepper is on Price (`Comparing local and SWIFT for each contractor.`), then moves to Review. Walk the rail column: cheapest chip, the "instead of SWIFT" line, Priya `Only rail`, Sam's error. Pay is absent.
+2. Open `Sample file` and choose `Needs a fix`. The stepper is on Price (`Comparing local and SWIFT for each contractor.`), then moves to Review. Walk the rail column: cheapest chip, the "instead of SWIFT" line, Priya `Only rail`, Sam's error. Pay is absent.
 3. Exclude Sam. Pay becomes `Pay 6 contractors · USD 189.60`.
 4. Confirm pay. The run is in flight.
 5. `Advance statuses` twice. The stepper stays on Pay and the sentence changes.
@@ -39,7 +39,7 @@ Home, before any upload, lists `run_inflight` and `run_done` so the screen is no
    - Second advance: Maya, Owen, Lena, Noah, Aisha → `paid`. Priya → `failed` with `The beneficiary bank rejected the payout.` Stepper moves to Done, state `failed`, sentence `5 of 6 paid.`
 6. Badge reads Paid with failures. `5 of 6 paid`. Advance disappears (`settled`).
 
-The sandbox path uses the same clicks. Advance calls the transfer simulation endpoint (V10) instead of editing fixtures. If simulation is unavailable, the presenter stays on the in-flight run and says the payout is with Airwallex.
+The sandbox path uses the same steps. Advance calls the transfer simulation endpoint (V10) instead of editing fixtures. On a sandbox run with demo mode off, the page takes those two steps itself, 10 seconds apart, after pay, and the button stays hidden. With demo mode on, the presenter clicks the button. If simulation is unavailable, the presenter stays on the in-flight run and says the payout is with Airwallex.
 
 With `NEXT_PUBLIC_DATA_SOURCE=api` and `PAYMENTS_GATEWAY=mock`, home starts empty. Pricing finishes inside the upload (D-08), so the run opens on Review instead of flashing Price. The rest of the clicks match, including Advance. `pnpm test:api` walks that path. A sandbox rehearsal (`PAYMENTS_GATEWAY=airwallex`) uses the same clicks; a number that drifts is a contract fix, not a page branch.
 
@@ -63,6 +63,7 @@ Keep this table current when adding a `DEMO-ONLY:` or `SANDBOX:` comment.
 | `src/mocks/data-source.ts` createRun                 | `DEMO-ONLY`             | Only the sample file is priced into the ready fixture. Production prices every accepted file                                                 |
 | `src/server/adapters/airwallex/client.ts` transition | `SANDBOX`               | Sandbox transfer simulation. Production waits for webhooks and retrieve                                                                      |
 | `scripts/airwallex-smoke.test.ts`                    | `SANDBOX`               | Draft batches plus one 10 USD sandbox submit. Production does not run this script                                                            |
+| `scripts/clear-db.ts`                                | `DEMO-ONLY`             | `pnpm db:clear` deletes every run and webhook event. Production does not run this against a live database. Airwallex transfers stay           |
 | Webhook optional                                     | `DEMO-ONLY`             | Polling is enough for the demo. Production relies on webhooks plus reconcile                                                                 |
 
 ## 5. Run of show timing

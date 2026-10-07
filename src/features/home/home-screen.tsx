@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { ContractError, FILE_ERROR_CODES } from '@/contracts'
+import { ContractError, FILE_ERROR_CODES, SAMPLE_FILES, type SampleFileId } from '@/contracts'
 import { useBalance, useCreateRun, useRuns } from '@/features/data/hooks'
 import { AppHeader } from '@/ui/patterns/app-header'
 import { RunList } from '@/ui/patterns/run-list'
@@ -29,15 +29,17 @@ export function HomeScreen() {
     }
   }
 
-  async function uploadSample() {
+  async function uploadSample(sampleId: SampleFileId) {
+    const sample = SAMPLE_FILES.find((item) => item.id === sampleId)
+    if (!sample) return
     setBusy(true)
     setFileError(null)
     try {
-      const response = await fetch('/samples/contractors.csv')
+      const response = await fetch(sample.href)
       if (!response.ok) throw new Error('Upload a CSV with the contractor header.')
       const blob = await response.blob()
       const run = await createRun.mutateAsync(
-        new File([blob], 'contractors.csv', { type: 'text/csv' }),
+        new File([blob], sample.fileName, { type: 'text/csv' }),
       )
       router.push(`/runs/${run.id}`)
     } catch (error) {
@@ -56,7 +58,7 @@ export function HomeScreen() {
         state={busy ? 'loading' : fileError ? 'error' : 'idle'}
         message={fileError ?? undefined}
         onFile={(file) => void upload(file)}
-        onSample={() => void uploadSample()}
+        onSample={(sampleId) => void uploadSample(sampleId)}
       />
       <RunList
         runs={runs.data ?? []}

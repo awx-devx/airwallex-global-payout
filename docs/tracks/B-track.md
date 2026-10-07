@@ -92,7 +92,7 @@ Idempotency: creating the batch with `b:{runId}` means a retried request after a
 | ID | Task | Done when |
 | --- | --- | --- |
 | B6.1 | Every route's JSON passes the contract zod schema before it is sent | A mapper bug fails the test, not the browser |
-| B6.2 | `POST /api/demo/runs/:id/advance` and `POST /api/demo/reset`, 404 when `DEMO_MODE` is not true. Advance uses simulation only when `AIRWALLEX_ENV=sandbox` and `PAYMENTS_GATEWAY=airwallex`; otherwise it steps the mock gateway the same way the UI mock does | The two-step script in [08](../08-demo-plan.md) holds |
+| B6.2 | `POST /api/demo/reset` is 404 when `DEMO_MODE` is not true. Advance is 404 unless `DEMO_MODE` or `AIRWALLEX_ENV=sandbox`. Advance uses simulation only when `AIRWALLEX_ENV=sandbox` and `PAYMENTS_GATEWAY=airwallex`; otherwise it steps the mock gateway the same way the UI mock does | The two-step script in [08](../08-demo-plan.md) holds |
 | B6.3 | End-to-end with the UI on `api` and the gateway `mock` | The pages do not need a code change |
 | B6.4 | Optional sandbox rehearsal of [08 §3](../08-demo-plan.md) once B2 passed and the user agrees to a real submit of the sample (small) or of a one-row stand-in | Note the result in [09](../09-decisions.md) sign-off |
 

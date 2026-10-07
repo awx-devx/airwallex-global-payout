@@ -35,7 +35,7 @@ export function PatternsShowcase() {
         <h3 className="type-label">Upload</h3>
         <UploadPanel
           onFile={(file) => setSampleFile(file.name)}
-          onSample={() => setSampleFile('contractors.csv')}
+          onSample={(sampleId) => setSampleFile(sampleId)}
         />
         {sampleFile ? <p className="type-body text-[var(--fg-2)]">{sampleFile}</p> : null}
         <UploadPanel state="loading" interactive={false} />
@@ -108,7 +108,7 @@ function ReviewAssembly({
           sourceCurrency={run.sourceCurrency}
         />
       )}
-      {run.quote ? (
+      {run.status === 'READY' && run.quote ? (
         <QuoteCountdown expiresAt={run.quote.expiresAt} expired={run.quoteExpired} now={now} />
       ) : null}
       <ReviewTable rows={run.rows} layout="row" />

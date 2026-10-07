@@ -133,6 +133,7 @@ export const RunFlagsSchema = z.object({
   needsAttention: z.boolean(),
   approvalHold: z.boolean(),
   demo: z.boolean(),
+  sandbox: z.boolean(),
 })
 export type RunFlags = z.infer<typeof RunFlagsSchema>
 

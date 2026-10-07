@@ -18,7 +18,11 @@ export type RunDraft = Omit<
   flags: RunDraftFlags
 }
 
-export function deriveRun(draft: RunDraft, nowIso: string): RunDetail {
+export function deriveRun(
+  draft: RunDraft,
+  nowIso: string,
+  options?: { sandbox?: boolean },
+): RunDetail {
   const rows = structuredClone(draft.rows) as RunRow[]
   const attention = needsAttention(rows)
   const quoteExpired =
@@ -47,6 +51,7 @@ export function deriveRun(draft: RunDraft, nowIso: string): RunDetail {
       needsAttention: attention,
       approvalHold: draft.airwallexStatus === 'IN_APPROVAL',
       demo: draft.flags.demo,
+      sandbox: options?.sandbox === true,
     },
     allowedActions: [],
   }
