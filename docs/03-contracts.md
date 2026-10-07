@@ -204,7 +204,8 @@ Run badge:
 | `SUBMITTED` and `airwallexStatus=IN_APPROVAL`                          | Waiting for approval | warn  |
 | `SUBMITTED` and not settled                                            | Paying               | info  |
 | `SUBMITTED` and `settled` and every included row is `paid`             | Paid                 | up    |
-| `SUBMITTED` and `settled` and some row is `failed` or `booking_failed` | Paid with failures   | warn  |
+| `SUBMITTED` and `settled` and every included row is `cancelled`        | Cancelled            | muted |
+| `SUBMITTED` and `settled` and some included row is `failed`, `booking_failed`, or `cancelled` | Paid with failures | warn |
 | `FAILED`                                                               | Failed               | down  |
 | `DISCARDED`                                                            | Discarded            | muted |
 

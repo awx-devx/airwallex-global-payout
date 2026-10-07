@@ -304,6 +304,68 @@ describe('run pricing and pay', () => {
     expect(advanced.rows.find((row) => row.contractorName === 'Priya Nair')?.status).toBe('failed')
   })
 
+  it('hides pay and discard when a booked batch was still stored as a draft', async () => {
+    const gateway = createMockGateway()
+    const { service } = harness(gateway)
+    const created = await service.createRun({
+      fileName: 'contractors.csv',
+      text: SAMPLE_CONTRACTORS_CSV,
+    })
+    await service.excludeRow(created.id, 'row_7')
+    await service.pay(created.id)
+    const stored = await findRunById(created.id)
+    if (!stored) throw new Error('expected the run')
+    stored.status = 'READY'
+    await saveRun(stored)
+
+    const refreshed = await service.getRun(created.id)
+    expect(refreshed.status).toBe('SUBMITTED')
+    expect(refreshed.allowedActions).not.toContain('pay')
+    expect(refreshed.allowedActions).not.toContain('discard')
+  })
+
+  it('does not let a slow draft read put pay back after submit', async () => {
+    const inner = createMockGateway()
+    let arm = false
+    let held = false
+    let release = () => {}
+    const gate = new Promise<void>((resolve) => {
+      release = resolve
+    })
+    const gateway: PaymentsGateway = {
+      ...inner,
+      async getBatch(id, context) {
+        const batch = await inner.getBatch(id, context)
+        if (arm && !held && batch.airwallexStatus === 'DRAFTING') {
+          held = true
+          await gate
+          return batch
+        }
+        return batch
+      },
+    }
+    const { service } = harness(gateway)
+    const created = await service.createRun({
+      fileName: 'contractors.csv',
+      text: SAMPLE_CONTRACTORS_CSV,
+    })
+    await service.excludeRow(created.id, 'row_7')
+    arm = true
+    const pending = service.getRun(created.id)
+    for (let attempt = 0; attempt < 50 && !held; attempt += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 10))
+    }
+    expect(held).toBe(true)
+    await service.pay(created.id)
+    release()
+
+    const detail = await pending
+    expect(detail.status).toBe('SUBMITTED')
+    expect(detail.allowedActions).not.toContain('pay')
+    expect(detail.allowedActions).not.toContain('discard')
+    expect((await service.getRun(created.id)).status).toBe('SUBMITTED')
+  })
+
   it('lists runs newest first and reads the wallet', async () => {
     const { service, clock } = harness()
     clock.current = new Date('2026-04-02T18:00:00.000Z')

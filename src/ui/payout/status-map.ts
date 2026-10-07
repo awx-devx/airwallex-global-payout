@@ -37,8 +37,12 @@ export function runBadge(run: RunBadgeInput): { label: string; tone: BadgeTone }
     const included = run.rows.filter((row) => row.status !== 'excluded')
     const everyPaid = included.length > 0 && included.every((row) => row.status === 'paid')
     if (everyPaid) return { label: 'Paid', tone: 'up' }
+    if (included.length > 0 && included.every((row) => row.status === 'cancelled')) {
+      return { label: 'Cancelled', tone: 'muted' }
+    }
     const failed = included.some(
-      (row) => row.status === 'failed' || row.status === 'booking_failed',
+      (row) =>
+        row.status === 'failed' || row.status === 'booking_failed' || row.status === 'cancelled',
     )
     if (failed) return { label: 'Paid with failures', tone: 'warn' }
   }

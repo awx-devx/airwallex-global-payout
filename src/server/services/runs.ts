@@ -301,7 +301,10 @@ async function priceRun(gateway: PaymentsGateway, run: StoredRun): Promise<void>
   run.airwallexStatus = current.airwallexStatus
   run.shortReference = current.shortReference
   await readBalance(gateway, run)
-  run.status = 'READY'
+  run.status = draftStatus(current.airwallexStatus)
+  if (run.status === 'FAILED') {
+    run.error ??= { code: 'AIRWALLEX_ERROR', message: 'The batch could not be booked.' }
+  }
   await saveRun(run)
 }
 
@@ -414,15 +417,35 @@ async function syncRows(
 async function refreshRun(gateway: PaymentsGateway, run: StoredRun, now: Date): Promise<void> {
   if (!present(run, now).poll || !run.airwallexBatchId) return
   const batch = await gateway.getBatch(run.airwallexBatchId, { runId: run.id })
-  run.airwallexStatus = batch.airwallexStatus
-  if (batch.shortReference) run.shortReference = batch.shortReference
-  if (batch.airwallexStatus === 'FAILED') {
-    run.status = 'FAILED'
-    run.error ??= { code: 'AIRWALLEX_ERROR', message: 'The batch could not be booked.' }
-  }
   const items = await gateway.listItems(run.airwallexBatchId, { runId: run.id })
-  await syncRows(gateway, run, items)
-  await saveRun(run)
+  // A poll can still be holding the draft it read before submit. Reload so that write cannot put Pay back.
+  const current = (await findRunById(run.id)) ?? run
+  const staleDraft =
+    batch.airwallexStatus === 'DRAFTING' &&
+    current.airwallexStatus != null &&
+    current.airwallexStatus !== 'DRAFTING'
+  if (!staleDraft) {
+    current.airwallexStatus = batch.airwallexStatus
+    if (batch.shortReference) current.shortReference = batch.shortReference
+    if (batch.airwallexStatus === 'FAILED') {
+      current.status = 'FAILED'
+      current.error ??= { code: 'AIRWALLEX_ERROR', message: 'The batch could not be booked.' }
+    } else if (
+      batch.airwallexStatus !== 'DRAFTING' &&
+      (current.status === 'PRICING' || current.status === 'READY')
+    ) {
+      current.status = 'SUBMITTED'
+    }
+    await syncRows(gateway, current, items)
+    await saveRun(current)
+  }
+  Object.assign(run, current)
+}
+
+function draftStatus(airwallexStatus: string | null): StoredRun['status'] {
+  if (airwallexStatus === 'FAILED') return 'FAILED'
+  if (airwallexStatus && airwallexStatus !== 'DRAFTING') return 'SUBMITTED'
+  return 'READY'
 }
 
 function webhookKind(name: string): 'batch' | 'transfer' | null {

@@ -67,6 +67,22 @@ describe('runBadge', () => {
       }),
     ).toEqual({ label: 'Paid with failures', tone: 'warn' })
     expect(
+      runBadge({
+        status: 'SUBMITTED',
+        airwallexStatus: 'BOOKED',
+        quoteExpired: false,
+        rows: [{ status: 'cancelled' }],
+      }),
+    ).toEqual({ label: 'Cancelled', tone: 'muted' })
+    expect(
+      runBadge({
+        status: 'SUBMITTED',
+        airwallexStatus: 'BOOKED',
+        quoteExpired: false,
+        rows: [{ status: 'paid' }, { status: 'cancelled' }, { status: 'excluded' }],
+      }),
+    ).toEqual({ label: 'Paid with failures', tone: 'warn' })
+    expect(
       runBadge({ status: 'FAILED', airwallexStatus: 'FAILED', quoteExpired: false, rows: [] }),
     ).toEqual({ label: 'Failed', tone: 'down' })
     expect(

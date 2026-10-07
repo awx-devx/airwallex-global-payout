@@ -127,7 +127,7 @@ Then `GET` the batch and items and map statuses (section 4).
 
 ### 3.6 Later reads
 
-`GET /api/v1/batch_transfers/{id}` on each poll.
+`GET /api/v1/batch_transfers/{id}` on each poll. If that batch has left `DRAFTING` and the run is still `PRICING` or `READY`, the run becomes `SUBMITTED`, so Pay and Discard leave with the draft. A poll that started on the draft does not write that draft back over a submit that finished while the poll was in flight.
 
 `GET /api/v1/transfers/{transferId}` once an item is `BOOKED` and we have an id.
 
